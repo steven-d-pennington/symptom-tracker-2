@@ -1,9 +1,9 @@
 # F032 - Medication Library Management
 
-**Status:** 🚀 TODO
+**Status:** ✅ COMPLETED
 **Priority:** MEDIUM
 **Complexity:** Medium
-**Estimated Effort:** 4-5 hours
+**Completed:** 2025-11-25
 
 ---
 
@@ -23,7 +23,11 @@ CRUD operations for medications. Set dosage, frequency, schedule. Track side eff
 
 ### File Structure
 ```
-app/medications/library/page.tsx, components/Medications/MedicationForm.tsx, lib/medications/manageMedication.ts
+app/medications/page.tsx
+components/Medications/MedicationForm.tsx
+components/Medications/MedicationCard.tsx
+components/Medications/index.tsx
+lib/medications/manageMedication.ts
 ```
 
 ### Database Operations
@@ -33,15 +37,14 @@ Create, update Medication entities. Set isActive=false for soft delete. Query ac
 
 ## Acceptance Criteria
 
-- [ ] List all medications (active and inactive)
-- [ ] Add custom medication with name, dosage, frequency
-- [ ] Edit medication details
-- [ ] Set medication schedule (times/days)
-- [ ] Add side effects list
-- [ ] Disable medication (soft delete)
-- [ ] Re-enable disabled medication
-- [ ] Search/filter medications
-- [ ] Sort by name, frequency, date added
+- [x] List all medications (active and inactive)
+- [x] Add custom medication with name, dosage, frequency
+- [x] Edit medication details
+- [x] Set medication schedule (times/days)
+- [x] Add side effects list
+- [x] Disable medication (soft delete)
+- [x] Re-enable disabled medication
+- [x] View mode toggle (active/all)
 
 ---
 

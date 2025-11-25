@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 29 (32.2%)
-**Pending:** 61 (67.8%)
+**Completed:** 34 (37.8%)
+**Pending:** 56 (62.2%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (29 tasks)
+### ✅ COMPLETED (34 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -59,6 +59,17 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 #### Food Journal
 - [x] **F039** - [Food Journal Meal Logging](features/completed/F039-food-journal-meal-logging.md)
 
+#### Trigger Tracking
+- [x] **F037** - [Trigger Logging Interface](features/completed/F037-trigger-logging-interface.md)
+
+#### Medication Management
+- [x] **F032** - [Medication Library Management](features/completed/F032-medication-library-management.md)
+- [x] **F033** - [Medication Scheduling Interface](features/completed/F033-medication-scheduling-interface.md)
+- [x] **F034** - [Medication Logging (Taken/Skipped)](features/completed/F034-medication-logging.md)
+
+#### Daily Health Reflection
+- [x] **F044** - [Daily Reflection Form](features/completed/F044-daily-reflection-form.md)
+
 ---
 
 ### 🚀 TODO - ONBOARDING (4 tasks)
@@ -88,19 +99,15 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 💊 TODO - MEDICATION MANAGEMENT (5 tasks)
+### 💊 TODO - MEDICATION MANAGEMENT (2 tasks)
 
-- [ ] **F032** - [Medication Library Management](features/F032-medication-library.md)
-- [ ] **F033** - [Medication Scheduling Interface](features/F033-medication-scheduling.md)
-- [ ] **F034** - [Medication Logging (Taken/Skipped)](features/F034-medication-logging.md)
 - [ ] **F035** - [Adherence Tracking & Reports](features/F035-adherence-tracking.md)
 - [ ] **F036** - [Medication Reminders System](features/F036-medication-reminders.md)
 
 ---
 
-### ⚡ TODO - TRIGGER TRACKING (2 tasks)
+### ⚡ TODO - TRIGGER TRACKING (1 task)
 
-- [ ] **F037** - [Trigger Logging Interface](features/F037-trigger-logging.md)
 - [ ] **F038** - [Trigger Library Management](features/F038-trigger-library.md)
 
 ---
@@ -114,9 +121,8 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 📝 TODO - DAILY HEALTH REFLECTION (2 tasks)
+### 📝 TODO - DAILY HEALTH REFLECTION (1 task)
 
-- [ ] **F044** - [Daily Reflection Form](features/F044-daily-reflection.md)
 - [ ] **F045** - [Calendar View](features/F045-calendar-view.md)
 
 ---
@@ -268,4 +274,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (F039 Food Journal Meal Logging Completed - 29/90 = 32.2%)
+Last Updated: 2025-11-25 (Phase 2 Extended Tracking - 34/90 = 37.8%)

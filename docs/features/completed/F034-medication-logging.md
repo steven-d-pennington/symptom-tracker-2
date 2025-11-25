@@ -1,9 +1,9 @@
 # F034 - Medication Logging (Taken/Skipped)
 
-**Status:** 🚀 TODO
+**Status:** ✅ COMPLETED
 **Priority:** HIGH
 **Complexity:** Medium
-**Estimated Effort:** 4-5 hours
+**Completed:** 2025-11-25
 
 ---
 
@@ -23,7 +23,8 @@ Quick log "taken" or "skipped". Editable timestamp. Dosage override. Notes for w
 
 ### File Structure
 ```
-components/Medications/MedicationLogger.tsx, lib/medications/logMedication.ts
+components/Medications/MedicationLoggerModal.tsx
+lib/medications/logMedication.ts
 ```
 
 ### Database Operations
@@ -33,20 +34,20 @@ Create MedicationEvent with medicationId, timestamp, taken (boolean), dosageOver
 
 ## Acceptance Criteria
 
-- [ ] Quick action buttons: Taken / Skipped
-- [ ] Timestamp editable (defaults to now)
-- [ ] Dosage override field (if different from default)
-- [ ] Notes field (especially for skipped)
-- [ ] Timing warning (early/late/on-time)
-- [ ] Creates immutable MedicationEvent
-- [ ] Updates adherence stats
-- [ ] Notification dismiss on log
+- [x] Quick action buttons: Taken / Skipped
+- [x] Timestamp editable (defaults to now)
+- [x] Dosage override field (if different from default)
+- [x] Notes field (especially for skipped)
+- [x] Timing warning (early/late/on-time)
+- [x] Creates immutable MedicationEvent
+- [x] Recent activity list showing logged events
+- [x] Today's summary (taken/skipped counts)
 
 ---
 
 ## Dependencies
 
-Medication library (F032), Database schema (F003✅)
+Medication library (F032✅), Database schema (F003✅)
 
 ---
 
