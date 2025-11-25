@@ -1,4 +1,5 @@
 export { FlareCreationModal } from './FlareCreationModal'
+export { FlareCreationFlow } from './FlareCreationFlow'
 export { FlareUpdateModal } from './FlareUpdateModal'
 export { FlareResolutionModal } from './FlareResolutionModal'
 export { FlareCard } from './FlareCard'
