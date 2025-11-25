@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   ThemeSelector,
@@ -8,20 +8,44 @@ import {
   PrivacySettings,
   DeleteAccount
 } from '@/components/Settings'
+import { SuperAdmin } from '@/components/Settings/SuperAdmin'
+import { db } from '@/lib/db'
 
-type SettingsTab = 'general' | 'notifications' | 'privacy' | 'about' | 'danger'
+type SettingsTab = 'general' | 'notifications' | 'privacy' | 'about' | 'danger' | 'admin'
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<SettingsTab>('general')
   const [searchQuery, setSearchQuery] = useState('')
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false)
 
-  const tabs: { id: SettingsTab; label: string; icon: string }[] = [
+  // Check if user is a super admin (first name is Steven)
+  useEffect(() => {
+    const checkSuperAdmin = async () => {
+      try {
+        const user = await db.users.toCollection().first()
+        if (user?.name) {
+          const firstName = user.name.split(' ')[0].toLowerCase()
+          setIsSuperAdmin(firstName === 'steven')
+        }
+      } catch (error) {
+        console.error('Error checking super admin status:', error)
+      }
+    }
+    checkSuperAdmin()
+  }, [])
+
+  const baseTabs: { id: SettingsTab; label: string; icon: string }[] = [
     { id: 'general', label: 'General', icon: '⚙️' },
     { id: 'notifications', label: 'Notifications', icon: '🔔' },
     { id: 'privacy', label: 'Privacy & Data', icon: '🔒' },
     { id: 'about', label: 'About', icon: 'ℹ️' },
     { id: 'danger', label: 'Danger Zone', icon: '⚠️' }
   ]
+
+  // Add admin tab only for super admins
+  const tabs = isSuperAdmin
+    ? [...baseTabs, { id: 'admin' as SettingsTab, label: 'Super Admin', icon: '🔧' }]
+    : baseTabs
 
   const filteredTabs = searchQuery
     ? tabs.filter(tab => tab.label.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -217,6 +241,10 @@ export default function SettingsPage() {
 
           {activeTab === 'danger' && (
             <DeleteAccount />
+          )}
+
+          {activeTab === 'admin' && isSuperAdmin && (
+            <SuperAdmin />
           )}
         </div>
       </main>
