@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 58 (64.4%)
-**Pending:** 32 (35.6%)
+**Completed:** 62 (68.9%)
+**Pending:** 28 (31.1%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (58 tasks)
+### ✅ COMPLETED (62 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -103,6 +103,12 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 - [x] **F074** - [Service Worker Implementation](features/completed/F074-service-worker-implementation.md)
 - [x] **F075** - [Install Prompt](features/completed/F075-install-prompt-mobile-desktop-.md)
 
+#### Photo Management
+- [x] **F046** - [Photo Capture & Upload](features/completed/F046-photo-capture-upload.md)
+- [x] **F047** - [Photo Gallery (Encrypted)](features/completed/F047-photo-gallery-encrypted-.md)
+- [x] **F048** - [Photo Annotation Interface](features/completed/F048-photo-annotation-interface.md)
+- [x] **F049** - [Before/After Comparison Tool](features/completed/F049-before-after-comparison-tool.md)
+
 #### Testing & QA
 - [x] **F081** - [Error Handling & Boundaries](features/completed/F081-error-handling-boundaries.md)
 
@@ -156,12 +162,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 📸 TODO - PHOTO MANAGEMENT (4 tasks)
+### 📸 TODO - PHOTO MANAGEMENT (0 tasks)
 
-- [ ] **F046** - [Photo Capture & Upload](features/F046-photo-capture.md)
-- [ ] **F047** - [Photo Gallery (Encrypted)](features/F047-photo-gallery.md)
-- [ ] **F048** - [Photo Annotation Interface](features/F048-photo-annotations.md)
-- [ ] **F049** - [Before/After Comparison Tool](features/F049-photo-comparison.md)
+**All photo management features completed!** ✅
 
 ---
 
@@ -293,4 +296,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (Food Journal Complete - 58/90 = 64.4%)
+Last Updated: 2025-11-25 (Photo Management Complete - 62/90 = 68.9%)
