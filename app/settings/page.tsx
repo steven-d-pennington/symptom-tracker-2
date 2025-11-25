@@ -5,10 +5,11 @@ import Link from 'next/link'
 import {
   ThemeSelector,
   NotificationSettings,
-  PrivacySettings
+  PrivacySettings,
+  DeleteAccount
 } from '@/components/Settings'
 
-type SettingsTab = 'general' | 'notifications' | 'privacy' | 'about'
+type SettingsTab = 'general' | 'notifications' | 'privacy' | 'about' | 'danger'
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<SettingsTab>('general')
@@ -18,7 +19,8 @@ export default function SettingsPage() {
     { id: 'general', label: 'General', icon: '⚙️' },
     { id: 'notifications', label: 'Notifications', icon: '🔔' },
     { id: 'privacy', label: 'Privacy & Data', icon: '🔒' },
-    { id: 'about', label: 'About', icon: 'ℹ️' }
+    { id: 'about', label: 'About', icon: 'ℹ️' },
+    { id: 'danger', label: 'Danger Zone', icon: '⚠️' }
   ]
 
   const filteredTabs = searchQuery
@@ -211,6 +213,10 @@ export default function SettingsPage() {
                 </p>
               </div>
             </div>
+          )}
+
+          {activeTab === 'danger' && (
+            <DeleteAccount />
           )}
         </div>
       </main>

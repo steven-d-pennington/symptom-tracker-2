@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 43 (47.8%)
-**Pending:** 47 (52.2%)
+**Completed:** 47 (52.2%)
+**Pending:** 43 (47.8%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (43 tasks)
+### ✅ COMPLETED (47 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -86,6 +86,12 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 - [x] **F064** - [Theme Settings](features/completed/F064-theme-settings.md)
 - [x] **F065** - [Notification Preferences](features/completed/F065-notification-preferences.md)
 - [x] **F066** - [Privacy Settings & Data Management](features/completed/F066-privacy-settings-data-management.md)
+- [x] **F067** - [Account Deletion Workflow](features/completed/F067-account-deletion-workflow.md)
+
+#### PWA Features
+- [x] **F073** - [PWA Manifest File](features/completed/F073-pwa-manifest-file.md)
+- [x] **F074** - [Service Worker Implementation](features/completed/F074-service-worker-implementation.md)
+- [x] **F075** - [Install Prompt](features/completed/F075-install-prompt-mobile-desktop-.md)
 
 ---
 
@@ -173,9 +179,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### ⚙️ TODO - SETTINGS (1 task)
+### ⚙️ TODO - SETTINGS (0 tasks)
 
-- [ ] **F067** - [Account Deletion Workflow](features/F067-account-deletion.md)
+**All settings features completed!** ✅
 
 ---
 
@@ -189,11 +195,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 📱 TODO - PWA FEATURES (3 tasks)
+### 📱 TODO - PWA FEATURES (0 tasks)
 
-- [ ] **F073** - [PWA Manifest File](features/F073-pwa-manifest.md) - *Priority: MEDIUM*
-- [ ] **F074** - [Service Worker Implementation](features/F074-service-worker.md) - *Priority: MEDIUM*
-- [ ] **F075** - [Install Prompt (Mobile/Desktop)](features/F075-install-prompt.md)
+**All PWA features completed!** ✅
 
 ---
 
@@ -284,4 +288,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (Phase 3/4 Analytics & Settings - 43/90 = 47.8%)
+Last Updated: 2025-11-25 (Phase 4 Settings & PWA - 47/90 = 52.2%)
