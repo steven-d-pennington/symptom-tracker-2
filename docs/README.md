@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 39 (43.3%)
-**Pending:** 51 (56.7%)
+**Completed:** 43 (47.8%)
+**Pending:** 47 (52.2%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (39 tasks)
+### ✅ COMPLETED (43 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -80,6 +80,12 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 #### Data Export
 - [x] **F057** - [JSON Export (Full Backup)](features/completed/F057-json-export-full-backup-.md)
 - [x] **F058** - [CSV Export](features/completed/F058-csv-export.md)
+
+#### Settings
+- [x] **F063** - [Settings Page Layout](features/completed/F063-settings-page-layout.md)
+- [x] **F064** - [Theme Settings](features/completed/F064-theme-settings.md)
+- [x] **F065** - [Notification Preferences](features/completed/F065-notification-preferences.md)
+- [x] **F066** - [Privacy Settings & Data Management](features/completed/F066-privacy-settings-data-management.md)
 
 ---
 
@@ -167,12 +173,8 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### ⚙️ TODO - SETTINGS (5 tasks)
+### ⚙️ TODO - SETTINGS (1 task)
 
-- [ ] **F063** - [Settings Page Layout](features/F063-settings-page.md)
-- [ ] **F064** - [Theme Settings](features/F064-theme-settings.md)
-- [ ] **F065** - [Notification Preferences](features/F065-notification-settings.md)
-- [ ] **F066** - [Privacy Settings & Data Management](features/F066-privacy-settings.md)
 - [ ] **F067** - [Account Deletion Workflow](features/F067-account-deletion.md)
 
 ---
@@ -282,4 +284,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (Phase 3 Analytics & Exports - 39/90 = 43.3%)
+Last Updated: 2025-11-25 (Phase 3/4 Analytics & Settings - 43/90 = 47.8%)
