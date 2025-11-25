@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 36 (40.0%)
-**Pending:** 54 (60.0%)
+**Completed:** 39 (43.3%)
+**Pending:** 51 (56.7%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (36 tasks)
+### ✅ COMPLETED (39 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -73,6 +73,13 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 #### Trigger Library
 - [x] **F038** - [Trigger Library Management](features/completed/F038-trigger-library-management.md)
+
+#### Analytics Dashboard
+- [x] **F050** - [Analytics Dashboard Landing](features/completed/F050-analytics-dashboard-landing.md)
+
+#### Data Export
+- [x] **F057** - [JSON Export (Full Backup)](features/completed/F057-json-export-full-backup-.md)
+- [x] **F058** - [CSV Export](features/completed/F058-csv-export.md)
 
 ---
 
@@ -140,9 +147,8 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 📊 TODO - ANALYTICS DASHBOARD (7 tasks)
+### 📊 TODO - ANALYTICS DASHBOARD (6 tasks)
 
-- [ ] **F050** - [Analytics Dashboard Landing](features/F050-analytics-dashboard.md) - *Priority: MEDIUM*
 - [ ] **F051** - [Problem Areas Heat Map](features/F051-heat-map.md)
 - [ ] **F052** - [Food-Symptom Correlation Reports](features/F052-correlation-reports.md)
 - [ ] **F053** - [Synergistic Food Insights](features/F053-synergy-insights.md)
@@ -152,10 +158,8 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 💾 TODO - DATA EXPORT (6 tasks)
+### 💾 TODO - DATA EXPORT (4 tasks)
 
-- [ ] **F057** - [JSON Export (Full Backup)](features/F057-json-export.md)
-- [ ] **F058** - [CSV Export](features/F058-csv-export.md)
 - [ ] **F059** - [PDF Medical Report Generator](features/F059-pdf-reports.md)
 - [ ] **F060** - [Flare Summary PDF](features/F060-flare-pdf.md)
 - [ ] **F061** - [Correlation Analysis PDF](features/F061-correlation-pdf.md)
@@ -278,4 +282,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (Phase 2/3 Extended Tracking - 36/90 = 40.0%)
+Last Updated: 2025-11-25 (Phase 3 Analytics & Exports - 39/90 = 43.3%)
