@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 14 (15.6%)
-**Pending:** 76 (84.4%)
+**Completed:** 15 (16.7%)
+**Pending:** 75 (83.3%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (14 tasks)
+### ✅ COMPLETED (15 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -35,11 +35,13 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 - [x] **F013** - [Food Presets](features/completed/F013-food-presets.md)
 - [x] **F014** - [Body Region Definitions](features/completed/F014-body-regions.md)
 
+#### Onboarding
+- [x] **F015** - [Onboarding Flow](features/completed/F015-onboarding-flow.md)
+
 ---
 
-### 🚀 TODO - ONBOARDING (5 tasks)
+### 🚀 TODO - ONBOARDING (4 tasks)
 
-- [ ] **F015** - [Onboarding Flow](features/F015-onboarding-flow.md) - *Priority: HIGH*
 - [ ] **F016** - [Symptom Selection Screen](features/F016-symptom-selection.md)
 - [ ] **F017** - [Medication Selection Screen](features/F017-medication-selection.md)
 - [ ] **F018** - [Trigger Selection Screen](features/F018-trigger-selection.md)
@@ -255,4 +257,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25
+Last Updated: 2025-11-25 (F015 Completed)
