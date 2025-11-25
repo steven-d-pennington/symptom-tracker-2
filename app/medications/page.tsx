@@ -13,7 +13,9 @@ import {
   getTodaysMedicationEvents,
   getRecentMedicationEvents,
 } from '@/lib/medications/logMedication'
-import { MedicationCard, MedicationForm, MedicationLoggerModal } from '@/components/Medications'
+import { MedicationCard, MedicationForm, MedicationLoggerModal, ReminderSettings } from '@/components/Medications'
+import { snoozeReminder } from '@/lib/medications/reminderSystem'
+import { showMedicationReminder } from '@/lib/medications/reminderSystem'
 
 type ViewMode = 'active' | 'all' | 'history'
 
@@ -102,6 +104,12 @@ export default function MedicationsPage() {
     setLoggingMedication(null)
   }
 
+  const handleSnooze = (medication: Medication, minutes: number) => {
+    snoozeReminder(medication, minutes, (med) => {
+      showMedicationReminder(med)
+    })
+  }
+
   // Filter medications based on view mode
   const displayMedications =
     viewMode === 'active'
@@ -177,6 +185,13 @@ export default function MedicationsPage() {
             </div>
           </Link>
         </div>
+
+        {/* Upcoming Reminders */}
+        {activeMedications.length > 0 && (
+          <div className="mb-8">
+            <ReminderSettings medications={medications} onSnooze={handleSnooze} />
+          </div>
+        )}
 
         {/* Controls */}
         <div className="flex items-center justify-between mb-6 flex-wrap gap-4">

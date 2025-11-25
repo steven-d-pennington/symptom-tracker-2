@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 53 (58.9%)
-**Pending:** 37 (41.1%)
+**Completed:** 54 (60.0%)
+**Pending:** 36 (40.0%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (53 tasks)
+### ✅ COMPLETED (54 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -71,6 +71,7 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 - [x] **F033** - [Medication Scheduling Interface](features/completed/F033-medication-scheduling-interface.md)
 - [x] **F034** - [Medication Logging (Taken/Skipped)](features/completed/F034-medication-logging.md)
 - [x] **F035** - [Adherence Tracking & Reports](features/completed/F035-adherence-tracking-reports.md)
+- [x] **F036** - [Medication Reminders System](features/completed/F036-medication-reminders-system.md)
 
 #### Daily Health Reflection
 - [x] **F044** - [Daily Reflection Form](features/completed/F044-daily-reflection-form.md)
@@ -127,9 +128,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 💊 TODO - MEDICATION MANAGEMENT (1 task)
+### 💊 TODO - MEDICATION MANAGEMENT (0 tasks)
 
-- [ ] **F036** - [Medication Reminders System](features/F036-medication-reminders.md)
+**All medication management features completed!** ✅
 
 ---
 
@@ -291,4 +292,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (Adherence Tracking Complete - 53/90 = 58.9%)
+Last Updated: 2025-11-25 (Medication Management Complete - 54/90 = 60.0%)
