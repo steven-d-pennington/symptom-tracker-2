@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 25 (27.8%)
-**Pending:** 65 (72.2%)
+**Completed:** 26 (28.9%)
+**Pending:** 64 (71.1%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (25 tasks)
+### ✅ COMPLETED (26 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -53,6 +53,7 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 #### Symptom Tracking
 - [x] **F029** - [Symptom Logging Interface](features/completed/F029-symptom-logging.md)
+- [x] **F030** - [Symptom History View](features/completed/F030-symptom-history-view.md)
 
 ---
 
@@ -77,10 +78,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 🩺 TODO - SYMPTOM TRACKING (2 tasks)
+### 🩺 TODO - SYMPTOM TRACKING (1 task)
 
-- [ ] **F030** - [Symptom History View](features/F030-symptom-history.md)
-- [ ] **F031** - [Symptom-Location Linking](features/F031-symptom-location.md)
+- [ ] **F031** - [Symptom-Location Linking](features/F031-symptom-location-linking.md)
 
 ---
 
@@ -265,4 +265,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (F028 Flare Detail View Completed - 25/90 = 27.8%)
+Last Updated: 2025-11-25 (F030 Symptom History View Completed - 26/90 = 28.9%)

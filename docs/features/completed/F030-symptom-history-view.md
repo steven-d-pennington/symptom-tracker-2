@@ -1,9 +1,9 @@
 # F030 - Symptom History View
 
-**Status:** 🚀 TODO
+**Status:** ✅ COMPLETED
 **Priority:** MEDIUM
 **Complexity:** Medium
-**Estimated Effort:** 3-4 hours
+**Completed:** 2025-11-25
 
 ---
 
@@ -23,7 +23,10 @@ List all symptom instances chronologically. Filter by symptom type, date range, 
 
 ### File Structure
 ```
-app/symptoms/history/page.tsx, components/Symptoms/SymptomTimeline.tsx
+app/symptoms/history/page.tsx
+components/Symptoms/SymptomTimeline.tsx
+components/Symptoms/SymptomFrequencyChart.tsx
+components/Symptoms/SymptomTrendChart.tsx
 ```
 
 ### Database Operations
@@ -33,16 +36,16 @@ Query db.symptomInstances with filters. Aggregate by symptom type for frequency 
 
 ## Acceptance Criteria
 
-- [ ] Chronological list of symptom instances
-- [ ] Filter by symptom type
-- [ ] Filter by date range
-- [ ] Filter by severity range
-- [ ] Sort by date, severity, or symptom
-- [ ] Shows symptom name, severity, location, timestamp
-- [ ] Click to view full details
-- [ ] Frequency chart per symptom
-- [ ] Severity trend line chart
-- [ ] Export symptom history
+- [x] Chronological list of symptom instances
+- [x] Filter by symptom type
+- [x] Filter by date range
+- [x] Filter by severity range
+- [x] Sort by date, severity, or symptom
+- [x] Shows symptom name, severity, location, timestamp
+- [x] Click to view full details
+- [x] Frequency chart per symptom
+- [x] Severity trend line chart
+- [x] Export symptom history (CSV)
 
 ---
 

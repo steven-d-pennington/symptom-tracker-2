@@ -1,2 +1,5 @@
 export { SymptomLoggingModal } from './SymptomLoggingModal'
 export { SymptomCard } from './SymptomCard'
+export { SymptomTimeline } from './SymptomTimeline'
+export { SymptomFrequencyChart } from './SymptomFrequencyChart'
+export { SymptomTrendChart } from './SymptomTrendChart'
