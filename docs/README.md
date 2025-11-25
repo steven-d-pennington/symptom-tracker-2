@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 34 (37.8%)
-**Pending:** 56 (62.2%)
+**Completed:** 36 (40.0%)
+**Pending:** 54 (60.0%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (34 tasks)
+### ✅ COMPLETED (36 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -69,6 +69,10 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 #### Daily Health Reflection
 - [x] **F044** - [Daily Reflection Form](features/completed/F044-daily-reflection-form.md)
+- [x] **F045** - [Calendar View](features/completed/F045-calendar-view.md)
+
+#### Trigger Library
+- [x] **F038** - [Trigger Library Management](features/completed/F038-trigger-library-management.md)
 
 ---
 
@@ -106,9 +110,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### ⚡ TODO - TRIGGER TRACKING (1 task)
+### ⚡ TODO - TRIGGER TRACKING (0 tasks)
 
-- [ ] **F038** - [Trigger Library Management](features/F038-trigger-library.md)
+**All trigger tracking features completed!** ✅
 
 ---
 
@@ -121,9 +125,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 📝 TODO - DAILY HEALTH REFLECTION (1 task)
+### 📝 TODO - DAILY HEALTH REFLECTION (0 tasks)
 
-- [ ] **F045** - [Calendar View](features/F045-calendar-view.md)
+**All daily health reflection features completed!** ✅
 
 ---
 
@@ -274,4 +278,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (Phase 2 Extended Tracking - 34/90 = 37.8%)
+Last Updated: 2025-11-25 (Phase 2/3 Extended Tracking - 36/90 = 40.0%)

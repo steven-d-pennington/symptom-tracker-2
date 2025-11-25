@@ -151,6 +151,12 @@ export default function DailyReflectionPage() {
                 max={getTodayKey()}
                 className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
               />
+              <Link
+                href="/daily/calendar"
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
+                View Calendar
+              </Link>
               {selectedDate !== getTodayKey() && (
                 <button
                   onClick={() => setSelectedDate(getTodayKey())}

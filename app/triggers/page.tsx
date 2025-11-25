@@ -215,13 +215,21 @@ export default function TriggersPage() {
             </div>
           </div>
 
-          {/* Log Trigger Button */}
-          <button
-            onClick={() => setModalOpen(true)}
-            className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors"
-          >
-            + Log Trigger
-          </button>
+          {/* Action Buttons */}
+          <div className="flex items-center gap-2">
+            <Link
+              href="/triggers/library"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            >
+              Manage Library
+            </Link>
+            <button
+              onClick={() => setModalOpen(true)}
+              className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors"
+            >
+              + Log Trigger
+            </button>
+          </div>
         </div>
 
         {/* Events List */}
