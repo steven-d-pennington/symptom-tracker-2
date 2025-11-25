@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Flare } from '@/lib/db'
 import { getActiveFlares } from '@/lib/flares/createFlare'
 import { FlareCard } from '@/components/Flares/FlareCard'
+import { FlareCreationFlow } from '@/components/Flares/FlareCreationFlow'
 import { FlareUpdateModal } from '@/components/Flares/FlareUpdateModal'
 import { FlareResolutionModal } from '@/components/Flares/FlareResolutionModal'
 
@@ -14,6 +15,7 @@ export default function FlaresPage() {
   const [flares, setFlares] = useState<Flare[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedFlare, setSelectedFlare] = useState<Flare | null>(null)
+  const [createModalOpen, setCreateModalOpen] = useState(false)
   const [updateModalOpen, setUpdateModalOpen] = useState(false)
   const [resolveModalOpen, setResolveModalOpen] = useState(false)
   const [sortBy, setSortBy] = useState<'date' | 'severity'>('date')
@@ -118,7 +120,7 @@ export default function FlaresPage() {
           </div>
 
           <button
-            onClick={() => router.push('/')}
+            onClick={() => setCreateModalOpen(true)}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
           >
             + New Flare
@@ -136,7 +138,7 @@ export default function FlaresPage() {
               You don&apos;t have any active flares at the moment.
             </p>
             <button
-              onClick={() => router.push('/')}
+              onClick={() => setCreateModalOpen(true)}
               className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
             >
               Track a New Flare
@@ -157,6 +159,14 @@ export default function FlaresPage() {
       </main>
 
       {/* Modals */}
+      <FlareCreationFlow
+        isOpen={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        onSuccess={() => {
+          setCreateModalOpen(false)
+          loadFlares() // Reload flares after creating a new one
+        }}
+      />
       {selectedFlare && (
         <>
           <FlareUpdateModal
