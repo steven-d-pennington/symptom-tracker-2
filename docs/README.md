@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 24 (26.7%)
-**Pending:** 66 (73.3%)
+**Completed:** 25 (27.8%)
+**Pending:** 65 (72.2%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (23 tasks)
+### ✅ COMPLETED (25 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -49,6 +49,7 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 - [x] **F025** - [Flare Update Interface](features/completed/F025-flare-update.md)
 - [x] **F026** - [Flare Resolution Workflow](features/completed/F026-flare-resolution.md)
 - [x] **F027** - [Active Flares List View](features/completed/F027-flares-list.md)
+- [x] **F028** - [Flare Detail View](features/completed/F028-flare-detail-view.md)
 
 #### Symptom Tracking
 - [x] **F029** - [Symptom Logging Interface](features/completed/F029-symptom-logging.md)
@@ -70,9 +71,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 🔴 TODO - FLARE MANAGEMENT (1 task)
+### 🔴 TODO - FLARE MANAGEMENT (0 tasks)
 
-- [ ] **F028** - [Flare Detail View](features/F028-flare-detail.md)
+**All flare management features completed!** ✅
 
 ---
 
@@ -264,4 +265,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (F029 Symptom Logging Completed - 24/90 = 26.7%)
+Last Updated: 2025-11-25 (F028 Flare Detail View Completed - 25/90 = 27.8%)
