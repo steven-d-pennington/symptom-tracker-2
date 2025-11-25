@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Flare } from '@/lib/db'
 import { getSeverityColor } from '@/lib/bodyMap/coordinateUtils'
 import { calculateDaysActive } from '@/lib/flares/resolveFlare'
@@ -66,6 +67,13 @@ export function FlareCard({ flare, onClick, onUpdate, onResolve }: FlareCardProp
 
       {/* Quick Actions */}
       <div className="flex gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
+        <Link
+          href={`/flares/${flare.guid}`}
+          onClick={(e) => e.stopPropagation()}
+          className="flex-1 px-3 py-2 text-sm text-center bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        >
+          Details
+        </Link>
         <button
           onClick={(e) => {
             e.stopPropagation()

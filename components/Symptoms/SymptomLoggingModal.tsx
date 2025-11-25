@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react'
 import { Modal } from '../ui/Modal'
 import { SeveritySlider } from '../Flares/SeveritySlider'
+import { SymptomLocationPicker } from './SymptomLocationPicker'
 import { Symptom, Trigger } from '@/lib/db'
 import { logSymptom, getActiveSymptoms } from '@/lib/symptoms/logSymptom'
+import { createSymptomLocation } from '@/lib/symptoms/linkLocation'
 import { db } from '@/lib/db'
 
 interface SymptomLoggingModalProps {
@@ -34,6 +36,14 @@ export function SymptomLoggingModal({
   const [timestamp, setTimestamp] = useState(new Date())
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Internal location state (when not provided externally)
+  const [internalBodyRegion, setInternalBodyRegion] = useState<string | undefined>(bodyRegion)
+  const [internalCoordinates, setInternalCoordinates] = useState<{ x: number; y: number } | undefined>(coordinates)
+
+  // Use external props if provided, otherwise use internal state
+  const effectiveBodyRegion = bodyRegion || internalBodyRegion
+  const effectiveCoordinates = coordinates || internalCoordinates
 
   // Load symptoms and triggers
   useEffect(() => {
@@ -65,17 +75,31 @@ export function SymptomLoggingModal({
     setError(null)
 
     try {
+      // Log the symptom instance
       await logSymptom({
         symptomId: selectedSymptomId,
         severity,
         timestamp: timestamp.getTime(),
-        bodyRegion,
-        coordinateX: coordinates?.x,
-        coordinateY: coordinates?.y,
+        bodyRegion: effectiveBodyRegion,
+        coordinateX: effectiveCoordinates?.x,
+        coordinateY: effectiveCoordinates?.y,
         durationMinutes: durationMinutes,
         associatedTriggers: selectedTriggers.length > 0 ? selectedTriggers : undefined,
         notes: notes || undefined,
       })
+
+      // Also create a BodyMapLocation entry if location is specified
+      if (effectiveBodyRegion && effectiveCoordinates) {
+        await createSymptomLocation({
+          symptomId: selectedSymptomId,
+          bodyRegion: effectiveBodyRegion,
+          coordinateX: effectiveCoordinates.x,
+          coordinateY: effectiveCoordinates.y,
+          severity,
+          notes: notes || undefined,
+          timestamp: timestamp.getTime(),
+        })
+      }
 
       // Success
       onClose()
@@ -101,6 +125,21 @@ export function SymptomLoggingModal({
     setNotes('')
     setTimestamp(new Date())
     setError(null)
+    // Reset internal location if not externally provided
+    if (!bodyRegion) {
+      setInternalBodyRegion(undefined)
+      setInternalCoordinates(undefined)
+    }
+  }
+
+  const handleLocationSelect = (region: string, coords: { x: number; y: number }) => {
+    setInternalBodyRegion(region)
+    setInternalCoordinates(coords)
+  }
+
+  const handleLocationClear = () => {
+    setInternalBodyRegion(undefined)
+    setInternalCoordinates(undefined)
   }
 
   const handleCancel = () => {
@@ -143,8 +182,8 @@ export function SymptomLoggingModal({
         </select>
       </div>
 
-      {/* Location Info (if provided) */}
-      {bodyRegion && coordinates && (
+      {/* Location - show external location if provided, otherwise show picker */}
+      {bodyRegion && coordinates ? (
         <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
           <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location</p>
           <p className="text-gray-900 dark:text-gray-100">
@@ -154,6 +193,14 @@ export function SymptomLoggingModal({
             Coordinates: ({coordinates.x.toFixed(3)}, {coordinates.y.toFixed(3)})
           </p>
         </div>
+      ) : (
+        <SymptomLocationPicker
+          selectedRegion={internalBodyRegion}
+          selectedCoordinates={internalCoordinates}
+          onLocationSelect={handleLocationSelect}
+          onClear={handleLocationClear}
+          className="mb-6"
+        />
       )}
 
       {/* Severity */}

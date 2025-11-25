@@ -93,25 +93,33 @@ export default function SymptomsPage() {
         {/* Controls */}
         <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
           {/* Filter */}
-          {activeInstanceSymptoms.length > 1 && (
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Filter:
-              </label>
-              <select
-                value={filterSymptomId}
-                onChange={(e) => setFilterSymptomId(e.target.value)}
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
-              >
-                <option value="all">All Symptoms</option>
-                {activeInstanceSymptoms.map((symptom) => (
-                  <option key={symptom.guid} value={symptom.guid}>
-                    {symptom.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+          <div className="flex items-center gap-4">
+            {activeInstanceSymptoms.length > 1 && (
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Filter:
+                </label>
+                <select
+                  value={filterSymptomId}
+                  onChange={(e) => setFilterSymptomId(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                >
+                  <option value="all">All Symptoms</option>
+                  {activeInstanceSymptoms.map((symptom) => (
+                    <option key={symptom.guid} value={symptom.guid}>
+                      {symptom.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            <Link
+              href="/symptoms/history"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            >
+              View Full History
+            </Link>
+          </div>
 
           {/* New Symptom Button */}
           <button

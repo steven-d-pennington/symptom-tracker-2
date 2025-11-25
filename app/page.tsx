@@ -97,6 +97,18 @@ export default function Home() {
             href="/food"
           />
           <ActionCard
+            title="Triggers"
+            description="Log trigger exposures"
+            icon="⚡"
+            href="/triggers"
+          />
+          <ActionCard
+            title="Daily Reflection"
+            description="End-of-day health check-in"
+            icon="📅"
+            href="/daily"
+          />
+          <ActionCard
             title="Medications"
             description="Manage medications and adherence"
             icon="💊"

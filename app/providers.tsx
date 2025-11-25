@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { initializeDatabase } from '@/lib/initDB'
+import { PWAProvider } from '@/components/PWA'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [isInitialized, setIsInitialized] = useState(false)
@@ -40,5 +41,5 @@ export function Providers({ children }: { children: React.ReactNode }) {
     )
   }
 
-  return <>{children}</>
+  return <PWAProvider>{children}</PWAProvider>
 }
