@@ -1,6 +1,6 @@
 # F041 - Meal Grouping (Meal IDs)
 
-**Status:** 🚀 TODO
+**Status:** ✅ COMPLETED
 **Priority:** MEDIUM
 **Complexity:** Low
 **Estimated Effort:** 2-3 hours
@@ -33,10 +33,10 @@ FoodEvent.mealId = generateGUID() for foods logged together.
 
 ## Acceptance Criteria
 
-- [ ] Generate unique meal ID when logging
-- [ ] All concurrent foods share meal ID
-- [ ] Separate meals have different IDs
-- [ ] Used in correlation analysis for combinations
+- [x] Generate unique meal ID when logging
+- [x] All concurrent foods share meal ID
+- [x] Separate meals have different IDs
+- [x] Used in correlation analysis for combinations
 
 ---
 

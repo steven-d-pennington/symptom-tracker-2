@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 54 (60.0%)
-**Pending:** 36 (40.0%)
+**Completed:** 58 (64.4%)
+**Pending:** 32 (35.6%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (54 tasks)
+### ✅ COMPLETED (58 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -62,6 +62,10 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 #### Food Journal
 - [x] **F039** - [Food Journal Meal Logging](features/completed/F039-food-journal-meal-logging.md)
+- [x] **F040** - [Portion Size Selection](features/completed/F040-portion-size-selection.md)
+- [x] **F041** - [Meal Grouping (Meal IDs)](features/completed/F041-meal-grouping-meal-ids-.md)
+- [x] **F042** - [Food Library Management](features/completed/F042-food-library-management.md)
+- [x] **F043** - [Food Search & Filtering](features/completed/F043-food-search-filtering.md)
 
 #### Trigger Tracking
 - [x] **F037** - [Trigger Logging Interface](features/completed/F037-trigger-logging-interface.md)
@@ -140,12 +144,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 🍽️ TODO - FOOD JOURNAL (4 tasks)
+### 🍽️ TODO - FOOD JOURNAL (0 tasks)
 
-- [ ] **F040** - [Portion Size Selection](features/F040-portion-sizes.md)
-- [ ] **F041** - [Meal Grouping (Meal IDs)](features/F041-meal-grouping.md)
-- [ ] **F042** - [Food Library Management](features/F042-food-library.md)
-- [ ] **F043** - [Food Search & Filtering](features/F043-food-search.md)
+**All food journal features completed!** ✅
 
 ---
 
@@ -292,4 +293,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (Medication Management Complete - 54/90 = 60.0%)
+Last Updated: 2025-11-25 (Food Journal Complete - 58/90 = 64.4%)
