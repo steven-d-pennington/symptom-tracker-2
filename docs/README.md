@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 15 (16.7%)
-**Pending:** 75 (83.3%)
+**Completed:** 19 (21.1%)
+**Pending:** 71 (78.9%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (15 tasks)
+### ✅ COMPLETED (19 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -38,6 +38,12 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 #### Onboarding
 - [x] **F015** - [Onboarding Flow](features/completed/F015-onboarding-flow.md)
 
+#### Body Map
+- [x] **F020** - [Body Map SVG Component](features/completed/F020-body-map-svg.md)
+- [x] **F021** - [Zoom & Pan Functionality](features/completed/F021-zoom-pan.md)
+- [x] **F022** - [Coordinate Capture](features/completed/F022-coordinate-capture.md)
+- [x] **F023** - [Region Selection & Highlighting](features/completed/F023-region-selection.md)
+
 ---
 
 ### 🚀 TODO - ONBOARDING (4 tasks)
@@ -49,12 +55,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 🗺️ TODO - BODY MAP (4 tasks)
+### 🗺️ TODO - BODY MAP (0 tasks)
 
-- [ ] **F020** - [Body Map SVG Component](features/F020-body-map-svg.md) - *Priority: HIGH*
-- [ ] **F021** - [Zoom & Pan Functionality](features/F021-zoom-pan.md) - *Priority: HIGH*
-- [ ] **F022** - [Coordinate Capture](features/F022-coordinate-capture.md)
-- [ ] **F023** - [Region Selection & Highlighting](features/F023-region-selection.md)
+**All body map features completed!** ✅
 
 ---
 
@@ -257,4 +260,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (F015 Completed)
+Last Updated: 2025-11-25 (F020-F023 Body Map Completed)
