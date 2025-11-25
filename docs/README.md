@@ -4,8 +4,8 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 23 (25.6%)
-**Pending:** 67 (74.4%)
+**Completed:** 24 (26.7%)
+**Pending:** 66 (73.3%)
 
 ---
 
@@ -50,6 +50,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 - [x] **F026** - [Flare Resolution Workflow](features/completed/F026-flare-resolution.md)
 - [x] **F027** - [Active Flares List View](features/completed/F027-flares-list.md)
 
+#### Symptom Tracking
+- [x] **F029** - [Symptom Logging Interface](features/completed/F029-symptom-logging.md)
+
 ---
 
 ### 🚀 TODO - ONBOARDING (4 tasks)
@@ -73,9 +76,8 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 🩺 TODO - SYMPTOM TRACKING (3 tasks)
+### 🩺 TODO - SYMPTOM TRACKING (2 tasks)
 
-- [ ] **F029** - [Symptom Logging Interface](features/F029-symptom-logging.md)
 - [ ] **F030** - [Symptom History View](features/F030-symptom-history.md)
 - [ ] **F031** - [Symptom-Location Linking](features/F031-symptom-location.md)
 
@@ -262,4 +264,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (F024-F027 Flare Management Completed)
+Last Updated: 2025-11-25 (F029 Symptom Logging Completed - 24/90 = 26.7%)
