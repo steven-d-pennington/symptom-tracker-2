@@ -1,9 +1,9 @@
 # F031 - Symptom-Location Linking
 
-**Status:** 🚀 TODO
+**Status:** ✅ COMPLETED
 **Priority:** MEDIUM
 **Complexity:** Medium
-**Estimated Effort:** 3-4 hours
+**Completed:** 2025-11-25
 
 ---
 
@@ -23,7 +23,9 @@ When logging symptom, optionally tap body map to specify location. Create BodyMa
 
 ### File Structure
 ```
-components/Symptoms/SymptomLocationPicker.tsx, lib/symptoms/linkLocation.ts
+components/Symptoms/SymptomLocationPicker.tsx
+components/Symptoms/SymptomMarker.tsx
+lib/symptoms/linkLocation.ts
 ```
 
 ### Database Operations
@@ -33,14 +35,14 @@ Create BodyMapLocation with symptomId, bodyRegion, coordinates, severity.
 
 ## Acceptance Criteria
 
-- [ ] Optional location picker in symptom logger
-- [ ] Tap body map to specify location
-- [ ] Captures normalized coordinates
-- [ ] Creates BodyMapLocation entity
-- [ ] Symptom markers appear on body map
-- [ ] Color-coded by severity
-- [ ] Click marker shows symptom details
-- [ ] Filter body map by symptom type
+- [x] Optional location picker in symptom logger
+- [x] Tap body map to specify location
+- [x] Captures normalized coordinates
+- [x] Creates BodyMapLocation entity
+- [x] Symptom markers appear on body map (SymptomMarker component)
+- [x] Color-coded by severity
+- [x] Click marker shows symptom details (tooltip)
+- [x] Filter body map by symptom type (SymptomMarkersLayer supports filtering)
 
 ---
 
