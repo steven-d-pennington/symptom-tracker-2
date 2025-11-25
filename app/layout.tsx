@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Providers } from './providers'
+import { SkipLink } from '@/components/Accessibility'
 
 export const metadata: Metadata = {
   title: 'Pocket Symptom Tracker',
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <SkipLink />
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -1,6 +1,6 @@
 # F042 - Food Library Management
 
-**Status:** 🚀 TODO
+**Status:** ✅ COMPLETED
 **Priority:** MEDIUM
 **Complexity:** Medium
 **Estimated Effort:** 4-5 hours
@@ -33,15 +33,15 @@ Create, update Food entities. Set allergen tags array. Set preparation method.
 
 ## Acceptance Criteria
 
-- [ ] List all foods by category
-- [ ] Add custom food
-- [ ] Edit food details
-- [ ] Multi-select allergen tags
-- [ ] Set preparation method
-- [ ] Categorize food
-- [ ] Disable/enable food
-- [ ] Search foods
-- [ ] Filter by allergen tag
+- [x] List all foods by category
+- [x] Add custom food
+- [x] Edit food details
+- [x] Multi-select allergen tags
+- [x] Set preparation method
+- [x] Categorize food
+- [x] Disable/enable food
+- [x] Search foods
+- [x] Filter by allergen tag
 
 ---
 

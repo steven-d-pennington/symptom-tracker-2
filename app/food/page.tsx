@@ -180,13 +180,21 @@ export default function FoodJournalPage() {
             </div>
           </div>
 
-          {/* Log Meal Button */}
-          <button
-            onClick={() => setModalOpen(true)}
-            className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
-          >
-            + Log Meal
-          </button>
+          {/* Action Buttons */}
+          <div className="flex items-center gap-2">
+            <Link
+              href="/food/library"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              Food Library
+            </Link>
+            <button
+              onClick={() => setModalOpen(true)}
+              className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+            >
+              + Log Meal
+            </button>
+          </div>
         </div>
 
         {/* Meals List */}

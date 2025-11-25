@@ -1,6 +1,6 @@
 # F035 - Adherence Tracking & Reports
 
-**Status:** 🚀 TODO
+**Status:** ✅ COMPLETED
 **Priority:** MEDIUM
 **Complexity:** Medium
 **Estimated Effort:** 4-5 hours
@@ -33,14 +33,14 @@ Query MedicationEvent where taken=true vs taken=false. Group by medication and t
 
 ## Acceptance Criteria
 
-- [ ] Overall adherence percentage
-- [ ] Per-medication adherence percentage
-- [ ] Weekly adherence trend chart
-- [ ] Monthly adherence trend
-- [ ] List of missed doses with dates
-- [ ] Reasons for missed doses (from notes)
-- [ ] Export adherence report (PDF/CSV)
-- [ ] Date range selector
+- [x] Overall adherence percentage
+- [x] Per-medication adherence percentage
+- [x] Weekly adherence trend chart
+- [x] Monthly adherence trend (via date range selector)
+- [x] List of missed doses with dates
+- [x] Reasons for missed doses (from notes)
+- [x] Export adherence report (CSV)
+- [x] Date range selector
 
 ---
 

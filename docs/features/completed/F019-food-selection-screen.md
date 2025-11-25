@@ -1,6 +1,6 @@
 # F019 - Food Selection Screen
 
-**Status:** 🚀 TODO
+**Status:** ✅ COMPLETED
 **Priority:** MEDIUM
 **Complexity:** Medium
 **Estimated Effort:** 3-4 hours
@@ -33,11 +33,11 @@ Enable selected foods from db.foods presets
 
 ## Acceptance Criteria
 
-- [ ] Display foods by category
-- [ ] Filter by allergen tags
-- [ ] Search foods
-- [ ] Add custom foods with allergen tags
-- [ ] Persist selections
+- [x] Display foods by category
+- [x] Filter by allergen tags
+- [x] Search foods
+- [x] Add custom foods with allergen tags
+- [x] Persist selections
 
 ---
 

@@ -145,6 +145,11 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+
+  // Handle show notification request from main thread
+  if (event.data && event.data.type === 'SHOW_NOTIFICATION') {
+    self.registration.showNotification(event.data.title, event.data.options);
+  }
 });
 
 // Background sync for future cloud features
@@ -179,7 +184,39 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
 
-  const urlToOpen = event.notification.data?.url || '/';
+  const data = event.notification.data || {};
+  const action = event.action;
+
+  // Handle medication reminder actions
+  if (data.type === 'medication-reminder') {
+    const medicationId = data.medicationId;
+
+    if (action === 'taken' || action === 'snooze') {
+      // Send message to client to handle the action
+      event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true })
+          .then((clientList) => {
+            for (const client of clientList) {
+              client.postMessage({
+                type: 'MEDICATION_REMINDER_ACTION',
+                action: action,
+                medicationId: medicationId
+              });
+              if ('focus' in client) {
+                return client.focus();
+              }
+            }
+            // If no window is open, open one
+            if (clients.openWindow) {
+              return clients.openWindow('/medications');
+            }
+          })
+      );
+      return;
+    }
+  }
+
+  const urlToOpen = data.url || '/';
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true })

@@ -1,6 +1,6 @@
 # F040 - Portion Size Selection
 
-**Status:** 🚀 TODO
+**Status:** ✅ COMPLETED
 **Priority:** MEDIUM
 **Complexity:** Low
 **Estimated Effort:** 2-3 hours
@@ -33,11 +33,11 @@ Store portion sizes in FoodEvent.portionSizes object.
 
 ## Acceptance Criteria
 
-- [ ] Visual portion size buttons (S/M/L)
-- [ ] Default to medium
-- [ ] Per-food portion selection
-- [ ] Visual feedback for selection
-- [ ] Used in dose-response correlation
+- [x] Visual portion size buttons (S/M/L)
+- [x] Default to medium
+- [x] Per-food portion selection
+- [x] Visual feedback for selection
+- [x] Used in dose-response correlation
 
 ---
 

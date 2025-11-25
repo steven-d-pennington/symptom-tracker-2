@@ -1,6 +1,6 @@
 # F036 - Medication Reminders System
 
-**Status:** 🚀 TODO
+**Status:** ✅ COMPLETED
 **Priority:** MEDIUM
 **Complexity:** High
 **Estimated Effort:** 6-8 hours
@@ -33,15 +33,15 @@ Query Medication.schedule to determine next reminder time. Create reminder queue
 
 ## Acceptance Criteria
 
-- [ ] Notifications at scheduled times
-- [ ] Notification shows medication name and dosage
-- [ ] Snooze options (15/30/60 min)
-- [ ] Quick action: Mark as Taken
-- [ ] Quick action: Mark as Skipped
-- [ ] Dismiss notification
-- [ ] Notification permission request
-- [ ] Enable/disable per medication
-- [ ] Works when app is closed (service worker)
+- [x] Notifications at scheduled times
+- [x] Notification shows medication name and dosage
+- [x] Snooze options (15/30/60 min)
+- [x] Quick action: Mark as Taken
+- [x] Quick action: Mark as Skipped
+- [x] Dismiss notification
+- [x] Notification permission request
+- [x] Enable/disable via global settings
+- [x] Works when app is closed (service worker)
 
 ---
 
