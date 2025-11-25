@@ -1,6 +1,6 @@
 # F016 - Symptom Selection Screen
 
-**Status:** 🚀 TODO
+**Status:** ✅ COMPLETED
 **Priority:** MEDIUM
 **Complexity:** Medium
 **Estimated Effort:** 3-4 hours
@@ -33,14 +33,14 @@ Query db.symptoms where isDefault=true. Update isActive=true for selected sympto
 
 ## Acceptance Criteria
 
-- [ ] Display all preset symptoms organized by category
-- [ ] Search filters symptoms in real-time
-- [ ] Categories are collapsible/expandable
-- [ ] Multi-select with visual checkboxes
-- [ ] Selected count displayed
-- [ ] Can add custom symptom with name and category
-- [ ] Skip button allows proceeding without selection
-- [ ] Selections saved to database on continue
+- [x] Display all preset symptoms organized by category
+- [x] Search filters symptoms in real-time
+- [x] Categories are collapsible/expandable
+- [x] Multi-select with visual checkboxes
+- [x] Selected count displayed
+- [x] Can add custom symptom with name and category
+- [x] Skip button allows proceeding without selection
+- [x] Selections saved to database on continue
 
 ---
 

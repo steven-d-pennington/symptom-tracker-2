@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 47 (52.2%)
-**Pending:** 43 (47.8%)
+**Completed:** 53 (58.9%)
+**Pending:** 37 (41.1%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (47 tasks)
+### ✅ COMPLETED (53 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -37,6 +37,10 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 #### Onboarding
 - [x] **F015** - [Onboarding Flow](features/completed/F015-onboarding-flow.md)
+- [x] **F016** - [Symptom Selection Screen](features/completed/F016-symptom-selection-screen.md)
+- [x] **F017** - [Medication Selection Screen](features/completed/F017-medication-selection-screen.md)
+- [x] **F018** - [Trigger Selection Screen](features/completed/F018-trigger-selection-screen.md)
+- [x] **F019** - [Food Selection Screen](features/completed/F019-food-selection-screen.md)
 
 #### Body Map
 - [x] **F020** - [Body Map SVG Component](features/completed/F020-body-map-svg.md)
@@ -66,6 +70,7 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 - [x] **F032** - [Medication Library Management](features/completed/F032-medication-library-management.md)
 - [x] **F033** - [Medication Scheduling Interface](features/completed/F033-medication-scheduling-interface.md)
 - [x] **F034** - [Medication Logging (Taken/Skipped)](features/completed/F034-medication-logging.md)
+- [x] **F035** - [Adherence Tracking & Reports](features/completed/F035-adherence-tracking-reports.md)
 
 #### Daily Health Reflection
 - [x] **F044** - [Daily Reflection Form](features/completed/F044-daily-reflection-form.md)
@@ -93,14 +98,14 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 - [x] **F074** - [Service Worker Implementation](features/completed/F074-service-worker-implementation.md)
 - [x] **F075** - [Install Prompt](features/completed/F075-install-prompt-mobile-desktop-.md)
 
+#### Testing & QA
+- [x] **F081** - [Error Handling & Boundaries](features/completed/F081-error-handling-boundaries.md)
+
 ---
 
-### 🚀 TODO - ONBOARDING (4 tasks)
+### 🚀 TODO - ONBOARDING (0 tasks)
 
-- [ ] **F016** - [Symptom Selection Screen](features/F016-symptom-selection.md)
-- [ ] **F017** - [Medication Selection Screen](features/F017-medication-selection.md)
-- [ ] **F018** - [Trigger Selection Screen](features/F018-trigger-selection.md)
-- [ ] **F019** - [Food Selection Screen](features/F019-food-selection.md)
+**All onboarding features completed!** ✅
 
 ---
 
@@ -122,9 +127,8 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 💊 TODO - MEDICATION MANAGEMENT (2 tasks)
+### 💊 TODO - MEDICATION MANAGEMENT (1 task)
 
-- [ ] **F035** - [Adherence Tracking & Reports](features/F035-adherence-tracking.md)
 - [ ] **F036** - [Medication Reminders System](features/F036-medication-reminders.md)
 
 ---
@@ -213,7 +217,6 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ### 🧪 TODO - TESTING & QA (5 tasks)
 
-- [ ] **F081** - [Error Handling & Boundaries](features/F081-error-handling.md) - *Priority: HIGH*
 - [ ] **F082** - [Unit Tests (Correlation Algorithm)](features/F082-correlation-tests.md)
 - [ ] **F083** - [Unit Tests (Encryption/Decryption)](features/F083-encryption-tests.md)
 - [ ] **F084** - [Integration Tests (Flare Lifecycle)](features/F084-flare-tests.md)
@@ -288,4 +291,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (Phase 4 Settings & PWA - 47/90 = 52.2%)
+Last Updated: 2025-11-25 (Adherence Tracking Complete - 53/90 = 58.9%)

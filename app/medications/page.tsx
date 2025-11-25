@@ -148,7 +148,7 @@ export default function MedicationsPage() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Today's Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
             <div className="text-sm text-gray-500 dark:text-gray-400">Active Medications</div>
             <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">
@@ -167,6 +167,15 @@ export default function MedicationsPage() {
               {skippedToday}
             </div>
           </div>
+          <Link
+            href="/medications/adherence"
+            className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors"
+          >
+            <div className="text-sm text-purple-600 dark:text-purple-400">Adherence Report</div>
+            <div className="text-lg font-semibold text-purple-700 dark:text-purple-300 mt-1">
+              View Details →
+            </div>
+          </Link>
         </div>
 
         {/* Controls */}
