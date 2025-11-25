@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 14 (15.6%)
-**Pending:** 76 (84.4%)
+**Completed:** 23 (25.6%)
+**Pending:** 67 (74.4%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (14 tasks)
+### ✅ COMPLETED (23 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -35,11 +35,25 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 - [x] **F013** - [Food Presets](features/completed/F013-food-presets.md)
 - [x] **F014** - [Body Region Definitions](features/completed/F014-body-regions.md)
 
+#### Onboarding
+- [x] **F015** - [Onboarding Flow](features/completed/F015-onboarding-flow.md)
+
+#### Body Map
+- [x] **F020** - [Body Map SVG Component](features/completed/F020-body-map-svg.md)
+- [x] **F021** - [Zoom & Pan Functionality](features/completed/F021-zoom-pan.md)
+- [x] **F022** - [Coordinate Capture](features/completed/F022-coordinate-capture.md)
+- [x] **F023** - [Region Selection & Highlighting](features/completed/F023-region-selection.md)
+
+#### Flare Management
+- [x] **F024** - [Flare Creation Modal](features/completed/F024-flare-creation.md)
+- [x] **F025** - [Flare Update Interface](features/completed/F025-flare-update.md)
+- [x] **F026** - [Flare Resolution Workflow](features/completed/F026-flare-resolution.md)
+- [x] **F027** - [Active Flares List View](features/completed/F027-flares-list.md)
+
 ---
 
-### 🚀 TODO - ONBOARDING (5 tasks)
+### 🚀 TODO - ONBOARDING (4 tasks)
 
-- [ ] **F015** - [Onboarding Flow](features/F015-onboarding-flow.md) - *Priority: HIGH*
 - [ ] **F016** - [Symptom Selection Screen](features/F016-symptom-selection.md)
 - [ ] **F017** - [Medication Selection Screen](features/F017-medication-selection.md)
 - [ ] **F018** - [Trigger Selection Screen](features/F018-trigger-selection.md)
@@ -47,21 +61,14 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 🗺️ TODO - BODY MAP (4 tasks)
+### 🗺️ TODO - BODY MAP (0 tasks)
 
-- [ ] **F020** - [Body Map SVG Component](features/F020-body-map-svg.md) - *Priority: HIGH*
-- [ ] **F021** - [Zoom & Pan Functionality](features/F021-zoom-pan.md) - *Priority: HIGH*
-- [ ] **F022** - [Coordinate Capture](features/F022-coordinate-capture.md)
-- [ ] **F023** - [Region Selection & Highlighting](features/F023-region-selection.md)
+**All body map features completed!** ✅
 
 ---
 
-### 🔴 TODO - FLARE MANAGEMENT (5 tasks)
+### 🔴 TODO - FLARE MANAGEMENT (1 task)
 
-- [ ] **F024** - [Flare Creation Modal](features/F024-flare-creation.md) - *Priority: HIGH*
-- [ ] **F025** - [Flare Update Interface](features/F025-flare-update.md)
-- [ ] **F026** - [Flare Resolution Workflow](features/F026-flare-resolution.md)
-- [ ] **F027** - [Active Flares List View](features/F027-flares-list.md)
 - [ ] **F028** - [Flare Detail View](features/F028-flare-detail.md)
 
 ---
@@ -255,4 +262,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25
+Last Updated: 2025-11-25 (F024-F027 Flare Management Completed)

@@ -1,8 +1,38 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { needsOnboarding } from '@/lib/onboarding/completeOnboarding'
 
 export default function Home() {
+  const router = useRouter()
+  const [isCheckingOnboarding, setIsCheckingOnboarding] = useState(true)
+
+  useEffect(() => {
+    async function checkOnboarding() {
+      const needs = await needsOnboarding()
+      if (needs) {
+        router.push('/onboarding')
+      } else {
+        setIsCheckingOnboarding(false)
+      }
+    }
+
+    checkOnboarding()
+  }, [router])
+
+  if (isCheckingOnboarding) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-2xl font-bold mb-2">Loading...</div>
+          <p className="text-gray-600 dark:text-gray-400">Starting Pocket Symptom Tracker</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       {/* Header */}

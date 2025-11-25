@@ -9,6 +9,8 @@ export interface User {
   theme: 'light' | 'dark' | 'system'
   notificationSettings: Record<string, unknown>
   privacySettings: Record<string, unknown>
+  onboardingCompleted?: boolean
+  onboardingCompletedAt?: number
   createdAt: number
   updatedAt: number
 }
