@@ -192,3 +192,63 @@ textarea:focus-visible {
   outline-offset: 2px;
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
 }
+
+/* Loading skeleton shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(229, 231, 235, 1) 0%,
+    rgba(243, 244, 246, 1) 50%,
+    rgba(229, 231, 235, 1) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.dark .animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(55, 65, 81, 1) 0%,
+    rgba(75, 85, 99, 1) 50%,
+    rgba(55, 65, 81, 1) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* Optimistic update feedback */
+.optimistic-pending {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.optimistic-saving {
+  position: relative;
+}
+
+.optimistic-saving::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #9ca3af;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
