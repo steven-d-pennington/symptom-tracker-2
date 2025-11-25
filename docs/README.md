@@ -4,14 +4,14 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 90
-**Completed:** 28 (31.1%)
-**Pending:** 62 (68.9%)
+**Completed:** 29 (32.2%)
+**Pending:** 61 (67.8%)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (28 tasks)
+### ✅ COMPLETED (29 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -55,6 +55,9 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 - [x] **F029** - [Symptom Logging Interface](features/completed/F029-symptom-logging.md)
 - [x] **F030** - [Symptom History View](features/completed/F030-symptom-history-view.md)
 - [x] **F031** - [Symptom-Location Linking](features/completed/F031-symptom-location-linking.md)
+
+#### Food Journal
+- [x] **F039** - [Food Journal Meal Logging](features/completed/F039-food-journal-meal-logging.md)
 
 ---
 
@@ -102,9 +105,8 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-### 🍽️ TODO - FOOD JOURNAL (5 tasks)
+### 🍽️ TODO - FOOD JOURNAL (4 tasks)
 
-- [ ] **F039** - [Food Journal Meal Logging](features/F039-food-logging.md)
 - [ ] **F040** - [Portion Size Selection](features/F040-portion-sizes.md)
 - [ ] **F041** - [Meal Grouping (Meal IDs)](features/F041-meal-grouping.md)
 - [ ] **F042** - [Food Library Management](features/F042-food-library.md)
@@ -266,4 +268,4 @@ This is the master project tracking document for the Pocket Symptom Tracker appl
 
 ---
 
-Last Updated: 2025-11-25 (F031 Symptom-Location Linking Completed - 28/90 = 31.1%)
+Last Updated: 2025-11-25 (F039 Food Journal Meal Logging Completed - 29/90 = 32.2%)
