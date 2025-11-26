@@ -23,12 +23,13 @@ export function PreviewMarkerSVG({
   const cx = coordinates.x * viewBox.width
   const cy = coordinates.y * viewBox.height
 
-  // Calculate marker size relative to current viewBox (about 5% of smallest dimension)
+  // Calculate marker size relative to current viewBox (about 0.5% of smallest dimension)
+  // Much smaller than before to match actual lesion marker sizes
   const viewBoxWidth = bounds.maxX - bounds.minX
   const viewBoxHeight = bounds.maxY - bounds.minY
-  const markerSize = Math.min(viewBoxWidth, viewBoxHeight) * 0.05
-  const ringSize = markerSize * 1.3
-  const strokeWidth = Math.max(0.5, markerSize * 0.1)
+  const markerSize = Math.min(viewBoxWidth, viewBoxHeight) * 0.008
+  const ringSize = markerSize * 1.5
+  const strokeWidth = Math.max(0.3, markerSize * 0.15)
 
   return (
     <g className="preview-marker">
@@ -38,14 +39,13 @@ export function PreviewMarkerSVG({
         cy={cy}
         r={markerSize}
         fill={LESION_COLORS.nodule.fill}
-        fillOpacity={0.5}
+        fillOpacity={0.6}
         stroke={LESION_COLORS.nodule.stroke}
         strokeWidth={strokeWidth}
         strokeDasharray={`${markerSize * 0.3},${markerSize * 0.2}`}
-        className="motion-safe:animate-pulse"
       />
 
-      {/* Pulsing selection ring */}
+      {/* Selection ring - static, no animation */}
       <circle
         cx={cx}
         cy={cy}
@@ -53,8 +53,7 @@ export function PreviewMarkerSVG({
         fill="none"
         stroke="#3b82f6"
         strokeWidth={strokeWidth}
-        strokeOpacity={0.7}
-        className="motion-safe:animate-pulse"
+        strokeOpacity={0.8}
       />
     </g>
   )
