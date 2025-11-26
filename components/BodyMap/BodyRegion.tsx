@@ -67,6 +67,7 @@ export function BodyRegion({
       fill={getFill()}
       stroke={getStroke()}
       strokeWidth={getStrokeWidth()}
+      strokeDasharray={getStrokeDasharray()}
       className="transition-all duration-200 cursor-pointer"
       onClick={(e) => {
         e.stopPropagation()

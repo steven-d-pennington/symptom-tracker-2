@@ -7,7 +7,7 @@ import { FlareMarker } from './FlareMarker'
 import { BodyRegion } from './BodyRegion'
 import { ViewSelector } from './ViewSelector'
 import { normalizeCoordinates } from '@/lib/bodyMap/coordinateUtils'
-import { getRegionsForView, VIEW_BOX } from '@/lib/bodyMap/bodyMapSVGs'
+import { getRegionsForView, VIEW_BOX, isHSPriorityRegion } from '@/lib/bodyMap/regions'
 
 interface BodyMapProps {
   flares?: Flare[]
@@ -17,6 +17,10 @@ interface BodyMapProps {
   onCoordinateCapture?: (x: number, y: number, regionId: string) => void
   onFlareClick?: (flare: Flare) => void
   className?: string
+  // HS-specific props
+  highlightHSRegions?: boolean        // Show visual distinction for HS-prone areas
+  regionsWithLesions?: Set<string>    // Region IDs that have active lesions
+  lesionCounts?: Map<string, number>  // Lesion count per region
 }
 
 export function BodyMap({
@@ -27,8 +31,11 @@ export function BodyMap({
   onCoordinateCapture,
   onFlareClick,
   className = '',
+  highlightHSRegions = true,
+  regionsWithLesions = new Set(),
+  lesionCounts = new Map(),
 }: BodyMapProps) {
-  const [currentView, setCurrentView] = useState<'front' | 'back' | 'side'>('front')
+  const [currentView, setCurrentView] = useState<'front' | 'back'>('front')
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
   const [announcement, setAnnouncement] = useState('')
   const svgRef = useRef<SVGSVGElement>(null)
@@ -196,6 +203,9 @@ export function BodyMap({
                         isSelected={selectedRegion === region.id}
                         isHovered={hoveredRegion === region.id}
                         hasFlares={regionsWithFlares.has(region.id)}
+                        hasLesions={regionsWithLesions.has(region.id)}
+                        isHSPriority={highlightHSRegions && isHSPriorityRegion(region.id)}
+                        lesionCount={lesionCounts.get(region.id) ?? 0}
                         onClick={handleRegionClick}
                         onMouseEnter={handleRegionHover}
                         onMouseLeave={handleRegionLeave}

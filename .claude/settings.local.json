@@ -5,7 +5,8 @@
       "Bash(npm test:*)",
       "Bash(npx jest:*)",
       "Bash(npm install:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

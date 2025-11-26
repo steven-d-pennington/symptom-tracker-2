@@ -1,13 +1,12 @@
 interface ViewSelectorProps {
-  currentView: 'front' | 'back' | 'side'
-  onViewChange: (view: 'front' | 'back' | 'side') => void
+  currentView: 'front' | 'back'
+  onViewChange: (view: 'front' | 'back') => void
 }
 
 export function ViewSelector({ currentView, onViewChange }: ViewSelectorProps) {
-  const views: Array<{ value: 'front' | 'back' | 'side'; label: string }> = [
+  const views: Array<{ value: 'front' | 'back'; label: string }> = [
     { value: 'front', label: 'Front' },
     { value: 'back', label: 'Back' },
-    { value: 'side', label: 'Side' },
   ]
 
   return (
@@ -16,12 +15,11 @@ export function ViewSelector({ currentView, onViewChange }: ViewSelectorProps) {
         <button
           key={view.value}
           onClick={() => onViewChange(view.value)}
-          disabled={view.value === 'side'} // Side view not implemented yet
           className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
             currentView === view.value
               ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
-          } disabled:opacity-50 disabled:cursor-not-allowed`}
+          }`}
           aria-label={`${view.label} view`}
           aria-pressed={currentView === view.value}
         >
