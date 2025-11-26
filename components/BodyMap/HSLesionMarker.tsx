@@ -45,7 +45,7 @@ const STATUS_MODIFIERS: Record<LesionStatus, { opacity: number; strokeDasharray?
 /**
  * Base size for markers (will be scaled based on viewBox)
  */
-const BASE_SIZE = 12
+const BASE_SIZE = 3
 
 /**
  * Render different shapes based on lesion type
@@ -62,7 +62,7 @@ function renderShape(
   const commonProps = {
     fill: colors.fill,
     stroke: colors.stroke,
-    strokeWidth: 2,
+    strokeWidth: 0.5,
     opacity: statusMods.opacity,
     strokeDasharray: statusMods.strokeDasharray,
   }
@@ -141,10 +141,10 @@ export function HSLesionMarker({
         <circle
           cx={cx}
           cy={cy}
-          r={BASE_SIZE + 4}
+          r={BASE_SIZE + 1}
           fill="none"
           stroke="#3b82f6"
-          strokeWidth={2}
+          strokeWidth={0.5}
           className="animate-pulse"
         />
       )}
@@ -160,7 +160,7 @@ export function HSLesionMarker({
           textAnchor="middle"
           dominantBaseline="central"
           fill="white"
-          fontSize={8}
+          fontSize={2}
           fontWeight="bold"
           style={{ pointerEvents: 'none' }}
         >
