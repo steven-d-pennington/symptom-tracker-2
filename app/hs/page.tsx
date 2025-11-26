@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { db } from '@/lib/db'
-import { BodyMap } from '@/components/BodyMap'
+import { BodyMap, ZoomedRegionView, RegionNavigation } from '@/components/BodyMap'
 import { HSLesionLegend, HSLesionStatusLegend } from '@/components/BodyMap/HSLesionMarker'
 import { IHS4ScoreCard } from '@/components/hs'
 import { LesionEntryModal, LesionFormData } from '@/components/hs'
@@ -17,6 +17,9 @@ export default function HSPage() {
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null)
   const [capturedCoordinates, setCapturedCoordinates] = useState<{ x: number; y: number } | null>(null)
+  const [viewMode, setViewMode] = useState<'overview' | 'zoomed'>('overview')
+  const [zoomedRegionId, setZoomedRegionId] = useState<string | null>(null)
+  const [currentView, setCurrentView] = useState<'front' | 'back'>('front')
 
   // Load lesions from database
   const loadLesions = useCallback(async () => {
@@ -57,9 +60,24 @@ export default function HSPage() {
     return counts
   }, [lesions])
 
-  // Handle region click on body map
+  // Handle region click on body map - zoom into region
   const handleRegionClick = (regionId: string) => {
     setSelectedRegion(regionId)
+    setZoomedRegionId(regionId)
+    setViewMode('zoomed')
+  }
+
+  // Handle back from zoomed view
+  const handleBackToOverview = () => {
+    setViewMode('overview')
+    setZoomedRegionId(null)
+  }
+
+  // Handle adding lesion from zoomed view
+  const handleAddLesionFromZoom = (coordinates: { x: number; y: number }, regionId: string) => {
+    setCapturedCoordinates(coordinates)
+    setSelectedRegion(regionId)
+    setCreateModalOpen(true)
   }
 
   // Handle coordinate capture for placing lesion
@@ -145,46 +163,69 @@ export default function HSPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Body Map */}
           <div className="lg:col-span-2">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Body Map
-                </h2>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  Click to add a lesion
-                </span>
-              </div>
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+              {viewMode === 'overview' ? (
+                <>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        Body Map
+                      </h2>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
+                        Click a region to zoom in
+                      </span>
+                    </div>
 
-              {/* Body Map with Lesion Markers */}
-              <div className="relative">
-                <BodyMap
-                  selectedRegion={selectedRegion}
-                  onRegionClick={handleRegionClick}
-                  onCoordinateCapture={handleCoordinateCapture}
-                  highlightHSRegions={true}
-                  regionsWithLesions={regionsWithLesions}
-                  lesionCounts={lesionCounts}
+                    {/* Body Map */}
+                    <BodyMap
+                      selectedRegion={selectedRegion}
+                      onRegionClick={handleRegionClick}
+                      onCoordinateCapture={handleCoordinateCapture}
+                      highlightHSRegions={true}
+                      regionsWithLesions={regionsWithLesions}
+                      lesionCounts={lesionCounts}
+                    />
+                  </div>
+
+                  {/* Legends */}
+                  <div className="px-6 pb-6 space-y-4">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Lesion Types
+                      </h3>
+                      <HSLesionLegend />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Status Indicators
+                      </h3>
+                      <HSLesionStatusLegend />
+                    </div>
+                  </div>
+                </>
+              ) : zoomedRegionId ? (
+                <ZoomedRegionView
+                  regionId={zoomedRegionId}
+                  lesions={lesions}
+                  onBack={handleBackToOverview}
+                  onAddLesion={handleAddLesionFromZoom}
+                  onLesionClick={handleLesionClick}
                 />
-
-                {/* Overlay lesion markers - would need to integrate with BodyMap SVG */}
-              </div>
-
-              {/* Legends */}
-              <div className="mt-6 space-y-4">
-                <div>
-                  <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Lesion Types
-                  </h3>
-                  <HSLesionLegend />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Status Indicators
-                  </h3>
-                  <HSLesionStatusLegend />
-                </div>
-              </div>
+              ) : null}
             </div>
+
+            {/* Region Navigation - visible when in overview mode */}
+            {viewMode === 'overview' && (
+              <div className="mt-6">
+                <RegionNavigation
+                  currentView={currentView}
+                  selectedRegion={selectedRegion}
+                  onRegionSelect={handleRegionClick}
+                  onViewChange={setCurrentView}
+                  lesionCountByRegion={lesionCounts}
+                />
+              </div>
+            )}
           </div>
 
           {/* Right Column - Score & Lesion List */}
