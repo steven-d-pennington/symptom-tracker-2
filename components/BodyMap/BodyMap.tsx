@@ -166,7 +166,7 @@ export function BodyMap({
           minScale={1}
           maxScale={3}
           centerOnInit
-          limitToBounds
+          limitToBounds={false}
           doubleClick={{ disabled: true }}
           wheel={{ step: 0.1 }}
           pinch={{ step: 5 }}
