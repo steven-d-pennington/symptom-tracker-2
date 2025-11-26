@@ -244,6 +244,7 @@ export function ZoomedRegionView({
               <PreviewMarkerSVG
                 coordinates={previewCoordinates}
                 viewBox={{ width: 400, height: 700 }}
+                bounds={bounds}
               />
             )}
           </svg>

@@ -6,22 +6,29 @@ import { LESION_COLORS } from './HSLesionMarker'
 interface PreviewMarkerProps {
   coordinates: { x: number; y: number }
   viewBox: { width: number; height: number }
+  bounds: { minX: number; minY: number; maxX: number; maxY: number }
 }
-
-// Match the base size used in HSLesionMarker
-const MARKER_SIZE = 12
 
 /**
  * Ghost marker SVG element for preview-before-confirm placement.
  * The confirm/cancel controls are rendered separately as an HTML overlay.
+ * Marker size scales with zoom level to maintain consistent visual appearance.
  */
 export function PreviewMarkerSVG({
   coordinates,
   viewBox,
+  bounds,
 }: PreviewMarkerProps) {
   // Convert normalized 0-1 coordinates to SVG viewBox coordinates
   const cx = coordinates.x * viewBox.width
   const cy = coordinates.y * viewBox.height
+
+  // Calculate marker size relative to current viewBox (about 5% of smallest dimension)
+  const viewBoxWidth = bounds.maxX - bounds.minX
+  const viewBoxHeight = bounds.maxY - bounds.minY
+  const markerSize = Math.min(viewBoxWidth, viewBoxHeight) * 0.05
+  const ringSize = markerSize * 1.3
+  const strokeWidth = Math.max(0.5, markerSize * 0.1)
 
   return (
     <g className="preview-marker">
@@ -29,12 +36,12 @@ export function PreviewMarkerSVG({
       <circle
         cx={cx}
         cy={cy}
-        r={MARKER_SIZE}
+        r={markerSize}
         fill={LESION_COLORS.nodule.fill}
         fillOpacity={0.5}
         stroke={LESION_COLORS.nodule.stroke}
-        strokeWidth={1.5}
-        strokeDasharray="3,2"
+        strokeWidth={strokeWidth}
+        strokeDasharray={`${markerSize * 0.3},${markerSize * 0.2}`}
         className="motion-safe:animate-pulse"
       />
 
@@ -42,10 +49,10 @@ export function PreviewMarkerSVG({
       <circle
         cx={cx}
         cy={cy}
-        r={MARKER_SIZE + 3}
+        r={ringSize}
         fill="none"
         stroke="#3b82f6"
-        strokeWidth={1.5}
+        strokeWidth={strokeWidth}
         strokeOpacity={0.7}
         className="motion-safe:animate-pulse"
       />
