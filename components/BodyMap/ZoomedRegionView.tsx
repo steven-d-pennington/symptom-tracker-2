@@ -1,9 +1,10 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import { HSLesion } from '@/lib/hs/types'
 import { getRegionById, getRegionsByParent, isHSPriorityRegion } from '@/lib/bodyMap/regions'
 import { HSLesionMarker, LESION_COLORS } from './HSLesionMarker'
+import { PreviewMarker } from './PreviewMarker'
 
 interface ZoomedRegionViewProps {
   regionId: string
@@ -92,6 +93,9 @@ export function ZoomedRegionView({
   const region = getRegionById(regionId)
   const isHSPriority = isHSPriorityRegion(regionId)
 
+  // Preview marker state - allows repositioning before confirming placement
+  const [previewCoordinates, setPreviewCoordinates] = useState<{ x: number; y: number } | null>(null)
+
   // Get child regions if this is a parent region
   const childRegions = useMemo(() => {
     return getRegionsByParent(regionId)
@@ -110,8 +114,8 @@ export function ZoomedRegionView({
 
   const viewBox = `${bounds.minX} ${bounds.minY} ${bounds.maxX - bounds.minX} ${bounds.maxY - bounds.minY}`
 
-  // Handle click on SVG to add new lesion
-  const handleSVGClick = (e: React.MouseEvent<SVGSVGElement>) => {
+  // Handle click on SVG - shows preview marker (can be repositioned by clicking elsewhere)
+  const handleSVGClick = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
     const svg = e.currentTarget
     const rect = svg.getBoundingClientRect()
 
@@ -126,8 +130,22 @@ export function ZoomedRegionView({
     const normalizedX = clickX / 400
     const normalizedY = clickY / 700
 
-    onAddLesion({ x: normalizedX, y: normalizedY }, regionId)
-  }
+    // Set preview coordinates (user can reposition by clicking elsewhere)
+    setPreviewCoordinates({ x: normalizedX, y: normalizedY })
+  }, [bounds])
+
+  // Confirm placement - calls onAddLesion with preview coordinates
+  const handleConfirmPlacement = useCallback(() => {
+    if (previewCoordinates) {
+      onAddLesion(previewCoordinates, regionId)
+      setPreviewCoordinates(null)
+    }
+  }, [previewCoordinates, onAddLesion, regionId])
+
+  // Cancel placement - clears preview
+  const handleCancelPlacement = useCallback(() => {
+    setPreviewCoordinates(null)
+  }, [])
 
   if (!region) {
     return (
@@ -220,11 +238,24 @@ export function ZoomedRegionView({
                 showLabel={true}
               />
             ))}
+
+            {/* Preview marker - shown before confirming placement */}
+            {previewCoordinates && (
+              <PreviewMarker
+                coordinates={previewCoordinates}
+                viewBox={{ width: 400, height: 700 }}
+                bounds={bounds}
+                onConfirm={handleConfirmPlacement}
+                onCancel={handleCancelPlacement}
+              />
+            )}
           </svg>
 
-          {/* Instructions */}
+          {/* Instructions - context-aware based on preview state */}
           <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
-            Tap anywhere in the region to place a new lesion
+            {previewCoordinates
+              ? 'Tap elsewhere to reposition, or use the buttons to confirm/cancel'
+              : 'Tap anywhere in the region to place a new lesion'}
           </p>
         </div>
       </div>
