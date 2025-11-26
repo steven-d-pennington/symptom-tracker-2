@@ -173,6 +173,47 @@ export default function OnboardingPage() {
     }))
   }
 
+  // Remove custom item handlers
+  const handleRemoveSymptomCustom = (index: number) => {
+    setState((prev) => ({
+      ...prev,
+      customItems: {
+        ...prev.customItems,
+        symptoms: prev.customItems.symptoms.filter((_, i) => i !== index),
+      },
+    }))
+  }
+
+  const handleRemoveMedicationCustom = (index: number) => {
+    setState((prev) => ({
+      ...prev,
+      customItems: {
+        ...prev.customItems,
+        medications: prev.customItems.medications.filter((_, i) => i !== index),
+      },
+    }))
+  }
+
+  const handleRemoveTriggerCustom = (index: number) => {
+    setState((prev) => ({
+      ...prev,
+      customItems: {
+        ...prev.customItems,
+        triggers: prev.customItems.triggers.filter((_, i) => i !== index),
+      },
+    }))
+  }
+
+  const handleRemoveFoodCustom = (index: number) => {
+    setState((prev) => ({
+      ...prev,
+      customItems: {
+        ...prev.customItems,
+        foods: prev.customItems.foods.filter((_, i) => i !== index),
+      },
+    }))
+  }
+
   const handleThemeChange = (theme: 'light' | 'dark' | 'system') => {
     setState((prev) => ({
       ...prev,
@@ -233,8 +274,10 @@ export default function OnboardingPage() {
             <SymptomsStep
               symptoms={presetData.symptoms}
               selectedIds={state.selections.symptoms}
+              customItems={state.customItems.symptoms}
               onToggle={handleSymptomToggle}
               onAddCustom={handleSymptomCustom}
+              onRemoveCustom={handleRemoveSymptomCustom}
               onNext={nextStep}
               onSkip={skipStep}
             />
@@ -244,8 +287,10 @@ export default function OnboardingPage() {
             <MedicationsStep
               medications={presetData.medications}
               selectedIds={state.selections.medications}
+              customItems={state.customItems.medications}
               onToggle={handleMedicationToggle}
               onAddCustom={handleMedicationCustom}
+              onRemoveCustom={handleRemoveMedicationCustom}
               onNext={nextStep}
               onSkip={skipStep}
             />
@@ -255,8 +300,10 @@ export default function OnboardingPage() {
             <TriggersStep
               triggers={presetData.triggers}
               selectedIds={state.selections.triggers}
+              customItems={state.customItems.triggers}
               onToggle={handleTriggerToggle}
               onAddCustom={handleTriggerCustom}
+              onRemoveCustom={handleRemoveTriggerCustom}
               onNext={nextStep}
               onSkip={skipStep}
             />
@@ -266,8 +313,10 @@ export default function OnboardingPage() {
             <FoodsStep
               foods={presetData.foods}
               selectedIds={state.selections.foods}
+              customItems={state.customItems.foods}
               onToggle={handleFoodToggle}
               onAddCustom={handleFoodCustom}
+              onRemoveCustom={handleRemoveFoodCustom}
               onNext={nextStep}
               onSkip={skipStep}
             />
