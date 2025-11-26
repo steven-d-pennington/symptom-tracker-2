@@ -1,13 +1,40 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import { Flare } from '@/lib/db'
 import { FlareMarker } from './FlareMarker'
-import { BodyRegion } from './BodyRegion'
+import { BodyRegion, RegionLesionData } from './BodyRegion'
 import { ViewSelector } from './ViewSelector'
 import { normalizeCoordinates } from '@/lib/bodyMap/coordinateUtils'
 import { getRegionsForView, VIEW_BOX, isHSPriorityRegion } from '@/lib/bodyMap/regions'
+
+/**
+ * Calculate approximate center of an SVG path by extracting coordinates
+ */
+function getPathCenter(pathData: string): { x: number; y: number } {
+  const numbers = pathData.match(/-?\d+\.?\d*/g)?.map(Number) || []
+
+  if (numbers.length < 2) {
+    return { x: 200, y: 350 }
+  }
+
+  const xCoords: number[] = []
+  const yCoords: number[] = []
+
+  for (let i = 0; i < numbers.length; i++) {
+    if (i % 2 === 0) {
+      xCoords.push(numbers[i])
+    } else {
+      yCoords.push(numbers[i])
+    }
+  }
+
+  const avgX = xCoords.reduce((a, b) => a + b, 0) / xCoords.length
+  const avgY = yCoords.reduce((a, b) => a + b, 0) / yCoords.length
+
+  return { x: avgX, y: avgY }
+}
 
 interface BodyMapProps {
   flares?: Flare[]
@@ -21,6 +48,7 @@ interface BodyMapProps {
   highlightHSRegions?: boolean        // Show visual distinction for HS-prone areas
   regionsWithLesions?: Set<string>    // Region IDs that have active lesions
   lesionCounts?: Map<string, number>  // Lesion count per region
+  regionLesionData?: Map<string, RegionLesionData> // Detailed lesion data per region
 }
 
 export function BodyMap({
@@ -34,6 +62,7 @@ export function BodyMap({
   highlightHSRegions = true,
   regionsWithLesions = new Set(),
   lesionCounts = new Map(),
+  regionLesionData = new Map(),
 }: BodyMapProps) {
   const [currentView, setCurrentView] = useState<'front' | 'back'>('front')
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
@@ -41,6 +70,15 @@ export function BodyMap({
   const svgRef = useRef<SVGSVGElement>(null)
 
   const regions = getRegionsForView(currentView)
+
+  // Pre-compute region centers for tooltip/dot positioning
+  const regionCenters = useMemo(() => {
+    const centers = new Map<string, { x: number; y: number }>()
+    for (const region of regions) {
+      centers.set(region.id, getPathCenter(region.path))
+    }
+    return centers
+  }, [regions])
 
   // Filter flares based on settings and current view
   const visibleFlares = flares.filter((flare) => {
@@ -206,6 +244,8 @@ export function BodyMap({
                         hasLesions={regionsWithLesions.has(region.id)}
                         isHSPriority={highlightHSRegions && isHSPriorityRegion(region.id)}
                         lesionCount={lesionCounts.get(region.id) ?? 0}
+                        lesionData={regionLesionData.get(region.id)}
+                        regionCenter={regionCenters.get(region.id)}
                         onClick={handleRegionClick}
                         onMouseEnter={handleRegionHover}
                         onMouseLeave={handleRegionLeave}

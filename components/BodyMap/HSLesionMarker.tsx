@@ -129,7 +129,7 @@ export function HSLesionMarker({
 
   return (
     <g
-      className="cursor-pointer transition-transform hover:scale-110"
+      className="cursor-pointer"
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       role="button"

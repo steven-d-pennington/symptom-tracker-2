@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { db } from '@/lib/db'
-import { BodyMap, ZoomedRegionView, RegionNavigation } from '@/components/BodyMap'
+import { BodyMap, ZoomedRegionView, RegionNavigation, RegionLesionData } from '@/components/BodyMap'
 import { HSLesionLegend, HSLesionStatusLegend } from '@/components/BodyMap/HSLesionMarker'
 import { IHS4ScoreCard } from '@/components/hs'
 import { LesionEntryModal, LesionFormData } from '@/components/hs'
@@ -58,6 +58,41 @@ export default function HSPage() {
       counts.set(lesion.regionId, current + 1)
     })
     return counts
+  }, [lesions])
+
+  // Get detailed lesion data by region (for glow/dots/tooltip)
+  const regionLesionData = useMemo(() => {
+    const dataMap = new Map<string, RegionLesionData>()
+
+    lesions.forEach((lesion) => {
+      const existing = dataMap.get(lesion.regionId) || {
+        nodules: 0,
+        abscesses: 0,
+        drainingTunnels: 0,
+        severity: 'none' as const,
+      }
+
+      if (lesion.lesionType === 'nodule') existing.nodules++
+      else if (lesion.lesionType === 'abscess') existing.abscesses++
+      else if (lesion.lesionType === 'draining_tunnel') existing.drainingTunnels++
+
+      dataMap.set(lesion.regionId, existing)
+    })
+
+    // Calculate severity for each region based on IHS4 contribution
+    // IHS4: nodules=1, abscesses=2, tunnels=4
+    dataMap.forEach((data, regionId) => {
+      const regionScore = data.nodules * 1 + data.abscesses * 2 + data.drainingTunnels * 4
+
+      if (regionScore === 0) data.severity = 'none'
+      else if (regionScore <= 3) data.severity = 'mild'
+      else if (regionScore <= 10) data.severity = 'moderate'
+      else data.severity = 'severe'
+
+      dataMap.set(regionId, data)
+    })
+
+    return dataMap
   }, [lesions])
 
   // Handle region click on body map - zoom into region
@@ -184,6 +219,7 @@ export default function HSPage() {
                       highlightHSRegions={true}
                       regionsWithLesions={regionsWithLesions}
                       lesionCounts={lesionCounts}
+                      regionLesionData={regionLesionData}
                     />
                   </div>
 

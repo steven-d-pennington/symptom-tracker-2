@@ -1,6 +1,6 @@
 export { BodyMap } from './BodyMap'
 export { FlareMarker } from './FlareMarker'
-export { BodyRegion } from './BodyRegion'
+export { BodyRegion, type RegionLesionData } from './BodyRegion'
 export { ViewSelector } from './ViewSelector'
 export { HSLesionMarker, HSLesionLegend, HSLesionStatusLegend, LESION_COLORS, STATUS_MODIFIERS } from './HSLesionMarker'
 export { ZoomedRegionView } from './ZoomedRegionView'
