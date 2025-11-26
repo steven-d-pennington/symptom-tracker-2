@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { DailyEntry } from '@/lib/db'
+import { DailyEntry, db } from '@/lib/db'
 import {
   getDailyEntryByDate,
   getRecentDailyEntries,
@@ -11,6 +11,8 @@ import {
   Mood,
 } from '@/lib/daily/saveDailyEntry'
 import { DailyEntryForm } from '@/components/Daily'
+import { DailyHSCheckInCompact } from '@/components/hs'
+import { calculateCurrentIHS4, HSLesion, IHS4Result } from '@/lib/hs'
 
 export default function DailyReflectionPage() {
   const [todayEntry, setTodayEntry] = useState<DailyEntry | null>(null)
@@ -18,15 +20,31 @@ export default function DailyReflectionPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [selectedDate, setSelectedDate] = useState(getTodayKey())
 
+  // HS tracking state
+  const [hsLesions, setHsLesions] = useState<HSLesion[]>([])
+  const [ihs4Result, setIhs4Result] = useState<IHS4Result>({
+    score: 0,
+    severity: 'mild',
+    breakdown: { nodules: 0, abscesses: 0, drainingTunnels: 0 },
+    lesionIds: [],
+  })
+
   const loadData = useCallback(async () => {
     setIsLoading(true)
     try {
-      const [today, recent] = await Promise.all([
+      const [today, recent, activeLesions] = await Promise.all([
         getDailyEntryByDate(selectedDate),
         getRecentDailyEntries(14),
+        db.hsLesions
+          .filter((lesion) => lesion.status === 'active' || lesion.status === 'healing')
+          .toArray(),
       ])
       setTodayEntry(today || null)
       setRecentEntries(recent)
+
+      // Update HS data
+      setHsLesions(activeLesions)
+      setIhs4Result(calculateCurrentIHS4(activeLesions))
     } catch (error) {
       console.error('Error loading daily entries:', error)
     } finally {
@@ -174,11 +192,20 @@ export default function DailyReflectionPage() {
             />
           </div>
 
-          {/* Sidebar - Recent Entries */}
-          <div>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-              Recent Entries
-            </h2>
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* HS Quick Check-In Widget */}
+            <DailyHSCheckInCompact
+              currentIHS4Score={ihs4Result.score}
+              currentSeverity={ihs4Result.severity}
+              activeLesionCount={hsLesions.length}
+            />
+
+            {/* Recent Entries */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                Recent Entries
+              </h2>
 
             {recentEntries.length === 0 ? (
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 text-center">
@@ -235,6 +262,7 @@ export default function DailyReflectionPage() {
                 ))}
               </div>
             )}
+            </div>
           </div>
         </div>
       </main>
