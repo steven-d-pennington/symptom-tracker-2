@@ -4,7 +4,7 @@ import { useMemo, useState, useCallback } from 'react'
 import { HSLesion } from '@/lib/hs/types'
 import { getRegionById, getRegionsByParent, isHSPriorityRegion } from '@/lib/bodyMap/regions'
 import { HSLesionMarker, LESION_COLORS } from './HSLesionMarker'
-import { PreviewMarker } from './PreviewMarker'
+import { PreviewMarkerSVG, PreviewControls } from './PreviewMarker'
 
 interface ZoomedRegionViewProps {
   regionId: string
@@ -241,22 +241,29 @@ export function ZoomedRegionView({
 
             {/* Preview marker - shown before confirming placement */}
             {previewCoordinates && (
-              <PreviewMarker
+              <PreviewMarkerSVG
                 coordinates={previewCoordinates}
                 viewBox={{ width: 400, height: 700 }}
-                bounds={bounds}
-                onConfirm={handleConfirmPlacement}
-                onCancel={handleCancelPlacement}
               />
             )}
           </svg>
 
-          {/* Instructions - context-aware based on preview state */}
-          <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
-            {previewCoordinates
-              ? 'Tap elsewhere to reposition, or use the buttons to confirm/cancel'
-              : 'Tap anywhere in the region to place a new lesion'}
-          </p>
+          {/* Instructions and controls - context-aware based on preview state */}
+          {previewCoordinates ? (
+            <div className="mt-4">
+              <p className="text-center text-sm text-gray-500 dark:text-gray-400 mb-2">
+                Tap elsewhere to reposition
+              </p>
+              <PreviewControls
+                onConfirm={handleConfirmPlacement}
+                onCancel={handleCancelPlacement}
+              />
+            </div>
+          ) : (
+            <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
+              Tap anywhere in the region to place a new lesion
+            </p>
+          )}
         </div>
       </div>
 
