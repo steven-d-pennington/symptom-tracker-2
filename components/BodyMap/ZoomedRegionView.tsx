@@ -119,12 +119,41 @@ export function ZoomedRegionView({
     const svg = e.currentTarget
     const rect = svg.getBoundingClientRect()
 
-    // Calculate click position relative to viewBox
+    // Calculate viewBox dimensions
     const viewBoxWidth = bounds.maxX - bounds.minX
     const viewBoxHeight = bounds.maxY - bounds.minY
 
-    const clickX = ((e.clientX - rect.left) / rect.width) * viewBoxWidth + bounds.minX
-    const clickY = ((e.clientY - rect.top) / rect.height) * viewBoxHeight + bounds.minY
+    // Account for SVG's preserveAspectRatio (default: xMidYMid meet)
+    // The viewBox content is scaled uniformly and centered within the element
+    const viewBoxAspect = viewBoxWidth / viewBoxHeight
+    const elementAspect = rect.width / rect.height
+
+    let renderedWidth: number
+    let renderedHeight: number
+    let offsetX: number
+    let offsetY: number
+
+    if (viewBoxAspect > elementAspect) {
+      // ViewBox is wider - content fills width, letterboxed top/bottom
+      renderedWidth = rect.width
+      renderedHeight = rect.width / viewBoxAspect
+      offsetX = 0
+      offsetY = (rect.height - renderedHeight) / 2
+    } else {
+      // ViewBox is taller - content fills height, letterboxed left/right
+      renderedHeight = rect.height
+      renderedWidth = rect.height * viewBoxAspect
+      offsetX = (rect.width - renderedWidth) / 2
+      offsetY = 0
+    }
+
+    // Calculate click position relative to the actual rendered content
+    const relativeX = e.clientX - rect.left - offsetX
+    const relativeY = e.clientY - rect.top - offsetY
+
+    // Convert to viewBox coordinates
+    const clickX = (relativeX / renderedWidth) * viewBoxWidth + bounds.minX
+    const clickY = (relativeY / renderedHeight) * viewBoxHeight + bounds.minY
 
     // Normalize to 0-1 range based on full body map dimensions (400x700)
     const normalizedX = clickX / 400
