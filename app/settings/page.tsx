@@ -6,7 +6,8 @@ import {
   ThemeSelector,
   NotificationSettings,
   PrivacySettings,
-  DeleteAccount
+  DeleteAccount,
+  BodyTypeSelector
 } from '@/components/Settings'
 import { SuperAdmin } from '@/components/Settings/SuperAdmin'
 import { db } from '@/lib/db'
@@ -121,6 +122,8 @@ export default function SettingsPage() {
           {activeTab === 'general' && (
             <>
               <ThemeSelector />
+
+              <BodyTypeSelector />
 
               {/* Quick Links */}
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">

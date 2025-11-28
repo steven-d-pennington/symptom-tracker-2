@@ -23,6 +23,7 @@ interface BodyRegionProps {
   lesionCount?: number          // Number of active lesions
   lesionData?: RegionLesionData // Detailed lesion breakdown
   regionCenter?: { x: number; y: number } // Center point for dots/tooltip
+  hasBackgroundImage?: boolean  // Reduce opacity when body image is shown
   onClick: (regionId: string) => void
   onMouseEnter: (regionId: string) => void
   onMouseLeave: () => void
@@ -50,6 +51,7 @@ export function BodyRegion({
   lesionCount = 0,
   lesionData,
   regionCenter,
+  hasBackgroundImage = false,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -58,6 +60,7 @@ export function BodyRegion({
   const glowConfig = SEVERITY_GLOW[severity]
 
   // Determine fill and stroke based on state
+  // When background image is shown, regions become more transparent overlays
   const getFill = () => {
     // Severity glow takes precedence when region has lesions
     if (hasLesions && severity !== 'none') {
@@ -65,8 +68,10 @@ export function BodyRegion({
     }
     if (isSelected) return 'rgba(59, 130, 246, 0.3)' // blue with opacity
     if (isHovered) {
-      return isHSPriority ? 'rgba(255, 152, 0, 0.2)' : 'rgba(59, 130, 246, 0.1)'
+      return isHSPriority ? 'rgba(255, 152, 0, 0.25)' : 'rgba(59, 130, 246, 0.2)'
     }
+    // When background image is shown, use transparent fill by default
+    if (hasBackgroundImage) return 'transparent'
     // Subtle highlight for HS-priority regions
     if (isHSPriority) return 'rgba(255, 152, 0, 0.05)'
     return 'transparent'
@@ -84,6 +89,8 @@ export function BodyRegion({
     if (isSelected) return '#2563eb' // darker blue
     if (isHovered) return isHSPriority ? '#FF9800' : '#3b82f6'
     if (isHSPriority) return '#FFB74D' // orange tint for HS priority
+    // More subtle stroke when background image is shown
+    if (hasBackgroundImage) return 'rgba(156, 163, 175, 0.4)'
     return '#cbd5e0' // gray
   }
 
@@ -92,6 +99,8 @@ export function BodyRegion({
     if (hasLesions || hasFlares) return 2
     if (isHovered) return 2
     if (isHSPriority) return 1.5
+    // Thinner stroke when background image is shown
+    if (hasBackgroundImage) return 0.5
     return 1
   }
 

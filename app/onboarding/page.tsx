@@ -6,12 +6,14 @@ import { db } from '@/lib/db'
 import { StepIndicator } from '@/components/onboarding/StepIndicator'
 import { WelcomeStep } from './steps/welcome'
 import { ProfileStep } from './steps/profile'
+import { BodyMapStep } from './steps/bodymap'
 import { SymptomsStep } from './steps/symptoms'
 import { MedicationsStep } from './steps/medications'
 import { TriggersStep } from './steps/triggers'
 import { FoodsStep } from './steps/foods'
 import { PreferencesStep } from './steps/preferences'
 import { TutorialStep } from './steps/tutorial'
+import { BodyImagePreference } from '@/lib/db'
 import {
   OnboardingState,
   getInitialOnboardingState,
@@ -231,6 +233,13 @@ export default function OnboardingPage() {
     }))
   }
 
+  const handleBodyImagePreferenceChange = (pref: BodyImagePreference | null) => {
+    setState((prev) => ({
+      ...prev,
+      preferences: { ...prev.preferences, bodyImagePreference: pref },
+    }))
+  }
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -271,6 +280,15 @@ export default function OnboardingPage() {
           )}
 
           {state.currentStep === 2 && (
+            <BodyMapStep
+              bodyImagePreference={state.preferences.bodyImagePreference}
+              onPreferenceChange={handleBodyImagePreferenceChange}
+              onNext={nextStep}
+              onSkip={skipStep}
+            />
+          )}
+
+          {state.currentStep === 3 && (
             <SymptomsStep
               symptoms={presetData.symptoms}
               selectedIds={state.selections.symptoms}
@@ -283,7 +301,7 @@ export default function OnboardingPage() {
             />
           )}
 
-          {state.currentStep === 3 && (
+          {state.currentStep === 4 && (
             <MedicationsStep
               medications={presetData.medications}
               selectedIds={state.selections.medications}
@@ -296,7 +314,7 @@ export default function OnboardingPage() {
             />
           )}
 
-          {state.currentStep === 4 && (
+          {state.currentStep === 5 && (
             <TriggersStep
               triggers={presetData.triggers}
               selectedIds={state.selections.triggers}
@@ -309,7 +327,7 @@ export default function OnboardingPage() {
             />
           )}
 
-          {state.currentStep === 5 && (
+          {state.currentStep === 6 && (
             <FoodsStep
               foods={presetData.foods}
               selectedIds={state.selections.foods}
@@ -322,7 +340,7 @@ export default function OnboardingPage() {
             />
           )}
 
-          {state.currentStep === 6 && (
+          {state.currentStep === 7 && (
             <PreferencesStep
               theme={state.preferences.theme}
               onThemeChange={handleThemeChange}
@@ -332,7 +350,7 @@ export default function OnboardingPage() {
             />
           )}
 
-          {state.currentStep === 7 && (
+          {state.currentStep === 8 && (
             <TutorialStep onComplete={handleComplete} onSkip={handleComplete} />
           )}
         </div>

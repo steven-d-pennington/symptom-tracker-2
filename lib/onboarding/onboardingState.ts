@@ -2,6 +2,8 @@
  * Onboarding state management types and interfaces
  */
 
+import { BodyImagePreference } from '@/lib/db'
+
 export interface OnboardingState {
   currentStep: number
   completed: boolean
@@ -20,6 +22,7 @@ export interface OnboardingState {
   preferences: {
     name?: string
     theme: 'light' | 'dark' | 'system'
+    bodyImagePreference?: BodyImagePreference | null
     notificationSettings: {
       enabled: boolean
       medicationReminders?: boolean
@@ -32,12 +35,13 @@ export interface OnboardingState {
 export const ONBOARDING_STEPS = [
   { id: 0, label: 'Welcome', path: 'welcome' },
   { id: 1, label: 'Profile', path: 'profile' },
-  { id: 2, label: 'Symptoms', path: 'symptoms' },
-  { id: 3, label: 'Medications', path: 'medications' },
-  { id: 4, label: 'Triggers', path: 'triggers' },
-  { id: 5, label: 'Foods', path: 'foods' },
-  { id: 6, label: 'Preferences', path: 'preferences' },
-  { id: 7, label: 'Tutorial', path: 'tutorial' },
+  { id: 2, label: 'Body Map', path: 'bodymap' },
+  { id: 3, label: 'Symptoms', path: 'symptoms' },
+  { id: 4, label: 'Medications', path: 'medications' },
+  { id: 5, label: 'Triggers', path: 'triggers' },
+  { id: 6, label: 'Foods', path: 'foods' },
+  { id: 7, label: 'Preferences', path: 'preferences' },
+  { id: 8, label: 'Tutorial', path: 'tutorial' },
 ] as const
 
 export const TOTAL_STEPS = ONBOARDING_STEPS.length

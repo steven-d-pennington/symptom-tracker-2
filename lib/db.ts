@@ -9,6 +9,11 @@ import type {
 
 // Domain Entities
 
+export interface BodyImagePreference {
+  gender: 'male' | 'female'
+  bodyType: 'average' | 'heavy'
+}
+
 export interface User {
   id?: number
   guid: string
@@ -16,6 +21,7 @@ export interface User {
   theme: 'light' | 'dark' | 'system'
   notificationSettings: Record<string, unknown>
   privacySettings: Record<string, unknown>
+  bodyImagePreference?: BodyImagePreference | null  // null = no background image
   onboardingCompleted?: boolean
   onboardingCompletedAt?: number
   createdAt: number

@@ -2,12 +2,15 @@
 
 import { useState, useRef, useMemo } from 'react'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
-import { Flare } from '@/lib/db'
+import { Flare, BodyImagePreference } from '@/lib/db'
 import { FlareMarker } from './FlareMarker'
 import { BodyRegion, RegionLesionData } from './BodyRegion'
 import { ViewSelector } from './ViewSelector'
 import { normalizeCoordinates } from '@/lib/bodyMap/coordinateUtils'
 import { getRegionsForView, VIEW_BOX, isHSPriorityRegion } from '@/lib/bodyMap/regions'
+import { getBodyImageUrl } from '@/lib/settings/userSettings'
+
+export type { BodyImagePreference }
 
 /**
  * Calculate approximate center of an SVG path by extracting coordinates
@@ -49,6 +52,8 @@ interface BodyMapProps {
   regionsWithLesions?: Set<string>    // Region IDs that have active lesions
   lesionCounts?: Map<string, number>  // Lesion count per region
   regionLesionData?: Map<string, RegionLesionData> // Detailed lesion data per region
+  // Body image preference (null = no background image)
+  bodyImagePreference?: BodyImagePreference | null
 }
 
 export function BodyMap({
@@ -63,11 +68,27 @@ export function BodyMap({
   regionsWithLesions = new Set(),
   lesionCounts = new Map(),
   regionLesionData = new Map(),
+  bodyImagePreference = null,
 }: BodyMapProps) {
   const [currentView, setCurrentView] = useState<'front' | 'back'>('front')
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
   const [announcement, setAnnouncement] = useState('')
+  const [imageLoadError, setImageLoadError] = useState(false)
   const svgRef = useRef<SVGSVGElement>(null)
+
+  // Get the image URL for current view and preference
+  const bodyImageUrl = useMemo(() => {
+    if (!bodyImagePreference || imageLoadError) return null
+    return getBodyImageUrl(bodyImagePreference, currentView)
+  }, [bodyImagePreference, currentView, imageLoadError])
+
+  // Reset image error when preference or view changes
+  const handleImageError = () => {
+    setImageLoadError(true)
+  }
+
+  // Determine if we're showing a background image
+  const hasBackgroundImage = !!bodyImageUrl
 
   const regions = getRegionsForView(currentView)
 
@@ -230,6 +251,21 @@ export function BodyMap({
                   role="img"
                   aria-label="Interactive body map for flare location tracking"
                 >
+                  {/* Background Body Image (if enabled) */}
+                  {bodyImageUrl && (
+                    <image
+                      href={bodyImageUrl}
+                      x={VIEW_BOX.x}
+                      y={VIEW_BOX.y}
+                      width={VIEW_BOX.width}
+                      height={VIEW_BOX.height}
+                      preserveAspectRatio="xMidYMid meet"
+                      opacity={0.9}
+                      aria-hidden="true"
+                      onError={handleImageError}
+                    />
+                  )}
+
                   {/* Body Regions */}
                   <g role="group" aria-label="Body regions">
                     {regions.map((region) => (
@@ -246,6 +282,7 @@ export function BodyMap({
                         lesionCount={lesionCounts.get(region.id) ?? 0}
                         lesionData={regionLesionData.get(region.id)}
                         regionCenter={regionCenters.get(region.id)}
+                        hasBackgroundImage={hasBackgroundImage}
                         onClick={handleRegionClick}
                         onMouseEnter={handleRegionHover}
                         onMouseLeave={handleRegionLeave}
