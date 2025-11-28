@@ -2,8 +2,9 @@
 
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
-import { db } from '@/lib/db'
+import { db, BodyImagePreference } from '@/lib/db'
 import { BodyMap, ZoomedRegionView, RegionNavigation, RegionLesionData } from '@/components/BodyMap'
+import { getUserSettings } from '@/lib/settings/userSettings'
 import { HSLesionLegend, HSLesionStatusLegend } from '@/components/BodyMap/HSLesionMarker'
 import { IHS4ScoreCard } from '@/components/hs'
 import { LesionEntryModal, LesionFormData } from '@/components/hs'
@@ -14,6 +15,7 @@ export default function HSPage() {
   const [lesions, setLesions] = useState<HSLesion[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedLesion, setSelectedLesion] = useState<HSLesion | null>(null)
+  const [bodyImagePreference, setBodyImagePreference] = useState<BodyImagePreference | null>(null)
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null)
   const [capturedCoordinates, setCapturedCoordinates] = useState<{ x: number; y: number } | null>(null)
@@ -36,9 +38,22 @@ export default function HSPage() {
     }
   }, [])
 
+  // Load user settings including body image preference
+  const loadSettings = useCallback(async () => {
+    try {
+      const settings = await getUserSettings()
+      if (settings?.bodyImagePreference) {
+        setBodyImagePreference(settings.bodyImagePreference)
+      }
+    } catch (error) {
+      console.error('Error loading settings:', error)
+    }
+  }, [])
+
   useEffect(() => {
     loadLesions()
-  }, [loadLesions])
+    loadSettings()
+  }, [loadLesions, loadSettings])
 
   // Calculate IHS4 score
   const ihs4Result = useMemo<IHS4Result>(() => {
@@ -220,6 +235,7 @@ export default function HSPage() {
                       regionsWithLesions={regionsWithLesions}
                       lesionCounts={lesionCounts}
                       regionLesionData={regionLesionData}
+                      bodyImagePreference={bodyImagePreference}
                     />
                   </div>
 
