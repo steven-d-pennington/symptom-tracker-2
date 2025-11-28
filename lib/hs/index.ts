@@ -29,5 +29,22 @@ export {
   createEmptyIHS4Result,
 } from './ihs4'
 
-// Lesion operations (will be implemented)
+// Lesion operations
 export * from './lesions'
+
+// Hurley staging
+export {
+  determineHurleyStage,
+  getHurleyStageDescription,
+  getHurleyStageLabel,
+  getHurleSeverityColors,
+  setRegionHurleyStatus,
+  getRegionHurleyStatus,
+  getAllRegionHurleyStatuses,
+  getRegionsWithHurleyStage,
+  clearRegionHurleyStatus,
+  getWorstHurleyStage,
+  countRegionsByHurleyStage,
+  HURLEY_STAGE_INFO,
+} from './hurley'
+export type { HurleyAssessment, CreateHurleyStatusInput, HurleyStageInfo } from './hurley'
