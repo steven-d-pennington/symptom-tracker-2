@@ -3,21 +3,54 @@
 ## Overview
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
-**Total Tasks:** 90
-**Completed:** 90 (100%)
-**Pending:** 0 (0%)
+**Total Tasks:** 105
+**Completed:** 90 (85.7%)
+**Pending:** 15 (14.3%)
 
 ---
 
-## 🎉 PROJECT COMPLETE!
+## 🎯 Current Focus: HS Body Map Enhancement
 
-All 90 features have been implemented. The Pocket Symptom Tracker is ready for deployment.
+The core application (90 features) is complete. We are now enhancing the body map with specialized **Hidradenitis Suppurativa (HS)** tracking features including IHS4 scoring, Hurley staging, and clinically-aligned lesion tracking.
+
+See: [Body Map Feature Specification](body-map-feature-spec.md) | [Implementation Plan](body-map-implementation-plan.md)
 
 ---
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED (90 tasks)
+### 🚀 TODO: HS Body Map Enhancement (15 tasks)
+
+#### Sprint 1: Foundation (P0 - Must Have)
+- [ ] **HS001** - [Database Schema: HS Lesion Tables](features/HS001-database-schema-hs-lesions.md) - HIGH
+- [ ] **HS002** - [Core HS Business Logic](features/HS002-core-hs-business-logic.md) - HIGH
+- [ ] **HS003** - [IHS4 Calculation Engine](features/HS003-ihs4-calculation-engine.md) - HIGH
+
+#### Sprint 2: Body Map Enhancement (P0 - Must Have)
+- [ ] **HS004** - [Expanded Body Regions (58 regions)](features/HS004-expanded-body-regions.md) - HIGH
+- [ ] **HS005** - [Zoom-to-Region Functionality](features/HS005-zoom-to-region.md) - HIGH
+- [ ] **HS006** - [HS Lesion Marker Component](features/HS006-hs-lesion-marker-component.md) - HIGH
+- [ ] **HS007** - [Lesion Entry Modal](features/HS007-lesion-entry-modal.md) - HIGH
+
+#### Sprint 3: IHS4 Dashboard (P0 - Must Have)
+- [ ] **HS008** - [IHS4 Score Card Component](features/HS008-ihs4-score-card.md) - HIGH
+- [ ] **HS009** - [HS Dashboard Page](features/HS009-hs-dashboard-page.md) - HIGH
+
+#### Sprint 4: Daily Tracking (P1 - Should Have)
+- [ ] **HS010** - [Daily HS Check-In Component](features/HS010-daily-hs-check-in.md) - MEDIUM
+
+#### Sprint 5: Clinical Features (P1 - Should Have)
+- [ ] **HS011** - [Hurley Staging Per Region](features/HS011-hurley-staging.md) - MEDIUM
+- [ ] **HS012** - [IHS4 Trend Chart](features/HS012-ihs4-trend-chart.md) - MEDIUM
+- [ ] **HS013** - [Healthcare Provider Report](features/HS013-healthcare-provider-report.md) - MEDIUM
+
+#### Sprint 6: Polish (P2 - Nice to Have)
+- [ ] **HS014** - [Prodromal Symptom Tracking](features/HS014-prodromal-tracking.md) - LOW
+- [ ] **HS015** - [HS Features Accessibility Audit](features/HS015-accessibility-audit.md) - MEDIUM
+
+---
+
+### ✅ COMPLETED: Core Application (90 tasks)
 
 #### Core Infrastructure
 - [x] **F001** - [Next.js Project Setup](features/completed/F001-nextjs-setup.md)
@@ -62,7 +95,7 @@ All 90 features have been implemented. The Pocket Symptom Tracker is ready for d
 - [x] **F028** - [Flare Detail View](features/completed/F028-flare-detail-view.md)
 
 #### Symptom Tracking
-- [x] **F029** - [Symptom Logging Interface](features/F029-symptom-logging-interface.md)
+- [x] **F029** - [Symptom Logging Interface](features/completed/F029-symptom-logging-interface.md)
 - [x] **F030** - [Symptom History View](features/completed/F030-symptom-history-view.md)
 - [x] **F031** - [Symptom-Location Linking](features/completed/F031-symptom-location-linking.md)
 
@@ -106,10 +139,10 @@ All 90 features have been implemented. The Pocket Symptom Tracker is ready for d
 #### Data Export
 - [x] **F057** - [JSON Export (Full Backup)](features/completed/F057-json-export-full-backup-.md)
 - [x] **F058** - [CSV Export](features/completed/F058-csv-export.md)
-- [x] **F059** - [PDF Medical Report Generator](features/F059-pdf-medical-report-generator.md) - `lib/export/exportPDF.ts`
-- [x] **F060** - [Flare Summary PDF](features/F060-flare-summary-pdf.md) - `lib/export/exportPDF.ts`
-- [x] **F061** - [Correlation Analysis PDF](features/F061-correlation-analysis-pdf.md) - `lib/export/exportPDF.ts`
-- [x] **F062** - [Data Import Functionality](features/F062-data-import-functionality.md) - `lib/export/importData.ts`
+- [x] **F059** - [PDF Medical Report Generator](features/completed/F059-pdf-medical-report-generator.md) - `lib/export/exportPDF.ts`
+- [x] **F060** - [Flare Summary PDF](features/completed/F060-flare-summary-pdf.md) - `lib/export/exportPDF.ts`
+- [x] **F061** - [Correlation Analysis PDF](features/completed/F061-correlation-analysis-pdf.md) - `lib/export/exportPDF.ts`
+- [x] **F062** - [Data Import Functionality](features/completed/F062-data-import-functionality.md) - `lib/export/importData.ts`
 
 #### Settings
 - [x] **F063** - [Settings Page Layout](features/completed/F063-settings-page-layout.md)
@@ -119,11 +152,11 @@ All 90 features have been implemented. The Pocket Symptom Tracker is ready for d
 - [x] **F067** - [Account Deletion Workflow](features/completed/F067-account-deletion-workflow.md)
 
 #### Accessibility
-- [x] **F068** - [Keyboard Navigation](features/F068-keyboard-navigation.md) - `lib/accessibility/index.ts`
-- [x] **F069** - [Screen Reader Support (ARIA)](features/F069-screen-reader-support-aria-.md) - `lib/accessibility/index.ts`
-- [x] **F070** - [High Contrast Mode](features/F070-high-contrast-mode.md) - `app/globals.css`
-- [x] **F071** - [Touch Target Sizing (≥44px)](features/F071-touch-target-sizing-44px-.md) - CSS implemented
-- [x] **F072** - [WCAG 2.1 AA Accessibility Audit](features/F072-wcag-2-1-aa-accessibility-audit.md) - Compliance verified
+- [x] **F068** - [Keyboard Navigation](features/completed/F068-keyboard-navigation.md) - `lib/accessibility/index.ts`
+- [x] **F069** - [Screen Reader Support (ARIA)](features/completed/F069-screen-reader-support-aria-.md) - `lib/accessibility/index.ts`
+- [x] **F070** - [High Contrast Mode](features/completed/F070-high-contrast-mode.md) - `app/globals.css`
+- [x] **F071** - [Touch Target Sizing (>=44px)](features/completed/F071-touch-target-sizing-44px-.md) - CSS implemented
+- [x] **F072** - [WCAG 2.1 AA Accessibility Audit](features/completed/F072-wcag-2-1-aa-accessibility-audit.md) - Compliance verified
 
 #### PWA Features
 - [x] **F073** - [PWA Manifest File](features/completed/F073-pwa-manifest-file.md)
@@ -131,31 +164,39 @@ All 90 features have been implemented. The Pocket Symptom Tracker is ready for d
 - [x] **F075** - [Install Prompt](features/completed/F075-install-prompt-mobile-desktop-.md)
 
 #### Performance & Optimization
-- [x] **F076** - [Offline Mode Testing](features/F076-offline-mode-testing.md) - Service worker verified
-- [x] **F077** - [Performance Optimization](features/F077-performance-optimization.md) - Build optimized
-- [x] **F078** - [Background Correlation Analysis](features/F078-background-correlation-analysis.md) - `lib/analytics/backgroundCorrelation.ts`
-- [x] **F079** - [Optimistic UI Updates](features/F079-optimistic-ui-updates.md) - `lib/optimistic/index.ts`
-- [x] **F080** - [Loading States & Skeleton Screens](features/F080-loading-states-skeleton-screens.md) - `components/Loading/Skeleton.tsx`
+- [x] **F076** - [Offline Mode Testing](features/completed/F076-offline-mode-testing.md) - Service worker verified
+- [x] **F077** - [Performance Optimization](features/completed/F077-performance-optimization.md) - Build optimized
+- [x] **F078** - [Background Correlation Analysis](features/completed/F078-background-correlation-analysis.md) - `lib/analytics/backgroundCorrelation.ts`
+- [x] **F079** - [Optimistic UI Updates](features/completed/F079-optimistic-ui-updates.md) - `lib/optimistic/index.ts`
+- [x] **F080** - [Loading States & Skeleton Screens](features/completed/F080-loading-states-skeleton-screens.md) - `components/Loading/Skeleton.tsx`
 
 #### Testing & QA
 - [x] **F081** - [Error Handling & Boundaries](features/completed/F081-error-handling-boundaries.md)
-- [x] **F082** - [Unit Tests (Correlation Algorithm)](features/F082-unit-tests-correlation-algorithm-.md) - `__tests__/lib/analytics/correlation.test.ts`
-- [x] **F083** - [Unit Tests (Encryption/Decryption)](features/F083-unit-tests-encryption-decryption-.md) - `__tests__/lib/photos/encryption.test.ts`
-- [x] **F084** - [Integration Tests (Flare Lifecycle)](features/F084-integration-tests-flare-lifecycle-.md) - `__tests__/integration/flareLifecycle.test.ts`
-- [x] **F085** - [Cross-Browser Testing](features/F085-cross-browser-testing.md) - `docs/testing/CROSS_BROWSER_TESTING.md`
-- [x] **F086** - [Final QA & Bug Fixes](features/F086-final-qa-bug-fixes.md) - 70 tests passing
+- [x] **F082** - [Unit Tests (Correlation Algorithm)](features/completed/F082-unit-tests-correlation-algorithm-.md) - `__tests__/lib/analytics/correlation.test.ts`
+- [x] **F083** - [Unit Tests (Encryption/Decryption)](features/completed/F083-unit-tests-encryption-decryption-.md) - `__tests__/lib/photos/encryption.test.ts`
+- [x] **F084** - [Integration Tests (Flare Lifecycle)](features/completed/F084-integration-tests-flare-lifecycle-.md) - `__tests__/integration/flareLifecycle.test.ts`
+- [x] **F085** - [Cross-Browser Testing](features/completed/F085-cross-browser-testing.md) - `docs/testing/CROSS_BROWSER_TESTING.md`
+- [x] **F086** - [Final QA & Bug Fixes](features/completed/F086-final-qa-bug-fixes.md) - 70 tests passing
 
 ---
 
 ## 📊 Implementation Summary
 
-### Test Suite
+### HS Body Map Enhancement
+The new HS tracking features add specialized support for Hidradenitis Suppurativa:
+- **IHS4 Scoring**: Clinically-validated severity scoring (nodule x1, abscess x2, tunnel x4)
+- **58 Body Regions**: Expanded from 38, with HS-priority areas (axillae, groin, inframammary, buttocks)
+- **Hurley Staging**: Per-region disease classification (Stage I-III)
+- **Daily Tracking**: HSSD-aligned symptom capture and quality of life impacts
+- **Provider Reports**: Exportable summaries for healthcare visits
+
+### Core Application Test Suite
 - **70 total tests passing**
 - Unit tests for correlation algorithm (14 tests)
 - Unit tests for encryption/decryption (17 tests)
 - Integration tests for flare lifecycle (39 tests)
 
-### Key Files Added
+### Key Files
 ```
 lib/export/exportPDF.ts          - PDF report generation
 lib/export/importData.ts         - Data import with merge/replace
@@ -178,7 +219,13 @@ docs/testing/CROSS_BROWSER_TESTING.md - Testing documentation
 
 ## 🔗 Quick Links
 
-- [Specification Document](../trackedsoc.md)
+### Documentation
+- [Original Specification](../trackedsoc.md)
+- [HS Body Map Specification](body-map-feature-spec.md)
+- [HS Implementation Plan](body-map-implementation-plan.md)
+- [Quick Start Guide](QUICKSTART.md)
+
+### Code References
 - [Database Schema](../lib/db.ts)
 - [Correlation Engine](../lib/correlationAnalysis.ts)
 - [Photo Encryption](../lib/photoEncryption.ts)
@@ -187,4 +234,21 @@ docs/testing/CROSS_BROWSER_TESTING.md - Testing documentation
 
 ---
 
-Last Updated: 2025-11-26 (PROJECT COMPLETE - 90/90 = 100%)
+## 🚀 Getting Started with HS Features
+
+### Suggested Implementation Order
+1. **Sprint 1** (Foundation): HS001 → HS002 → HS003
+2. **Sprint 2** (UI): HS004 → HS005 → HS006 → HS007
+3. **Sprint 3** (Dashboard): HS008 → HS009
+4. **Sprint 4** (Daily): HS010
+5. **Sprint 5** (Clinical): HS011 → HS012 → HS013
+6. **Sprint 6** (Polish): HS014 → HS015
+
+### Dependencies
+- Sprint 2 depends on Sprint 1 completion
+- Sprint 3 depends on Sprint 2 completion
+- Sprints 4-6 can proceed in parallel after Sprint 3
+
+---
+
+Last Updated: 2025-11-28 (HS Body Map features added - 90/105 = 85.7%)
