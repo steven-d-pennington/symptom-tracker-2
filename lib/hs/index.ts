@@ -48,3 +48,17 @@ export {
   HURLEY_STAGE_INFO,
 } from './hurley'
 export type { HurleyAssessment, CreateHurleyStatusInput, HurleyStageInfo } from './hurley'
+
+// Trend analysis
+export {
+  entriesToTrendData,
+  filterTrendDataByRange,
+  getTrendDataForLastDays,
+  calculateTrendSummary,
+  generateDateLabels,
+  formatChartDate,
+  getSeverityBands,
+  getTrendColor,
+  getDateRangeFromPreset,
+} from './trends'
+export type { TrendDataPoint, TrendSummary, DateRangePreset, DateRange } from './trends'

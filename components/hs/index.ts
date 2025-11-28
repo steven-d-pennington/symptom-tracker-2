@@ -4,3 +4,4 @@ export { DailyHSCheckIn, DailyHSCheckInCompact, type QuickCheckInData } from './
 export { DailyHSEntryForm, type DailyHSEntryFormData } from './DailyHSEntryForm'
 export { HurleyStageIndicator, HurleyBadge, HurleyStageCard } from './HurleyStageIndicator'
 export { HurleyAssessmentWizard, HurleyQuickAssess } from './HurleyAssessmentWizard'
+export { IHS4TrendChart, IHS4TrendChartCompact } from './IHS4TrendChart'
