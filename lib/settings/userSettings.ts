@@ -1,6 +1,8 @@
 'use client'
 
-import { db, User } from '@/lib/db'
+import { db, User, BodyImagePreference } from '@/lib/db'
+
+export type { BodyImagePreference }
 
 export interface NotificationSettings {
   enabled: boolean
@@ -109,6 +111,35 @@ export async function updatePrivacySettings(settings: Partial<PrivacySettings>):
       updatedAt: Date.now()
     })
   }
+}
+
+// Body Image Preference Settings
+export async function getBodyImagePreference(): Promise<BodyImagePreference | null> {
+  const user = await getUserSettings()
+  if (!user) return null
+  return user.bodyImagePreference ?? null
+}
+
+export async function updateBodyImagePreference(preference: BodyImagePreference | null): Promise<void> {
+  const user = await getUserSettings()
+  if (user && user.id) {
+    await db.users.update(user.id, {
+      bodyImagePreference: preference,
+      updatedAt: Date.now()
+    })
+  }
+}
+
+/**
+ * Get the body image URL for a given preference and view
+ */
+export function getBodyImageUrl(
+  preference: BodyImagePreference | null,
+  view: 'front' | 'back'
+): string | null {
+  if (!preference) return null
+  const typeCode = preference.bodyType === 'average' ? 'a' : 'h'
+  return `/body-images/${preference.gender}-${typeCode}-${view}.jpg`
 }
 
 export async function getStorageStats(): Promise<{

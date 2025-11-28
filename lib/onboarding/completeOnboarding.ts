@@ -113,6 +113,7 @@ export async function completeOnboarding(state: OnboardingState): Promise<void> 
         await updateUserPreferences({
           name: state.preferences.name,
           theme: state.preferences.theme,
+          bodyImagePreference: state.preferences.bodyImagePreference ?? null,
           notificationSettings: state.preferences.notificationSettings,
           onboardingCompleted: true,
           onboardingCompletedAt: now,

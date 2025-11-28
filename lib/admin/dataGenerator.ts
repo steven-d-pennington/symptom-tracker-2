@@ -1,4 +1,5 @@
 import { db } from '@/lib/db'
+import type { HSLesion, LesionType, LesionStatus } from '@/lib/hs/types'
 
 // Use native crypto API for UUID generation
 function uuidv4(): string {
@@ -28,6 +29,29 @@ const PROBLEM_AREAS = [
   'left-armpit', 'right-armpit', 'groin', 'left-thigh', 'right-thigh',
   'buttocks', 'under-breast', 'abdomen', 'left-hip', 'right-hip'
 ]
+
+// HS-Priority regions for lesion generation (26 total from spec)
+const HS_PRIORITY_REGIONS = [
+  // Axillae (4)
+  'left-axilla-central', 'left-axilla-peripheral',
+  'right-axilla-central', 'right-axilla-peripheral',
+  // Groin (6)
+  'left-groin-inguinal', 'left-inner-thigh-upper',
+  'right-groin-inguinal', 'right-inner-thigh-upper',
+  'mons-pubis', 'perineum',
+  // Inframammary (6)
+  'left-inframammary-medial', 'left-inframammary-lateral', 'left-inframammary-fold',
+  'right-inframammary-medial', 'right-inframammary-lateral', 'right-inframammary-fold',
+  // Buttocks (6)
+  'left-buttock-upper', 'left-buttock-lower', 'left-gluteal-fold',
+  'right-buttock-upper', 'right-buttock-lower', 'right-gluteal-fold',
+  // Waistband (4)
+  'waistband-left', 'waistband-right', 'waistband-front-center', 'waistband-back-center',
+]
+
+// HS Lesion types with their IHS4 weights
+const LESION_TYPES: LesionType[] = ['nodule', 'abscess', 'draining_tunnel']
+const LESION_TYPE_WEIGHTS = { nodule: 0.6, abscess: 0.3, draining_tunnel: 0.1 } // Probability weights
 
 // Default symptoms for the condition
 const DEFAULT_SYMPTOMS = [
@@ -118,6 +142,14 @@ function gaussianRandom(mean: number, stdDev: number): number {
 
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value))
+}
+
+// Weighted random selection for lesion types
+function selectLesionType(): LesionType {
+  const rand = Math.random()
+  if (rand < LESION_TYPE_WEIGHTS.nodule) return 'nodule'
+  if (rand < LESION_TYPE_WEIGHTS.nodule + LESION_TYPE_WEIGHTS.abscess) return 'abscess'
+  return 'draining_tunnel'
 }
 
 function addDays(date: Date, days: number): Date {
@@ -264,6 +296,17 @@ export async function generateTestData(options: DataGenerationOptions): Promise<
     const activeFlares: Map<string, { guid: string; region: string; startDate: number; severity: number }> = new Map()
     let flareCount = 0
     let flareEventCount = 0
+
+    // Track active HS lesions
+    interface ActiveHSLesion {
+      guid: string
+      regionId: string
+      lesionType: LesionType
+      status: LesionStatus
+      startDate: number
+    }
+    const activeHSLesions: Map<string, ActiveHSLesion> = new Map()
+    let hsLesionCount = 0
 
     // Process each day
     for (let dayOffset = 0; dayOffset < totalDays; dayOffset++) {
@@ -425,6 +468,85 @@ export async function generateTestData(options: DataGenerationOptions): Promise<
           region,
           startDate: timestamp,
           severity: initialSeverity
+        })
+      }
+
+      // ═══════════════════════════════════════════════════════════════════════════
+      // HS LESION TRACKING
+      // ═══════════════════════════════════════════════════════════════════════════
+
+      // Process existing HS lesions - update status or resolve
+      for (const [lesionKey, lesion] of activeHSLesions.entries()) {
+        const lesionDuration = (timestamp - lesion.startDate) / (1000 * 60 * 60 * 24)
+
+        // Lesions typically last 5-30 days depending on type
+        // Tunnels last longer, nodules heal faster
+        const baseResolveChance = lesion.lesionType === 'draining_tunnel' ? 0.02 :
+                                  lesion.lesionType === 'abscess' ? 0.05 : 0.08
+        const resolveChance = lesionDuration > 14 ? baseResolveChance * 2 :
+                              lesionDuration > 7 ? baseResolveChance * 1.5 : baseResolveChance
+
+        if (Math.random() < resolveChance) {
+          // Lesion heals
+          await db.hsLesions.where('guid').equals(lesion.guid).modify({
+            status: 'healed' as LesionStatus,
+            healedDate: formatDate(currentDate),
+            updatedAt: timestamp
+          })
+          activeHSLesions.delete(lesionKey)
+        } else if (lesion.status === 'active' && Math.random() < 0.1) {
+          // 10% chance active lesion transitions to healing
+          lesion.status = 'healing'
+          await db.hsLesions.where('guid').equals(lesion.guid).modify({
+            status: 'healing' as LesionStatus,
+            updatedAt: timestamp
+          })
+        } else if (lesion.lesionType === 'nodule' && Math.random() < 0.03) {
+          // 3% chance nodule evolves to abscess
+          lesion.lesionType = 'abscess'
+          await db.hsLesions.where('guid').equals(lesion.guid).modify({
+            lesionType: 'abscess' as LesionType,
+            typeHistory: [{
+              date: formatDate(currentDate),
+              fromType: 'nodule' as LesionType,
+              toType: 'abscess' as LesionType
+            }],
+            updatedAt: timestamp
+          })
+        }
+      }
+
+      // Chance of new HS lesion (higher with combined stress/seasonal factors)
+      // About 1-3 new lesions per month for moderate HS
+      const newHSLesionChance = 0.04 * combinedFactor
+      if (Math.random() < newHSLesionChance) {
+        const regionId = randomChoice(HS_PRIORITY_REGIONS)
+        const lesionGuid = uuidv4()
+        const lesionType = selectLesionType()
+
+        const hsLesion: HSLesion = {
+          guid: lesionGuid,
+          regionId,
+          coordinates: {
+            x: randomFloat(0.2, 0.8),
+            y: randomFloat(0.2, 0.8)
+          },
+          lesionType,
+          status: 'active',
+          onsetDate: formatDate(currentDate),
+          createdAt: timestamp,
+          updatedAt: timestamp
+        }
+
+        await db.hsLesions.add(hsLesion)
+        hsLesionCount++
+
+        activeHSLesions.set(`${regionId}-${timestamp}`, {
+          guid: lesionGuid,
+          regionId,
+          lesionType,
+          status: 'active',
+          startDate: timestamp
         })
       }
 
@@ -601,6 +723,7 @@ export async function generateTestData(options: DataGenerationOptions): Promise<
     stats.bodyMapLocations = bodyMapLocationCount
     stats.flares = flareCount
     stats.flareEvents = flareEventCount
+    stats.hsLesions = hsLesionCount
 
     // Phase 6: Generate food correlations
     onProgress?.({ phase: 'correlations', current: 6, total: 8, message: 'Generating food correlations...' })
@@ -697,6 +820,8 @@ export async function clearAllData(): Promise<{ success: boolean; error?: string
     await db.photoAttachments.clear()
     await db.photoComparisons.clear()
     await db.uxEvents.clear()
+    // HS-specific tables
+    await db.hsLesions.clear()
 
     return { success: true }
   } catch (error) {
@@ -729,6 +854,8 @@ export async function getDataStats(): Promise<Record<string, number>> {
   stats.photoAttachments = await db.photoAttachments.count()
   stats.photoComparisons = await db.photoComparisons.count()
   stats.uxEvents = await db.uxEvents.count()
+  // HS-specific stats
+  stats.hsLesions = await db.hsLesions.count()
 
   return stats
 }

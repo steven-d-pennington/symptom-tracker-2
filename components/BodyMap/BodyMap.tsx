@@ -1,13 +1,43 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
-import { Flare } from '@/lib/db'
+import { Flare, BodyImagePreference } from '@/lib/db'
 import { FlareMarker } from './FlareMarker'
-import { BodyRegion } from './BodyRegion'
+import { BodyRegion, RegionLesionData } from './BodyRegion'
 import { ViewSelector } from './ViewSelector'
 import { normalizeCoordinates } from '@/lib/bodyMap/coordinateUtils'
-import { getRegionsForView, VIEW_BOX } from '@/lib/bodyMap/bodyMapSVGs'
+import { getRegionsForView, VIEW_BOX, isHSPriorityRegion } from '@/lib/bodyMap/regions'
+import { getBodyImageUrl } from '@/lib/settings/userSettings'
+
+export type { BodyImagePreference }
+
+/**
+ * Calculate approximate center of an SVG path by extracting coordinates
+ */
+function getPathCenter(pathData: string): { x: number; y: number } {
+  const numbers = pathData.match(/-?\d+\.?\d*/g)?.map(Number) || []
+
+  if (numbers.length < 2) {
+    return { x: 200, y: 350 }
+  }
+
+  const xCoords: number[] = []
+  const yCoords: number[] = []
+
+  for (let i = 0; i < numbers.length; i++) {
+    if (i % 2 === 0) {
+      xCoords.push(numbers[i])
+    } else {
+      yCoords.push(numbers[i])
+    }
+  }
+
+  const avgX = xCoords.reduce((a, b) => a + b, 0) / xCoords.length
+  const avgY = yCoords.reduce((a, b) => a + b, 0) / yCoords.length
+
+  return { x: avgX, y: avgY }
+}
 
 interface BodyMapProps {
   flares?: Flare[]
@@ -17,6 +47,13 @@ interface BodyMapProps {
   onCoordinateCapture?: (x: number, y: number, regionId: string) => void
   onFlareClick?: (flare: Flare) => void
   className?: string
+  // HS-specific props
+  highlightHSRegions?: boolean        // Show visual distinction for HS-prone areas
+  regionsWithLesions?: Set<string>    // Region IDs that have active lesions
+  lesionCounts?: Map<string, number>  // Lesion count per region
+  regionLesionData?: Map<string, RegionLesionData> // Detailed lesion data per region
+  // Body image preference (null = no background image)
+  bodyImagePreference?: BodyImagePreference | null
 }
 
 export function BodyMap({
@@ -27,13 +64,42 @@ export function BodyMap({
   onCoordinateCapture,
   onFlareClick,
   className = '',
+  highlightHSRegions = true,
+  regionsWithLesions = new Set(),
+  lesionCounts = new Map(),
+  regionLesionData = new Map(),
+  bodyImagePreference = null,
 }: BodyMapProps) {
-  const [currentView, setCurrentView] = useState<'front' | 'back' | 'side'>('front')
+  const [currentView, setCurrentView] = useState<'front' | 'back'>('front')
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
   const [announcement, setAnnouncement] = useState('')
+  const [imageLoadError, setImageLoadError] = useState(false)
   const svgRef = useRef<SVGSVGElement>(null)
 
+  // Get the image URL for current view and preference
+  const bodyImageUrl = useMemo(() => {
+    if (!bodyImagePreference || imageLoadError) return null
+    return getBodyImageUrl(bodyImagePreference, currentView)
+  }, [bodyImagePreference, currentView, imageLoadError])
+
+  // Reset image error when preference or view changes
+  const handleImageError = () => {
+    setImageLoadError(true)
+  }
+
+  // Determine if we're showing a background image
+  const hasBackgroundImage = !!bodyImageUrl
+
   const regions = getRegionsForView(currentView)
+
+  // Pre-compute region centers for tooltip/dot positioning
+  const regionCenters = useMemo(() => {
+    const centers = new Map<string, { x: number; y: number }>()
+    for (const region of regions) {
+      centers.set(region.id, getPathCenter(region.path))
+    }
+    return centers
+  }, [regions])
 
   // Filter flares based on settings and current view
   const visibleFlares = flares.filter((flare) => {
@@ -121,7 +187,7 @@ export function BodyMap({
           minScale={1}
           maxScale={3}
           centerOnInit
-          limitToBounds
+          limitToBounds={false}
           doubleClick={{ disabled: true }}
           wheel={{ step: 0.1 }}
           pinch={{ step: 5 }}
@@ -185,6 +251,21 @@ export function BodyMap({
                   role="img"
                   aria-label="Interactive body map for flare location tracking"
                 >
+                  {/* Background Body Image (if enabled) */}
+                  {bodyImageUrl && (
+                    <image
+                      href={bodyImageUrl}
+                      x={VIEW_BOX.x}
+                      y={VIEW_BOX.y}
+                      width={VIEW_BOX.width}
+                      height={VIEW_BOX.height}
+                      preserveAspectRatio="xMidYMid meet"
+                      opacity={0.9}
+                      aria-hidden="true"
+                      onError={handleImageError}
+                    />
+                  )}
+
                   {/* Body Regions */}
                   <g role="group" aria-label="Body regions">
                     {regions.map((region) => (
@@ -196,6 +277,12 @@ export function BodyMap({
                         isSelected={selectedRegion === region.id}
                         isHovered={hoveredRegion === region.id}
                         hasFlares={regionsWithFlares.has(region.id)}
+                        hasLesions={regionsWithLesions.has(region.id)}
+                        isHSPriority={highlightHSRegions && isHSPriorityRegion(region.id)}
+                        lesionCount={lesionCounts.get(region.id) ?? 0}
+                        lesionData={regionLesionData.get(region.id)}
+                        regionCenter={regionCenters.get(region.id)}
+                        hasBackgroundImage={hasBackgroundImage}
                         onClick={handleRegionClick}
                         onMouseEnter={handleRegionHover}
                         onMouseLeave={handleRegionLeave}

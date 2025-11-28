@@ -31,6 +31,14 @@ export function formatDate(date: Date): string {
 }
 
 /**
+ * Format date to ISO string (YYYY-MM-DD)
+ * Alias for formatDate for semantic clarity
+ */
+export function formatDateISO(date: Date): string {
+  return date.toISOString().split('T')[0]
+}
+
+/**
  * Validate severity value (1-10 range)
  */
 export function validateSeverity(severity: number): boolean {

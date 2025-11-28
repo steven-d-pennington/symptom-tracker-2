@@ -1,6 +1,18 @@
 import Dexie, { Table } from 'dexie'
+import type {
+  HSLesion,
+  LesionObservation,
+  DailyHSEntry,
+  ProdromalMarker,
+  RegionHurleyStatus,
+} from './hs/types'
 
 // Domain Entities
+
+export interface BodyImagePreference {
+  gender: 'male' | 'female'
+  bodyType: 'average' | 'heavy'
+}
 
 export interface User {
   id?: number
@@ -9,6 +21,7 @@ export interface User {
   theme: 'light' | 'dark' | 'system'
   notificationSettings: Record<string, unknown>
   privacySettings: Record<string, unknown>
+  bodyImagePreference?: BodyImagePreference | null  // null = no background image
   onboardingCompleted?: boolean
   onboardingCompletedAt?: number
   createdAt: number
@@ -278,8 +291,17 @@ export class SymptomTrackerDB extends Dexie {
   photoComparisons!: Table<PhotoComparison>
   uxEvents!: Table<UXEvent>
 
+  // HS-specific tables
+  hsLesions!: Table<HSLesion>
+  lesionObservations!: Table<LesionObservation>
+  dailyHSEntries!: Table<DailyHSEntry>
+  prodromalMarkers!: Table<ProdromalMarker>
+  regionHurleyStatuses!: Table<RegionHurleyStatus>
+
   constructor() {
     super('SymptomTrackerDB')
+
+    // Version 1: Original schema
     this.version(1).stores({
       users: '++id, guid, createdAt',
       symptoms: '++id, guid, name, category, isActive, isDefault',
@@ -299,6 +321,34 @@ export class SymptomTrackerDB extends Dexie {
       photoAttachments: '++id, guid, dailyEntryId, symptomId, bodyRegion, captureTimestamp',
       photoComparisons: '++id, guid, beforePhotoId, afterPhotoId',
       uxEvents: '++id, guid, eventType, timestamp',
+    })
+
+    // Version 2: HS-specific tables for enhanced body map
+    this.version(2).stores({
+      users: '++id, guid, createdAt',
+      symptoms: '++id, guid, name, category, isActive, isDefault',
+      symptomInstances: '++id, guid, symptomId, timestamp, severity',
+      medications: '++id, guid, name, isActive, isDefault',
+      medicationEvents: '++id, guid, medicationId, timestamp, taken',
+      triggers: '++id, guid, name, category, isActive, isDefault',
+      triggerEvents: '++id, guid, triggerId, timestamp',
+      foods: '++id, guid, name, category, isActive, isDefault',
+      foodEvents: '++id, guid, mealId, timestamp, mealType',
+      foodCombinationCorrelations: '++id, guid, symptomId, lastAnalyzedAt',
+      flares: '++id, guid, status, startDate, endDate, bodyRegion',
+      flareEvents: '++id, guid, flareId, timestamp, eventType',
+      flareBodyLocations: '++id, guid, flareId, bodyRegion',
+      dailyEntries: '++id, guid, date, completedAt',
+      bodyMapLocations: '++id, guid, dailyEntryId, symptomId, bodyRegion, timestamp',
+      photoAttachments: '++id, guid, dailyEntryId, symptomId, bodyRegion, captureTimestamp',
+      photoComparisons: '++id, guid, beforePhotoId, afterPhotoId',
+      uxEvents: '++id, guid, eventType, timestamp',
+      // HS-specific tables
+      hsLesions: '++id, guid, regionId, lesionType, status, onsetDate, healedDate',
+      lesionObservations: '++id, guid, lesionId, entryId, date',
+      dailyHSEntries: '++id, guid, date',
+      prodromalMarkers: '++id, guid, regionId, date, convertedToLesionId',
+      regionHurleyStatuses: '++id, guid, regionId, hurleyStage',
     })
   }
 }
