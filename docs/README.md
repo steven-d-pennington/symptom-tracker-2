@@ -4,8 +4,8 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 105
-**Completed:** 90 (85.7%)
-**Pending:** 15 (14.3%)
+**Completed:** 99 (94.3%)
+**Pending:** 6 (5.7%)
 
 ---
 
@@ -19,25 +19,29 @@ See: [Body Map Feature Specification](body-map-feature-spec.md) | [Implementatio
 
 ## 🎯 Feature Status Board
 
-### 🚀 TODO: HS Body Map Enhancement (15 tasks)
+### ✅ COMPLETED: HS Body Map Enhancement - Sprint 1-4 (9 tasks)
 
-#### Sprint 1: Foundation (P0 - Must Have)
-- [ ] **HS001** - [Database Schema: HS Lesion Tables](features/HS001-database-schema-hs-lesions.md) - HIGH
-- [ ] **HS002** - [Core HS Business Logic](features/HS002-core-hs-business-logic.md) - HIGH
-- [ ] **HS003** - [IHS4 Calculation Engine](features/HS003-ihs4-calculation-engine.md) - HIGH
+#### Sprint 1: Foundation (P0 - Must Have) ✅
+- [x] **HS001** - [Database Schema: HS Lesion Tables](features/HS001-database-schema-hs-lesions.md) - `lib/db.ts`, `lib/hs/types.ts`
+- [x] **HS002** - [Core HS Business Logic](features/HS002-core-hs-business-logic.md) - `lib/hs/lesions/*`
+- [x] **HS003** - [IHS4 Calculation Engine](features/HS003-ihs4-calculation-engine.md) - `lib/hs/ihs4.ts`
 
-#### Sprint 2: Body Map Enhancement (P0 - Must Have)
-- [ ] **HS004** - [Expanded Body Regions (58 regions)](features/HS004-expanded-body-regions.md) - HIGH
-- [ ] **HS005** - [Zoom-to-Region Functionality](features/HS005-zoom-to-region.md) - HIGH
-- [ ] **HS006** - [HS Lesion Marker Component](features/HS006-hs-lesion-marker-component.md) - HIGH
-- [ ] **HS007** - [Lesion Entry Modal](features/HS007-lesion-entry-modal.md) - HIGH
+#### Sprint 2: Body Map Enhancement (P0 - Must Have) ✅
+- [x] **HS004** - [Expanded Body Regions (39 regions)](features/HS004-expanded-body-regions.md) - `lib/bodyMap/bodyMapSVGs.ts`
+- [x] **HS005** - [Zoom-to-Region Functionality](features/HS005-zoom-to-region.md) - `components/BodyMap/ZoomedRegionView.tsx`
+- [x] **HS006** - [HS Lesion Marker Component](features/HS006-hs-lesion-marker-component.md) - `components/BodyMap/HSLesionMarker.tsx`
+- [x] **HS007** - [Lesion Entry Modal](features/HS007-lesion-entry-modal.md) - `components/hs/LesionEntryModal.tsx`
 
-#### Sprint 3: IHS4 Dashboard (P0 - Must Have)
-- [ ] **HS008** - [IHS4 Score Card Component](features/HS008-ihs4-score-card.md) - HIGH
-- [ ] **HS009** - [HS Dashboard Page](features/HS009-hs-dashboard-page.md) - HIGH
+#### Sprint 3: IHS4 Dashboard (P0 - Must Have) ✅
+- [x] **HS008** - [IHS4 Score Card Component](features/HS008-ihs4-score-card.md) - `components/hs/IHS4ScoreCard.tsx`
+- [x] **HS009** - [HS Dashboard Page](features/HS009-hs-dashboard-page.md) - `app/hs/page.tsx`
 
-#### Sprint 4: Daily Tracking (P1 - Should Have)
-- [ ] **HS010** - [Daily HS Check-In Component](features/HS010-daily-hs-check-in.md) - MEDIUM
+#### Sprint 4: Daily Tracking (P1 - Should Have) ✅
+- [x] **HS010** - [Daily HS Check-In Component](features/HS010-daily-hs-check-in.md) - `components/hs/DailyHSCheckIn.tsx`
+
+---
+
+### 🚀 TODO: HS Body Map Enhancement - Sprint 5-6 (5 tasks)
 
 #### Sprint 5: Clinical Features (P1 - Should Have)
 - [ ] **HS011** - [Hurley Staging Per Region](features/HS011-hurley-staging.md) - MEDIUM
@@ -251,4 +255,4 @@ docs/testing/CROSS_BROWSER_TESTING.md - Testing documentation
 
 ---
 
-Last Updated: 2025-11-28 (HS Body Map features added - 90/105 = 85.7%)
+Last Updated: 2025-11-28 (Sprint 1-4 complete - 99/105 = 94.3%)
