@@ -62,3 +62,20 @@ export {
   getDateRangeFromPreset,
 } from './trends'
 export type { TrendDataPoint, TrendSummary, DateRangePreset, DateRange } from './trends'
+
+// Provider reports
+export {
+  generateHSReport,
+  formatReportAsCSV,
+  formatReportAsJSON,
+} from './reports'
+export type {
+  HSProviderReport,
+  AffectedRegionSummary,
+  SymptomTrendsSummary,
+  QualityOfLifeSummary,
+  TriggerSummary,
+  TreatmentSummary,
+  ReportExportOptions,
+  GenerateReportOptions,
+} from './reports'
