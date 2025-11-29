@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { Symptom, Trigger, Food, Medication } from '@/lib/db'
 import {
   getTrackedSymptoms,
@@ -38,6 +38,10 @@ export function TrackingCategory({ category, onCountChange }: TrackingCategoryPr
   const [addSearchQuery, setAddSearchQuery] = useState('')
   const [selectedToAdd, setSelectedToAdd] = useState<Set<string>>(new Set())
 
+  // Store onCountChange in a ref to avoid re-render loops
+  const onCountChangeRef = useRef(onCountChange)
+  onCountChangeRef.current = onCountChange
+
   const loadData = useCallback(async () => {
     setIsLoading(true)
     try {
@@ -65,13 +69,13 @@ export function TrackingCategory({ category, onCountChange }: TrackingCategoryPr
 
       setTrackedItems(tracked)
       setAllItems(all)
-      onCountChange?.(tracked.length)
+      onCountChangeRef.current?.(tracked.length)
     } catch (error) {
       console.error(`Error loading ${category}:`, error)
     } finally {
       setIsLoading(false)
     }
-  }, [category, onCountChange])
+  }, [category])
 
   useEffect(() => {
     loadData()

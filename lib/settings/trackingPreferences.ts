@@ -14,10 +14,10 @@ export interface TrackingCounts {
  */
 export async function getTrackingCounts(): Promise<TrackingCounts> {
   const [symptoms, medications, triggers, foods] = await Promise.all([
-    db.symptoms.where('isActive').equals(1).count(),
-    db.medications.where('isActive').equals(1).count(),
-    db.triggers.where('isActive').equals(1).count(),
-    db.foods.where('isActive').equals(1).count(),
+    db.symptoms.filter((s) => s.isActive === true).count(),
+    db.medications.filter((m) => m.isActive === true).count(),
+    db.triggers.filter((t) => t.isActive === true).count(),
+    db.foods.filter((f) => f.isActive === true).count(),
   ])
 
   return { symptoms, medications, triggers, foods }
@@ -27,19 +27,19 @@ export async function getTrackingCounts(): Promise<TrackingCounts> {
  * Get all tracked (active) items for a category
  */
 export async function getTrackedSymptoms(): Promise<Symptom[]> {
-  return db.symptoms.where('isActive').equals(1).toArray()
+  return db.symptoms.filter((s) => s.isActive === true).toArray()
 }
 
 export async function getTrackedMedications(): Promise<Medication[]> {
-  return db.medications.where('isActive').equals(1).toArray()
+  return db.medications.filter((m) => m.isActive === true).toArray()
 }
 
 export async function getTrackedTriggers(): Promise<Trigger[]> {
-  return db.triggers.where('isActive').equals(1).toArray()
+  return db.triggers.filter((t) => t.isActive === true).toArray()
 }
 
 export async function getTrackedFoods(): Promise<Food[]> {
-  return db.foods.where('isActive').equals(1).toArray()
+  return db.foods.filter((f) => f.isActive === true).toArray()
 }
 
 /**
