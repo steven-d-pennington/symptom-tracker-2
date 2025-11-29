@@ -12,7 +12,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
       max: 10,
       labels: { 1: 'Mild', 5: 'Moderate', 10: 'Severe' }
     },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -21,7 +21,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'Inflammation or swelling',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -30,7 +30,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'Skin redness or inflammation',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -39,7 +39,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'Skin itching or irritation',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -48,7 +48,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'Burning or stinging sensation',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -57,7 +57,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'General tiredness or lack of energy',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -66,7 +66,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'Elevated body temperature',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -75,7 +75,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'Fluid drainage from lesion',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -84,7 +84,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'Sensitivity to touch',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -93,7 +93,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'Joint or muscle stiffness',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -102,7 +102,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'Head pain',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -111,7 +111,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'Feeling of sickness',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -120,7 +120,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Physical',
     description: 'Feeling lightheaded or unsteady',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 
@@ -131,7 +131,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Cognitive',
     description: 'Difficulty concentrating or thinking clearly',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -140,7 +140,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Cognitive',
     description: 'Difficulty remembering things',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -149,7 +149,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Cognitive',
     description: 'Mental confusion or disorientation',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 
@@ -160,7 +160,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Emotional',
     description: 'Feelings of worry or nervousness',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -169,7 +169,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Emotional',
     description: 'Feelings of sadness or hopelessness',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -178,7 +178,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Emotional',
     description: 'Easily annoyed or frustrated',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -187,7 +187,7 @@ export const PRESET_SYMPTOMS: Omit<Symptom, 'id' | 'createdAt' | 'updatedAt'>[] 
     category: 'Emotional',
     description: 'Rapid changes in mood',
     severityScale: { min: 1, max: 10 },
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 ]

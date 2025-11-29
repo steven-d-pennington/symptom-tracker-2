@@ -7,7 +7,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Milk',
     category: 'Dairy',
     allergenTags: ['dairy'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -15,7 +15,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Cheese',
     category: 'Dairy',
     allergenTags: ['dairy'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -23,7 +23,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Yogurt',
     category: 'Dairy',
     allergenTags: ['dairy'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -31,7 +31,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Butter',
     category: 'Dairy',
     allergenTags: ['dairy'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 
@@ -41,7 +41,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Chicken',
     category: 'Protein',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -49,7 +49,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Beef',
     category: 'Protein',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -57,7 +57,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Pork',
     category: 'Protein',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -65,7 +65,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Salmon',
     category: 'Protein',
     allergenTags: ['fish'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -73,7 +73,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Tuna',
     category: 'Protein',
     allergenTags: ['fish'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -81,7 +81,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Shrimp',
     category: 'Protein',
     allergenTags: ['shellfish'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -89,7 +89,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Eggs',
     category: 'Protein',
     allergenTags: ['eggs'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 
@@ -99,7 +99,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Tomato',
     category: 'Vegetable',
     allergenTags: ['nightshades'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -107,7 +107,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Potato',
     category: 'Vegetable',
     allergenTags: ['nightshades'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -115,7 +115,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Eggplant',
     category: 'Vegetable',
     allergenTags: ['nightshades'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -123,7 +123,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Bell Pepper',
     category: 'Vegetable',
     allergenTags: ['nightshades'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -131,7 +131,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Broccoli',
     category: 'Vegetable',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -139,7 +139,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Spinach',
     category: 'Vegetable',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -147,7 +147,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Carrots',
     category: 'Vegetable',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -155,7 +155,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Lettuce',
     category: 'Vegetable',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 
@@ -165,7 +165,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Apple',
     category: 'Fruit',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -173,7 +173,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Banana',
     category: 'Fruit',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -181,7 +181,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Orange',
     category: 'Fruit',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -189,7 +189,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Strawberry',
     category: 'Fruit',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -197,7 +197,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Blueberry',
     category: 'Fruit',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 
@@ -207,7 +207,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Bread',
     category: 'Grain',
     allergenTags: ['gluten'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -215,7 +215,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Rice',
     category: 'Grain',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -223,7 +223,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Pasta',
     category: 'Grain',
     allergenTags: ['gluten'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -231,7 +231,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Oats',
     category: 'Grain',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -239,7 +239,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Quinoa',
     category: 'Grain',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 
@@ -249,7 +249,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Almonds',
     category: 'Nuts & Seeds',
     allergenTags: ['nuts'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -257,7 +257,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Peanuts',
     category: 'Nuts & Seeds',
     allergenTags: ['nuts'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -265,7 +265,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Walnuts',
     category: 'Nuts & Seeds',
     allergenTags: ['nuts'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 
@@ -275,7 +275,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Soybeans',
     category: 'Legumes',
     allergenTags: ['soy'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -283,7 +283,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Tofu',
     category: 'Legumes',
     allergenTags: ['soy'],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -291,7 +291,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Black Beans',
     category: 'Legumes',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -299,7 +299,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Chickpeas',
     category: 'Legumes',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 
@@ -309,7 +309,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Coffee',
     category: 'Beverage',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -317,7 +317,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Tea',
     category: 'Beverage',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -325,7 +325,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Soda',
     category: 'Beverage',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -333,7 +333,7 @@ export const PRESET_FOODS: Omit<Food, 'id' | 'createdAt' | 'updatedAt'>[] = [
     name: 'Alcohol',
     category: 'Beverage',
     allergenTags: [],
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 ]
