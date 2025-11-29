@@ -4,12 +4,9 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { needsOnboarding } from '@/lib/onboarding/completeOnboarding'
-import { FlareCreationFlow } from '@/components/Flares'
-
 export default function Home() {
   const router = useRouter()
   const [isCheckingOnboarding, setIsCheckingOnboarding] = useState(true)
-  const [flareModalOpen, setFlareModalOpen] = useState(false)
 
   useEffect(() => {
     async function checkOnboarding() {
@@ -72,18 +69,12 @@ export default function Home() {
 
         {/* Quick Actions Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <button
-            onClick={() => setFlareModalOpen(true)}
-            className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer text-left"
-          >
-            <div className="text-4xl mb-3">📍</div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              Track Flare
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Log a new flare on the body map
-            </p>
-          </button>
+          <ActionCard
+            title="Track Flare"
+            description="Log a new flare on the body map"
+            icon="📍"
+            href="/hs"
+          />
           <ActionCard
             title="Log Symptoms"
             description="Record symptom occurrence and severity"
@@ -138,16 +129,6 @@ export default function Home() {
           </p>
         </div>
       </main>
-
-      {/* Flare Creation Flow with Body Map */}
-      <FlareCreationFlow
-        isOpen={flareModalOpen}
-        onClose={() => setFlareModalOpen(false)}
-        onSuccess={() => {
-          setFlareModalOpen(false)
-          // Could refresh active flares here
-        }}
-      />
     </div>
   )
 }
