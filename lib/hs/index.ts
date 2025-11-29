@@ -29,5 +29,78 @@ export {
   createEmptyIHS4Result,
 } from './ihs4'
 
-// Lesion operations (will be implemented)
+// Lesion operations
 export * from './lesions'
+
+// Hurley staging
+export {
+  determineHurleyStage,
+  getHurleyStageDescription,
+  getHurleyStageLabel,
+  getHurleSeverityColors,
+  setRegionHurleyStatus,
+  getRegionHurleyStatus,
+  getAllRegionHurleyStatuses,
+  getRegionsWithHurleyStage,
+  clearRegionHurleyStatus,
+  getWorstHurleyStage,
+  countRegionsByHurleyStage,
+  HURLEY_STAGE_INFO,
+} from './hurley'
+export type { HurleyAssessment, CreateHurleyStatusInput, HurleyStageInfo } from './hurley'
+
+// Trend analysis
+export {
+  entriesToTrendData,
+  filterTrendDataByRange,
+  getTrendDataForLastDays,
+  calculateTrendSummary,
+  generateDateLabels,
+  formatChartDate,
+  getSeverityBands,
+  getTrendColor,
+  getDateRangeFromPreset,
+} from './trends'
+export type { TrendDataPoint, TrendSummary, DateRangePreset, DateRange } from './trends'
+
+// Provider reports
+export {
+  generateHSReport,
+  formatReportAsCSV,
+  formatReportAsJSON,
+} from './reports'
+export type {
+  HSProviderReport,
+  AffectedRegionSummary,
+  SymptomTrendsSummary,
+  QualityOfLifeSummary,
+  TriggerSummary,
+  TreatmentSummary,
+  ReportExportOptions,
+  GenerateReportOptions,
+} from './reports'
+
+// Prodromal markers
+export {
+  createProdromalMarker,
+  getActiveProdromalMarkers,
+  getAllProdromalMarkers,
+  getProdromalMarker,
+  getProdromalMarkersForRegion,
+  getActiveProdromalMarkersForRegion,
+  updateProdromalMarker,
+  convertProdromalToLesion,
+  resolveProdromalMarker,
+  deleteProdromalMarker,
+  getProdromalConversionStats,
+  PRODROMAL_SYMPTOM_LABELS,
+  getActiveSymptomLabels,
+  hasAnySymptoms,
+  createEmptySymptoms,
+} from './prodromal'
+export type {
+  CreateProdromalMarkerInput,
+  UpdateProdromalMarkerInput,
+  ConvertToLesionInput,
+  ProdromalConversionStats,
+} from './prodromal'
