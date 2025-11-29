@@ -4,8 +4,8 @@
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
 **Total Tasks:** 105
-**Completed:** 102 (97.1%)
-**Pending:** 3 (2.9%)
+**Completed:** 103 (98.1%)
+**Pending:** 2 (1.9%)
 
 ---
 
@@ -19,7 +19,7 @@ See: [Body Map Feature Specification](body-map-feature-spec.md) | [Implementatio
 
 ## 🎯 Feature Status Board
 
-### ✅ COMPLETED: HS Body Map Enhancement - Sprint 1-5 (12 tasks)
+### ✅ COMPLETED: HS Body Map Enhancement - Sprint 1-6 (14 tasks)
 
 #### Sprint 1: Foundation (P0 - Must Have) ✅
 - [x] **HS001** - [Database Schema: HS Lesion Tables](features/completed/HS001-database-schema-hs-lesions.md) - `lib/db.ts`, `lib/hs/types.ts`
@@ -44,12 +44,14 @@ See: [Body Map Feature Specification](body-map-feature-spec.md) | [Implementatio
 - [x] **HS012** - [IHS4 Trend Chart](features/completed/HS012-ihs4-trend-chart.md) - `lib/hs/trends.ts`, `components/hs/IHS4TrendChart.tsx`
 - [x] **HS013** - [Healthcare Provider Report](features/completed/HS013-healthcare-provider-report.md) - `lib/hs/reports/*`, `app/hs/report/page.tsx`
 
+#### Sprint 6: Polish (P2 - Nice to Have) - In Progress
+- [x] **HS014** - [Prodromal Symptom Tracking](features/completed/HS014-prodromal-tracking.md) - `lib/hs/prodromal/*`, `components/hs/Prodromal*.tsx`
+
 ---
 
-### 🚀 TODO: HS Body Map Enhancement - Sprint 6 (2 tasks)
+### 🚀 TODO: HS Body Map Enhancement - Sprint 6 (1 task)
 
 #### Sprint 6: Polish (P2 - Nice to Have)
-- [ ] **HS014** - [Prodromal Symptom Tracking](features/HS014-prodromal-tracking.md) - LOW
 - [ ] **HS015** - [HS Features Accessibility Audit](features/HS015-accessibility-audit.md) - MEDIUM
 
 ---
@@ -255,4 +257,4 @@ docs/testing/CROSS_BROWSER_TESTING.md - Testing documentation
 
 ---
 
-Last Updated: 2025-11-29 (Sprint 1-5 complete - 102/105 = 97.1%)
+Last Updated: 2025-11-29 (Sprint 1-6 in progress - 103/105 = 98.1%)
