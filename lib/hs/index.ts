@@ -79,3 +79,28 @@ export type {
   ReportExportOptions,
   GenerateReportOptions,
 } from './reports'
+
+// Prodromal markers
+export {
+  createProdromalMarker,
+  getActiveProdromalMarkers,
+  getAllProdromalMarkers,
+  getProdromalMarker,
+  getProdromalMarkersForRegion,
+  getActiveProdromalMarkersForRegion,
+  updateProdromalMarker,
+  convertProdromalToLesion,
+  resolveProdromalMarker,
+  deleteProdromalMarker,
+  getProdromalConversionStats,
+  PRODROMAL_SYMPTOM_LABELS,
+  getActiveSymptomLabels,
+  hasAnySymptoms,
+  createEmptySymptoms,
+} from './prodromal'
+export type {
+  CreateProdromalMarkerInput,
+  UpdateProdromalMarkerInput,
+  ConvertToLesionInput,
+  ProdromalConversionStats,
+} from './prodromal'
