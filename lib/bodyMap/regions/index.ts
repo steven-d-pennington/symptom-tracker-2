@@ -30,6 +30,14 @@ export {
   INFRAMAMMARY_REGIONS,
   BUTTOCKS_REGIONS,
   WAISTBAND_REGIONS,
+  // Grouped regions for progressive disclosure
+  HS_REGION_GROUPS,
+  getHSRegionGroupsForView,
+  getGroupForChildRegion,
+  isHSRegionGroup,
+  getChildRegionIds,
+  HS_DETAIL_ZOOM_THRESHOLD,
+  type HSRegionGroup,
 } from './hsPriority'
 
 // Standard regions
@@ -93,6 +101,13 @@ export function getRegionsByCategory(category: RegionCategory): BodyMapRegion[] 
  */
 export function getRegionsByParent(parentRegion: string): BodyMapRegion[] {
   return ALL_REGIONS.filter(r => r.parentRegion === parentRegion)
+}
+
+/**
+ * Get multiple regions by their IDs
+ */
+export function getRegionsByIds(ids: string[]): BodyMapRegion[] {
+  return ALL_REGIONS.filter(r => ids.includes(r.id))
 }
 
 /**

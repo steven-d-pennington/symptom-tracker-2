@@ -6,20 +6,20 @@ Add user-selectable anatomical body images as visual backgrounds in the BodyMap 
 ## Key Decisions
 - **Zoom behavior**: Background image only in main overview; zoomed region view shows outline only
 - **Alignment**: Regions become semi-transparent overlays when image is shown (visual guide approach)
-- **File naming**: `{gender}-{bodyType}-{view}.jpg` (e.g., `female-a-front.jpg`, `male-h-back.jpg`)
+- **File naming**: `{gender}-{bodyType}-{view}.png` (e.g., `female-a-front.png`, `male-h-back.png`)
 - **Settings location**: Set during onboarding, changeable in Settings > General
 
 ## Image Files
 Located in `/public/body-images/`:
 ```
-female-a-front.jpg  (available)
-female-a-back.jpg   (available)
-female-h-front.jpg  (available)
-female-h-back.jpg   (available)
-male-a-front.jpg    (pending)
-male-a-back.jpg     (pending)
-male-h-front.jpg    (pending)
-male-h-back.jpg     (pending)
+female-a-front.png  (available)
+female-a-back.png   (available)
+female-h-front.png  (available)
+female-h-back.png   (available)
+male-a-front.png    (pending)
+male-a-back.png     (pending)
+male-h-front.png    (pending)
+male-h-back.png     (pending)
 ```
 
 ---
@@ -73,7 +73,7 @@ function getBodyImageUrl(
 ): string | null {
   if (!preference) return null
   const typeCode = preference.bodyType === 'average' ? 'a' : 'h'
-  return `/body-images/${preference.gender}-${typeCode}-${view}.jpg`
+  return `/body-images/${preference.gender}-${typeCode}-${view}.png`
 }
 ```
 

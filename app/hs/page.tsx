@@ -2,14 +2,34 @@
 
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { db, BodyImagePreference } from '@/lib/db'
-import { BodyMap, ZoomedRegionView, RegionNavigation, RegionLesionData } from '@/components/BodyMap'
+import { BodyMap, ZoomedRegionView, GroupZoomView, RegionNavigation, RegionLesionData } from '@/components/BodyMap'
+import { HS_REGION_GROUPS, type HSRegionGroup } from '@/lib/bodyMap/regions'
 import { getUserSettings } from '@/lib/settings/userSettings'
 import { HSLesionLegend, HSLesionStatusLegend } from '@/components/BodyMap/HSLesionMarker'
 import { IHS4ScoreCard } from '@/components/hs'
 import { LesionEntryModal, LesionFormData } from '@/components/hs'
 import { calculateCurrentIHS4, HSLesion, IHS4Result } from '@/lib/hs'
 import { generateGUID, getCurrentTimestamp, formatDateISO } from '@/lib/utils'
+import { get3DPositionForLesion } from '@/lib/bodyMap/regionMapping'
+import type { Region3D } from '@/components/BodyMap3D/BodyMap3D'
+
+// Dynamic import for 3D body map to avoid SSR issues with Three.js
+const BodyMap3D = dynamic(
+  () => import('@/components/BodyMap3D/BodyMap3D').then(mod => mod.BodyMap3D),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[500px] flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-lg">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600 mx-auto mb-3"></div>
+          <p className="text-gray-600 dark:text-gray-400 text-sm">Loading 3D viewer...</p>
+        </div>
+      </div>
+    )
+  }
+)
 
 export default function HSPage() {
   const [lesions, setLesions] = useState<HSLesion[]>([])
@@ -19,9 +39,11 @@ export default function HSPage() {
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null)
   const [capturedCoordinates, setCapturedCoordinates] = useState<{ x: number; y: number } | null>(null)
-  const [viewMode, setViewMode] = useState<'overview' | 'zoomed'>('overview')
+  const [viewMode, setViewMode] = useState<'overview' | 'group-zoom' | 'region-zoom'>('overview')
   const [zoomedRegionId, setZoomedRegionId] = useState<string | null>(null)
+  const [zoomedGroup, setZoomedGroup] = useState<HSRegionGroup | null>(null)
   const [currentView, setCurrentView] = useState<'front' | 'back'>('front')
+  const [dimensionMode, setDimensionMode] = useState<'2d' | '3d'>('2d')
 
   // Load lesions from database
   const loadLesions = useCallback(async () => {
@@ -110,17 +132,48 @@ export default function HSPage() {
     return dataMap
   }, [lesions])
 
-  // Handle region click on body map - zoom into region
+  // Handle region click on body map - check if it's a group or individual region
   const handleRegionClick = (regionId: string) => {
-    setSelectedRegion(regionId)
-    setZoomedRegionId(regionId)
-    setViewMode('zoomed')
+    // Check if clicked ID is an HS region group
+    const group = HS_REGION_GROUPS.find(g => g.id === regionId)
+
+    if (group) {
+      // It's a group - go to group zoom view and remember which view we came from
+      setCurrentView(group.view)
+      setZoomedGroup(group)
+      setViewMode('group-zoom')
+    } else {
+      // It's an individual region - go directly to region zoom
+      setSelectedRegion(regionId)
+      setZoomedRegionId(regionId)
+      setViewMode('region-zoom')
+    }
   }
 
-  // Handle back from zoomed view
-  const handleBackToOverview = () => {
+  // Handle sub-region click from group zoom view
+  const handleSubRegionClick = (regionId: string) => {
+    setSelectedRegion(regionId)
+    setZoomedRegionId(regionId)
+    setViewMode('region-zoom')
+  }
+
+  // Handle back from region zoom view
+  const handleBackFromRegion = () => {
+    if (zoomedGroup) {
+      // Go back to group zoom
+      setViewMode('group-zoom')
+      setZoomedRegionId(null)
+    } else {
+      // Go back to overview
+      setViewMode('overview')
+      setZoomedRegionId(null)
+    }
+  }
+
+  // Handle back from group zoom view
+  const handleBackFromGroup = () => {
     setViewMode('overview')
-    setZoomedRegionId(null)
+    setZoomedGroup(null)
   }
 
   // Handle adding lesion from zoomed view
@@ -143,6 +196,44 @@ export default function HSPage() {
     // Could open edit modal here
   }
 
+  // Handle 3D region selection - switch to 2D zoom for precise placement
+  const handle3DRegionSelect = (region: Region3D) => {
+    // Map 3D region IDs to 2D group IDs
+    const region3DToGroupMap: Record<string, string> = {
+      'axilla-left': 'left-axilla-group',
+      'axilla-right': 'right-axilla-group',
+      'groin-left': 'left-groin-group',
+      'groin-right': 'right-groin-group',
+      'inner-thigh-left': 'left-groin-group',
+      'inner-thigh-right': 'right-groin-group',
+      'inframammary-left': 'left-chest-group',
+      'inframammary-right': 'right-chest-group',
+      'buttock-left': 'left-buttock-group',
+      'buttock-right': 'right-buttock-group',
+      'gluteal-fold-left': 'left-buttock-group',
+      'gluteal-fold-right': 'right-buttock-group',
+      'waist-left': 'waistband-front-group',
+      'waist-right': 'waistband-front-group',
+      'lower-abdomen': 'waistband-front-group',
+      'lower-back': 'lower-back-group',
+    }
+
+    const groupId = region3DToGroupMap[region.id]
+    const group = groupId ? HS_REGION_GROUPS.find(g => g.id === groupId) : null
+
+    if (group) {
+      // Switch to 2D mode and zoom to the group
+      setDimensionMode('2d')
+      setCurrentView(group.view)
+      setZoomedGroup(group)
+      setViewMode('group-zoom')
+    } else {
+      // Fallback: just switch to 2D overview
+      setDimensionMode('2d')
+      setViewMode('overview')
+    }
+  }
+
   // Handle creating a new lesion (simplified quick-add without full observation)
   const handleCreateLesion = async (data: LesionFormData) => {
     try {
@@ -150,12 +241,16 @@ export default function HSPage() {
       const today = formatDateISO(new Date())
       const lesionGuid = generateGUID()
 
+      // Compute 3D position from 2D coordinates for display in 3D view
+      const position3D = get3DPositionForLesion(data.regionId, data.coordinates)
+
       const lesion: HSLesion = {
         guid: lesionGuid,
         regionId: data.regionId,
         coordinates: {
           x: data.coordinates.x,
           y: data.coordinates.y,
+          ...(position3D && { position3D }),
         },
         lesionType: data.lesionType,
         status: data.status,
@@ -221,25 +316,72 @@ export default function HSPage() {
                       <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                         Body Map
                       </h2>
-                      <span className="text-sm text-gray-500 dark:text-gray-400">
-                        Click a region to zoom in
-                      </span>
+                      <div className="flex items-center gap-3">
+                        {/* 2D/3D Toggle */}
+                        <div className="flex items-center rounded-lg bg-gray-100 dark:bg-gray-700 p-1">
+                          <button
+                            onClick={() => setDimensionMode('2d')}
+                            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                              dimensionMode === '2d'
+                                ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
+                                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                            }`}
+                          >
+                            2D
+                          </button>
+                          <button
+                            onClick={() => {
+                              setDimensionMode('3d')
+                              setViewMode('overview') // Reset to overview when switching to 3D
+                            }}
+                            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                              dimensionMode === '3d'
+                                ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
+                                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                            }`}
+                          >
+                            3D
+                          </button>
+                        </div>
+                        <span className="text-sm text-gray-500 dark:text-gray-400">
+                          {dimensionMode === '2d' ? 'Click a region to zoom in' : 'Click a region to add lesion'}
+                        </span>
+                      </div>
                     </div>
 
-                    {/* Body Map */}
-                    <BodyMap
-                      selectedRegion={selectedRegion}
-                      onRegionClick={handleRegionClick}
-                      onCoordinateCapture={handleCoordinateCapture}
-                      highlightHSRegions={true}
-                      regionsWithLesions={regionsWithLesions}
-                      lesionCounts={lesionCounts}
-                      regionLesionData={regionLesionData}
-                      bodyImagePreference={bodyImagePreference}
-                    />
+                    {/* Body Map - 2D or 3D based on mode */}
+                    {dimensionMode === '2d' ? (
+                      <BodyMap
+                        selectedRegion={selectedRegion}
+                        onRegionClick={handleRegionClick}
+                        onCoordinateCapture={handleCoordinateCapture}
+                        highlightHSRegions={true}
+                        regionsWithLesions={regionsWithLesions}
+                        lesionCounts={lesionCounts}
+                        regionLesionData={regionLesionData}
+                        bodyImagePreference={bodyImagePreference}
+                        view={currentView}
+                        onViewChange={setCurrentView}
+                      />
+                    ) : (
+                      <div className="relative">
+                        <BodyMap3D
+                          className="w-full"
+                          onRegionSelect={handle3DRegionSelect}
+                          lesions={lesions}
+                          selectedLesionId={selectedLesion?.guid}
+                          onLesionClick={handleLesionClick}
+                        />
+                        <div className="absolute bottom-4 left-4 right-4 bg-amber-50/90 dark:bg-amber-900/80 backdrop-blur-sm rounded-lg p-3 text-sm">
+                          <p className="text-amber-800 dark:text-amber-200">
+                            <strong>Tip:</strong> Click on a highlighted region to switch to 2D view for precise lesion placement.
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
-                  {/* Legends */}
+                  {/* Legends - show for both 2D and 3D */}
                   <div className="px-6 pb-6 space-y-4">
                     <div>
                       <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -247,27 +389,36 @@ export default function HSPage() {
                       </h3>
                       <HSLesionLegend />
                     </div>
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Status Indicators
-                      </h3>
-                      <HSLesionStatusLegend />
-                    </div>
+                    {dimensionMode === '2d' && (
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Status Indicators
+                        </h3>
+                        <HSLesionStatusLegend />
+                      </div>
+                    )}
                   </div>
                 </>
-              ) : zoomedRegionId ? (
+              ) : viewMode === 'group-zoom' && zoomedGroup ? (
+                <GroupZoomView
+                  group={zoomedGroup}
+                  lesions={lesions}
+                  onBack={handleBackFromGroup}
+                  onSubRegionClick={handleSubRegionClick}
+                />
+              ) : viewMode === 'region-zoom' && zoomedRegionId ? (
                 <ZoomedRegionView
                   regionId={zoomedRegionId}
                   lesions={lesions}
-                  onBack={handleBackToOverview}
+                  onBack={handleBackFromRegion}
                   onAddLesion={handleAddLesionFromZoom}
                   onLesionClick={handleLesionClick}
                 />
               ) : null}
             </div>
 
-            {/* Region Navigation - visible when in overview mode */}
-            {viewMode === 'overview' && (
+            {/* Region Navigation - visible when in 2D overview mode */}
+            {viewMode === 'overview' && dimensionMode === '2d' && (
               <div className="mt-6">
                 <RegionNavigation
                   currentView={currentView}

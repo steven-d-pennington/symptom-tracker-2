@@ -139,7 +139,7 @@ export function getBodyImageUrl(
 ): string | null {
   if (!preference) return null
   const typeCode = preference.bodyType === 'average' ? 'a' : 'h'
-  return `/body-images/${preference.gender}-${typeCode}-${view}.jpg`
+  return `/body-images/${preference.gender}-${typeCode}-${view}.png`
 }
 
 export async function getStorageStats(): Promise<{
