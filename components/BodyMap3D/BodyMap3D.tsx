@@ -310,15 +310,16 @@ function HumanModel({
     // Determine which fixed view we're closest to
     const currentViewAngle = getClosestView(rotation)
 
-    // Debug: log raw click info
-    console.log('Click detected!', {
-      view: currentViewAngle,
-      clickPoint: { x: clickPoint.x.toFixed(3), y: clickPoint.y.toFixed(3), z: clickPoint.z.toFixed(3) },
-      zoom
-    })
+    // Get current zoom level for predictable coordinate math
+    const zoomLevel = getClosestZoom(zoom)
+    const actualZoom = ZOOM_LEVELS[zoomLevel]
 
-    // Step 1: Undo group scale
-    const unscaledPoint = clickPoint.clone().divideScalar(zoom)
+    // Debug logging for coordinate troubleshooting
+    console.log(`Click: view=${currentViewAngle}, zoom=${zoomLevel}, clickPt=(${clickPoint.x.toFixed(2)}, ${clickPoint.y.toFixed(2)}), offset=(${offset.x.toFixed(2)}, ${offset.y.toFixed(2)}, ${offset.z.toFixed(2)})`)
+
+    // Step 1: Undo group scale using the fixed zoom level value
+    // This ensures consistent behavior at each zoom level
+    const unscaledPoint = clickPoint.clone().divideScalar(actualZoom)
 
     // Step 2: Map click coordinates to model local coordinates based on view
     //
@@ -339,7 +340,7 @@ function HumanModel({
     let localX: number, localY: number, localZ: number
 
     // Click Y (screen vertical) → Model Z (height)
-    // unscaledPoint.y is in range roughly -0.1 to 0.1 (after /zoom)
+    // unscaledPoint.y is in range roughly -0.2 to 0.2 (after /zoom)
     // offset.y is ~1.0 (model vertical center)
     // Model Z should be in range 0-2, with 1.0 at center
     localZ = unscaledPoint.y + offset.y  // This gives us height in model coords
@@ -357,25 +358,21 @@ function HumanModel({
         localY = -0.12  // Assume back surface (negative Y in model = back)
         break
       case 'left':
-        // Looking at left side: click X maps to model Y (depth)
-        localX = 0.15  // Assume left side of body (positive X)
-        localY = -unscaledPoint.x + offset.z  // Using offset.z for depth offset
+        // Looking at left side: click X maps to model Y (depth/front-back)
+        // Left side of body = positive X in model coords
+        localX = 0.18  // Left armpit is at x=0.18
+        localY = -unscaledPoint.x  // Click X (screen left-right) = model Y (front-back), negated
         break
       case 'right':
-        // Looking at right side: click X maps to -model Y (depth, reversed)
-        localX = -0.15  // Assume right side of body (negative X)
-        localY = unscaledPoint.x + offset.z
+        // Looking at right side: click X maps to model Y (depth/front-back)
+        // Right side of body = negative X in model coords
+        localX = -0.18  // Right armpit is at x=-0.18
+        localY = unscaledPoint.x  // Click X (screen left-right) = model Y (front-back)
         break
     }
 
     const localPoint = new THREE.Vector3(localX, localY, localZ)
-
-    console.log('Transformed to model local:', {
-      view: currentViewAngle,
-      x: localPoint.x.toFixed(3),
-      y: localPoint.y.toFixed(3),
-      z: localPoint.z.toFixed(3)
-    })
+    console.log(`  -> localPt=(${localX.toFixed(2)}, ${localY.toFixed(2)}, ${localZ.toFixed(2)})`)
 
     // Find which region was clicked
     // Only consider regions visible from current view
@@ -398,8 +395,6 @@ function HumanModel({
       const distance = localPoint.distanceTo(regionPos)
       const hitRadius = region.radius * 3 // Larger hit area for easier selection
 
-      console.log(`  ${region.id}: dist=${distance.toFixed(3)}, hitRadius=${hitRadius.toFixed(3)}, regionPos=(${regionPos.x.toFixed(2)}, ${regionPos.y.toFixed(2)}, ${regionPos.z.toFixed(2)})`)
-
       if (distance < hitRadius && distance < closestDistance) {
         closestDistance = distance
         closestRegion = region
@@ -407,10 +402,8 @@ function HumanModel({
     }
 
     if (closestRegion) {
-      console.log('Selected region:', closestRegion.id)
+      console.log(`Selected: ${closestRegion.name}`)
       onRegionClick?.(closestRegion)
-    } else {
-      console.log('No region matched')
     }
   }, [modelBounds, offset, onRegionClick, zoom, rotation])
 
@@ -424,15 +417,14 @@ function HumanModel({
         position={[-offset.x, -offset.y, -offset.z]}
       />
 
-      {/* Invisible capsule mesh for click detection - rotated to match model's Z-up orientation */}
-      {/* Capsule: radius=0.35, height=1.8 (total length ~2.5) to cover full body including shoulders */}
+      {/* Invisible box mesh for click detection - covers full body including arms/sides */}
+      {/* Box dimensions: width=0.8 (covers arms), depth=0.5 (front-back), height=2.0 (full body) */}
       <mesh
         ref={clickMeshRef}
         position={[0, 0, 0]}
-        rotation={[Math.PI / 2, 0, 0]}
         onClick={handleClick}
       >
-        <capsuleGeometry args={[0.35, 1.8, 8, 16]} />
+        <boxGeometry args={[0.8, 2.0, 0.5]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
@@ -479,6 +471,40 @@ const VIEW_ANGLES: Record<ViewName, number> = {
 
 const VIEW_ORDER: ViewName[] = ['front', 'right', 'back', 'left']
 
+// Fixed zoom levels - discrete steps for predictable coordinate math
+type ZoomLevel = 'overview' | 'regional' | 'detail'
+const ZOOM_LEVELS: Record<ZoomLevel, number> = {
+  overview: 4.5,    // Full body visible
+  regional: 6,      // Regional focus
+  detail: 7.5,      // Close-up detail
+}
+
+const ZOOM_ORDER: ZoomLevel[] = ['overview', 'regional', 'detail']
+
+function getClosestZoom(zoom: number): ZoomLevel {
+  let closest: ZoomLevel = 'overview'
+  let minDiff = Infinity
+
+  for (const [name, value] of Object.entries(ZOOM_LEVELS)) {
+    const diff = Math.abs(zoom - value)
+    if (diff < minDiff) {
+      minDiff = diff
+      closest = name as ZoomLevel
+    }
+  }
+
+  return closest
+}
+
+function getNextZoom(current: ZoomLevel, direction: 'in' | 'out'): ZoomLevel {
+  const currentIndex = ZOOM_ORDER.indexOf(current)
+  if (direction === 'in') {
+    return ZOOM_ORDER[Math.min(currentIndex + 1, ZOOM_ORDER.length - 1)]
+  } else {
+    return ZOOM_ORDER[Math.max(currentIndex - 1, 0)]
+  }
+}
+
 function getClosestView(rotation: number): ViewName {
   // Normalize rotation to 0-2PI
   const normalized = ((rotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI)
@@ -519,28 +545,55 @@ export function BodyMap3D({
   const [currentView, setCurrentView] = useState<ViewName>('front')
   const [rotation, setRotation] = useState(VIEW_ANGLES.front)
   const [targetRotation, setTargetRotation] = useState<number | null>(null)
-  const [zoom, setZoom] = useState(5.5)
+  const [currentZoomLevel, setCurrentZoomLevel] = useState<ZoomLevel>('overview')
+  const [zoom, setZoom] = useState(ZOOM_LEVELS.overview)
   const [targetZoom, setTargetZoom] = useState<number | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [lastX, setLastX] = useState(0)
   const [selectedRegion, setSelectedRegion] = useState<Region3D | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Handle wheel zoom with non-passive listener to prevent page scroll
+  // Navigate to a specific zoom level
+  const navigateToZoom = useCallback((level: ZoomLevel) => {
+    setCurrentZoomLevel(level)
+    setTargetZoom(ZOOM_LEVELS[level])
+  }, [])
+
+  // Handle wheel zoom with snap to discrete levels
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
 
+    let scrollTimeout: NodeJS.Timeout | null = null
+
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault()
       e.stopPropagation()
-      setTargetZoom(null) // Cancel any animation
-      setZoom(prev => Math.max(2, Math.min(8, prev - e.deltaY * 0.005)))
+
+      // Update zoom freely while scrolling
+      setTargetZoom(null)
+      setZoom(prev => Math.max(3, Math.min(9, prev - e.deltaY * 0.008)))
+
+      // Clear existing timeout
+      if (scrollTimeout) clearTimeout(scrollTimeout)
+
+      // Snap to nearest level after scrolling stops
+      scrollTimeout = setTimeout(() => {
+        setZoom(prev => {
+          const closestLevel = getClosestZoom(prev)
+          setCurrentZoomLevel(closestLevel)
+          setTargetZoom(ZOOM_LEVELS[closestLevel])
+          return prev
+        })
+      }, 150)
     }
 
     // Add as non-passive to allow preventDefault
     container.addEventListener('wheel', handleWheel, { passive: false })
-    return () => container.removeEventListener('wheel', handleWheel)
+    return () => {
+      container.removeEventListener('wheel', handleWheel)
+      if (scrollTimeout) clearTimeout(scrollTimeout)
+    }
   }, [])
 
   // Animate rotation with proper wraparound handling
@@ -580,7 +633,7 @@ export function BodyMap3D({
     navigateToView(nextView)
   }, [currentView, navigateToView])
 
-  // Keyboard navigation
+  // Keyboard navigation for rotation and zoom
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
@@ -589,12 +642,20 @@ export function BodyMap3D({
       } else if (e.key === 'ArrowRight') {
         e.preventDefault()
         navigateDirection('right')
+      } else if (e.key === '+' || e.key === '=' || e.key === 'ArrowUp') {
+        e.preventDefault()
+        const nextLevel = getNextZoom(currentZoomLevel, 'in')
+        navigateToZoom(nextLevel)
+      } else if (e.key === '-' || e.key === '_' || e.key === 'ArrowDown') {
+        e.preventDefault()
+        const nextLevel = getNextZoom(currentZoomLevel, 'out')
+        navigateToZoom(nextLevel)
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [navigateDirection])
+  }, [navigateDirection, currentZoomLevel, navigateToZoom])
 
   useEffect(() => {
     if (targetZoom !== null) {
@@ -624,8 +685,8 @@ export function BodyMap3D({
     const targetRot = getRotationForRegion(region)
     setTargetRotation(targetRot)
 
-    // Zoom in on the region
-    setTargetZoom(6)
+    // Zoom to regional level
+    navigateToZoom('regional')
 
     // Notify parent
     onRegionSelect?.(region)
@@ -706,7 +767,7 @@ export function BodyMap3D({
         camera={{ position: [0, 0, 15], fov: 50 }}
         className="rounded-lg"
         style={{ height: '600px', background: 'linear-gradient(to bottom, #1e293b, #0f172a)' }}
-        onPointerMissed={() => console.log('Canvas: pointer missed (clicked empty space)')}
+        onPointerMissed={() => { /* Empty space clicked */ }}
         onPointerDown={(e) => {
           setIsDragging(true)
           setHasDragged(false)
@@ -806,9 +867,52 @@ export function BodyMap3D({
         </button>
       </div>
 
+      {/* Zoom Controls */}
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col items-center gap-1 bg-black/60 backdrop-blur-sm px-2 py-3 rounded-full">
+        {/* Zoom in */}
+        <button
+          onClick={() => navigateToZoom(getNextZoom(currentZoomLevel, 'in'))}
+          disabled={currentZoomLevel === 'detail'}
+          className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          title="Zoom in (+)"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v12M6 12h12" />
+          </svg>
+        </button>
+
+        {/* Zoom level indicator */}
+        <div className="flex flex-col items-center gap-1 my-1">
+          {ZOOM_ORDER.slice().reverse().map((level) => (
+            <button
+              key={level}
+              onClick={() => navigateToZoom(level)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                currentZoomLevel === level
+                  ? 'bg-indigo-500 w-3 h-3'
+                  : 'bg-white/30 hover:bg-white/50'
+              }`}
+              title={level.charAt(0).toUpperCase() + level.slice(1)}
+            />
+          ))}
+        </div>
+
+        {/* Zoom out */}
+        <button
+          onClick={() => navigateToZoom(getNextZoom(currentZoomLevel, 'out'))}
+          disabled={currentZoomLevel === 'overview'}
+          className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          title="Zoom out (-)"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 12h12" />
+          </svg>
+        </button>
+      </div>
+
       {/* Controls hint */}
       <div className="absolute bottom-16 left-1/2 -translate-x-1/2 text-xs text-gray-400 bg-black/40 px-3 py-1 rounded">
-        Drag to rotate • Use arrow keys • Click region to select
+        Drag to rotate • Arrow keys to navigate • +/- to zoom
       </div>
 
       {/* Selected region info */}

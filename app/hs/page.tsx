@@ -43,7 +43,21 @@ export default function HSPage() {
   const [zoomedRegionId, setZoomedRegionId] = useState<string | null>(null)
   const [zoomedGroup, setZoomedGroup] = useState<HSRegionGroup | null>(null)
   const [currentView, setCurrentView] = useState<'front' | 'back'>('front')
-  const [dimensionMode, setDimensionMode] = useState<'2d' | '3d'>('2d')
+  const [dimensionMode, setDimensionMode] = useState<'2d' | '3d'>(() => {
+    // Initialize from localStorage if available (client-side only)
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('hs-body-map-dimension')
+      if (saved === '2d' || saved === '3d') return saved
+    }
+    return '2d'
+  })
+  // Track if we came from 3D mode when zooming into a region
+  const [cameFrom3D, setCameFrom3D] = useState(false)
+
+  // Persist dimension mode to localStorage
+  useEffect(() => {
+    localStorage.setItem('hs-body-map-dimension', dimensionMode)
+  }, [dimensionMode])
 
   // Load lesions from database
   const loadLesions = useCallback(async () => {
@@ -164,9 +178,13 @@ export default function HSPage() {
       setViewMode('group-zoom')
       setZoomedRegionId(null)
     } else {
-      // Go back to overview
+      // Go back to overview (restore 3D if we came from there)
       setViewMode('overview')
       setZoomedRegionId(null)
+      if (cameFrom3D) {
+        setDimensionMode('3d')
+        setCameFrom3D(false)
+      }
     }
   }
 
@@ -174,6 +192,11 @@ export default function HSPage() {
   const handleBackFromGroup = () => {
     setViewMode('overview')
     setZoomedGroup(null)
+    // Restore 3D mode if we came from there
+    if (cameFrom3D) {
+      setDimensionMode('3d')
+      setCameFrom3D(false)
+    }
   }
 
   // Handle adding lesion from zoomed view
@@ -222,13 +245,15 @@ export default function HSPage() {
     const group = groupId ? HS_REGION_GROUPS.find(g => g.id === groupId) : null
 
     if (group) {
-      // Switch to 2D mode and zoom to the group
+      // Switch to 2D mode and zoom to the group, remember we came from 3D
+      setCameFrom3D(true)
       setDimensionMode('2d')
       setCurrentView(group.view)
       setZoomedGroup(group)
       setViewMode('group-zoom')
     } else {
       // Fallback: just switch to 2D overview
+      setCameFrom3D(true)
       setDimensionMode('2d')
       setViewMode('overview')
     }

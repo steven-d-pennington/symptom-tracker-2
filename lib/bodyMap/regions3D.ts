@@ -39,22 +39,22 @@ const HS_COLORS = {
  */
 export const HS_REGIONS_3D: Region3D[] = [
   // Axillae (armpits) - where arms meet torso on the sides
-  // Position at shoulder level, toward the back where armpit fold is
+  // Best selected from side views (left/right), positioned at body edge
   {
     id: 'axilla-left',
     name: 'Left Armpit',
-    position: new THREE.Vector3(0.15, -0.04, 1.56),  // X=side, Y=toward back, Z=higher up at shoulder
-    radius: 0.12,
-    side: 'front',
+    position: new THREE.Vector3(0.18, -0.02, 1.48),  // X=far side, Y=slightly back, Z=armpit height
+    radius: 0.18,  // Larger radius for easier selection from side
+    side: 'left',  // Select from left side view
     isHSPriority: true,
     color: HS_COLORS.axillae,
   },
   {
     id: 'axilla-right',
     name: 'Right Armpit',
-    position: new THREE.Vector3(-0.15, -0.04, 1.56),
-    radius: 0.12,
-    side: 'front',
+    position: new THREE.Vector3(-0.18, -0.02, 1.48),
+    radius: 0.18,
+    side: 'right',  // Select from right side view
     isHSPriority: true,
     color: HS_COLORS.axillae,
   },
@@ -102,8 +102,8 @@ export const HS_REGIONS_3D: Region3D[] = [
   {
     id: 'inframammary-left',
     name: 'Left Inframammary',
-    position: new THREE.Vector3(0.08, 0.10, 1.44),  // X=under breast, Y=front surface, Z=breast crease height
-    radius: 0.09,
+    position: new THREE.Vector3(0.06, 0.08, 1.32),  // X=under breast, Y=front surface, Z=breast crease height
+    radius: 0.12,
     side: 'front',
     isHSPriority: true,
     color: HS_COLORS.inframammary,
@@ -111,8 +111,8 @@ export const HS_REGIONS_3D: Region3D[] = [
   {
     id: 'inframammary-right',
     name: 'Right Inframammary',
-    position: new THREE.Vector3(-0.08, 0.10, 1.44),
-    radius: 0.09,
+    position: new THREE.Vector3(-0.06, 0.08, 1.32),
+    radius: 0.12,
     side: 'front',
     isHSPriority: true,
     color: HS_COLORS.inframammary,
