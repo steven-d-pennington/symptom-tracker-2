@@ -21,7 +21,8 @@
       "Bash(curl:*)",
       "Bash(npm run dev:*)",
       "Bash(taskkill //F //PID 65420)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git fetch:*)"
     ],
     "deny": [],
     "ask": []

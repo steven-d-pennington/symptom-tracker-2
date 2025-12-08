@@ -4,24 +4,42 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { needsOnboarding } from '@/lib/onboarding/completeOnboarding'
-export default function Home() {
+import { isBetaVerified } from '@/lib/beta/storage'
+import { BetaLandingPage } from '@/components/Beta/BetaLandingPage'
+
+type PageState = 'loading' | 'beta-signup' | 'dashboard'
+
+export default function Home(): React.ReactElement {
   const router = useRouter()
-  const [isCheckingOnboarding, setIsCheckingOnboarding] = useState(true)
+  const [pageState, setPageState] = useState<PageState>('loading')
 
   useEffect(() => {
-    async function checkOnboarding() {
+    async function checkAccess(): Promise<void> {
+      // First check beta verification
+      const betaVerified = isBetaVerified()
+
+      if (!betaVerified) {
+        // Not verified - show beta signup
+        setPageState('beta-signup')
+        return
+      }
+
+      // Beta verified - check if needs onboarding
       const needs = await needsOnboarding()
       if (needs) {
         router.push('/onboarding')
-      } else {
-        setIsCheckingOnboarding(false)
+        return
       }
+
+      // Fully verified and onboarded - show dashboard
+      setPageState('dashboard')
     }
 
-    checkOnboarding()
+    checkAccess()
   }, [router])
 
-  if (isCheckingOnboarding) {
+  // Loading state
+  if (pageState === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -32,6 +50,12 @@ export default function Home() {
     )
   }
 
+  // Beta signup required
+  if (pageState === 'beta-signup') {
+    return <BetaLandingPage />
+  }
+
+  // Dashboard for verified users
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       {/* Header */}
@@ -133,20 +157,17 @@ export default function Home() {
   )
 }
 
-function ActionCard({
-  title,
-  description,
-  icon,
-  href,
-}: {
+interface ActionCardProps {
   title: string
   description: string
   icon: string
   href: string
-}) {
+}
+
+function ActionCard({ title, description, icon, href }: ActionCardProps): React.ReactElement {
   return (
     <Link href={href}>
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer min-h-[44px]">
         <div className="text-4xl mb-3">{icon}</div>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
           {title}
