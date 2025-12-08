@@ -12,6 +12,7 @@ import {
   Food,
   FoodEvent
 } from '@/lib/db'
+import { sanitizeHTML } from '@/lib/utils'
 
 export type PDFReportType = 'medical' | 'flare-summary' | 'correlation'
 
@@ -572,12 +573,12 @@ export function generateMedicalReportHTML(data: MedicalReportData): string {
     <tbody>
       ${data.symptoms.map(s => `
         <tr>
-          <td>${s.symptom.name}</td>
+          <td>${sanitizeHTML(s.symptom.name)}</td>
           <td>${s.occurrences}</td>
           <td class="${s.averageSeverity <= 3 ? 'severity-low' : s.averageSeverity <= 6 ? 'severity-medium' : 'severity-high'}">
             ${s.averageSeverity.toFixed(1)}/10
           </td>
-          <td>${s.mostAffectedRegions.join(', ') || '-'}</td>
+          <td>${s.mostAffectedRegions.map(r => sanitizeHTML(r)).join(', ') || '-'}</td>
         </tr>
       `).join('')}
     </tbody>
@@ -598,7 +599,7 @@ export function generateMedicalReportHTML(data: MedicalReportData): string {
     <tbody>
       ${data.medications.map(m => `
         <tr>
-          <td>${m.medication.name} (${m.medication.dosage})</td>
+          <td>${sanitizeHTML(m.medication.name)} (${sanitizeHTML(m.medication.dosage || '')})</td>
           <td>${m.totalDoses}</td>
           <td>${m.takenCount}</td>
           <td>
@@ -647,7 +648,7 @@ export function generateMedicalReportHTML(data: MedicalReportData): string {
     <tbody>
       ${data.flares.mostAffectedRegions.map(r => `
         <tr>
-          <td>${r.region}</td>
+          <td>${sanitizeHTML(r.region)}</td>
           <td>${r.count}</td>
         </tr>
       `).join('')}
@@ -760,7 +761,7 @@ export function generateFlareSummaryHTML(data: FlareSummaryData): string {
     <tbody>
       ${data.statistics.mostCommonLocations.map(l => `
         <tr>
-          <td>${l.region}</td>
+          <td>${sanitizeHTML(l.region)}</td>
           <td>${l.count}</td>
         </tr>
       `).join('')}
@@ -780,7 +781,7 @@ export function generateFlareSummaryHTML(data: FlareSummaryData): string {
     <tbody>
       ${data.statistics.mostEffectiveInterventions.map(i => `
         <tr>
-          <td style="text-transform: capitalize">${i.intervention}</td>
+          <td style="text-transform: capitalize">${sanitizeHTML(i.intervention)}</td>
           <td>${i.successRate.toFixed(0)}%</td>
         </tr>
       `).join('')}
@@ -794,7 +795,7 @@ export function generateFlareSummaryHTML(data: FlareSummaryData): string {
   ${data.flares.length > 0 ? data.flares.map((f, index) => `
     <div class="flare-card">
       <div class="flare-header">
-        <strong>Flare #${index + 1} - ${f.flare.bodyRegion}</strong>
+        <strong>Flare #${index + 1} - ${sanitizeHTML(f.flare.bodyRegion)}</strong>
         <span class="flare-status ${f.flare.status === 'resolved' ? 'status-resolved' : 'status-active'}">
           ${f.flare.status.toUpperCase()}
         </span>
@@ -807,7 +808,7 @@ export function generateFlareSummaryHTML(data: FlareSummaryData): string {
       </p>
       ${f.interventions.length > 0 ? `
         <p><strong>Interventions:</strong><br>
-          ${f.interventions.map(i => `<span class="intervention-tag">${i}</span>`).join(' ')}
+          ${f.interventions.map(i => `<span class="intervention-tag">${sanitizeHTML(i)}</span>`).join(' ')}
         </p>
       ` : ''}
     </div>
@@ -890,8 +891,8 @@ export function generateCorrelationReportHTML(data: CorrelationReportData): stri
       ${data.foodCorrelations.flatMap(fc =>
         fc.symptomCorrelations.slice(0, 3).map((sc, i) => `
           <tr>
-            ${i === 0 ? `<td rowspan="${Math.min(fc.symptomCorrelations.length, 3)}">${fc.food.name}</td>` : ''}
-            <td>${sc.symptom.name}</td>
+            ${i === 0 ? `<td rowspan="${Math.min(fc.symptomCorrelations.length, 3)}">${sanitizeHTML(fc.food.name)}</td>` : ''}
+            <td>${sanitizeHTML(sc.symptom.name)}</td>
             <td>
               <div class="correlation-bar">
                 <div class="correlation-fill ${sc.correlationScore > 0.6 ? 'fill-high' : sc.correlationScore > 0.3 ? 'fill-medium' : 'fill-low'}"
@@ -925,8 +926,8 @@ export function generateCorrelationReportHTML(data: CorrelationReportData): stri
       ${data.triggerCorrelations.flatMap(tc =>
         tc.symptomImpact.slice(0, 3).map((si, i) => `
           <tr>
-            ${i === 0 ? `<td rowspan="${Math.min(tc.symptomImpact.length, 3)}">${tc.triggerName}</td>` : ''}
-            <td>${si.symptom.name}</td>
+            ${i === 0 ? `<td rowspan="${Math.min(tc.symptomImpact.length, 3)}">${sanitizeHTML(tc.triggerName)}</td>` : ''}
+            <td>${sanitizeHTML(si.symptom.name)}</td>
             <td>
               <div class="correlation-bar">
                 <div class="correlation-fill ${si.impactScore > 0.6 ? 'fill-high' : si.impactScore > 0.4 ? 'fill-medium' : 'fill-low'}"
@@ -944,7 +945,7 @@ export function generateCorrelationReportHTML(data: CorrelationReportData): stri
   <h2>Recommendations</h2>
   <div class="recommendation-box">
     ${data.recommendations.map(r => `
-      <div class="recommendation-item">${r}</div>
+      <div class="recommendation-item">${sanitizeHTML(r)}</div>
     `).join('')}
   </div>
 
