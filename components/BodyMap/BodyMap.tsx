@@ -1,13 +1,20 @@
 'use client'
 
-import { useState, useRef, useMemo } from 'react'
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
+import { useState, useRef, useMemo, useCallback } from 'react'
+import { TransformWrapper, TransformComponent, ReactZoomPanPinchRef } from 'react-zoom-pan-pinch'
 import { Flare, BodyImagePreference } from '@/lib/db'
 import { FlareMarker } from './FlareMarker'
 import { BodyRegion, RegionLesionData } from './BodyRegion'
 import { ViewSelector } from './ViewSelector'
 import { normalizeCoordinates } from '@/lib/bodyMap/coordinateUtils'
-import { getRegionsForView, VIEW_BOX, isHSPriorityRegion } from '@/lib/bodyMap/regions'
+import {
+  getRegionsForView,
+  VIEW_BOX,
+  isHSPriorityRegion,
+  getHSRegionGroupsForView,
+  HS_DETAIL_ZOOM_THRESHOLD,
+  type HSRegionGroup,
+} from '@/lib/bodyMap/regions'
 import { getBodyImageUrl } from '@/lib/settings/userSettings'
 
 export type { BodyImagePreference }
@@ -54,6 +61,9 @@ interface BodyMapProps {
   regionLesionData?: Map<string, RegionLesionData> // Detailed lesion data per region
   // Body image preference (null = no background image)
   bodyImagePreference?: BodyImagePreference | null
+  // Controlled view mode (optional - if not provided, component manages its own state)
+  view?: 'front' | 'back'
+  onViewChange?: (view: 'front' | 'back') => void
 }
 
 export function BodyMap({
@@ -69,12 +79,27 @@ export function BodyMap({
   lesionCounts = new Map(),
   regionLesionData = new Map(),
   bodyImagePreference = null,
+  view,
+  onViewChange,
 }: BodyMapProps) {
-  const [currentView, setCurrentView] = useState<'front' | 'back'>('front')
+  // Support both controlled and uncontrolled view modes
+  const [internalView, setInternalView] = useState<'front' | 'back'>('front')
+  const currentView = view ?? internalView
+  const setCurrentView = onViewChange ?? setInternalView
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
   const [announcement, setAnnouncement] = useState('')
   const [imageLoadError, setImageLoadError] = useState(false)
+  const [currentZoom, setCurrentZoom] = useState(1)
   const svgRef = useRef<SVGSVGElement>(null)
+  const transformRef = useRef<ReactZoomPanPinchRef>(null)
+
+  // Track zoom level changes
+  const handleTransform = useCallback((ref: ReactZoomPanPinchRef) => {
+    setCurrentZoom(ref.state.scale)
+  }, [])
+
+  // Determine if we should show detailed HS regions
+  const showDetailedHSRegions = currentZoom >= HS_DETAIL_ZOOM_THRESHOLD
 
   // Get the image URL for current view and preference
   const bodyImageUrl = useMemo(() => {
@@ -90,22 +115,59 @@ export function BodyMap({
   // Determine if we're showing a background image
   const hasBackgroundImage = !!bodyImageUrl
 
-  const regions = getRegionsForView(currentView)
+  const allRegions = getRegionsForView(currentView)
+  const hsRegionGroups = getHSRegionGroupsForView(currentView)
 
-  // Pre-compute region centers for tooltip/dot positioning
+  // Determine which regions to display based on zoom level
+  const { visibleRegions, visibleGroups } = useMemo(() => {
+    // Standard (non-HS) regions are always shown
+    const standardRegions = allRegions.filter(r => !isHSPriorityRegion(r.id))
+
+    if (showDetailedHSRegions) {
+      // At high zoom: show all detailed HS regions, no groups
+      const hsRegions = allRegions.filter(r => isHSPriorityRegion(r.id))
+      return {
+        visibleRegions: [...standardRegions, ...hsRegions],
+        visibleGroups: [] as HSRegionGroup[],
+      }
+    }
+
+    // At low zoom: show grouped regions only (click navigates to GroupZoomView)
+    // HS regions without groups are still shown individually
+    const hsRegionsToShow = allRegions.filter(r => {
+      if (!isHSPriorityRegion(r.id)) return false
+
+      // Find if this region belongs to a group
+      const parentGroup = hsRegionGroups.find(g => g.childRegionIds.includes(r.id))
+
+      // Only show if it doesn't belong to a group
+      return !parentGroup
+    })
+
+    return {
+      visibleRegions: [...standardRegions, ...hsRegionsToShow],
+      visibleGroups: hsRegionGroups,
+    }
+  }, [allRegions, hsRegionGroups, showDetailedHSRegions])
+
+  // Pre-compute region centers for tooltip/dot positioning (including groups)
   const regionCenters = useMemo(() => {
     const centers = new Map<string, { x: number; y: number }>()
-    for (const region of regions) {
+    for (const region of allRegions) {
       centers.set(region.id, getPathCenter(region.path))
     }
+    // Also compute centers for groups
+    for (const group of hsRegionGroups) {
+      centers.set(group.id, getPathCenter(group.path))
+    }
     return centers
-  }, [regions])
+  }, [allRegions, hsRegionGroups])
 
   // Filter flares based on settings and current view
   const visibleFlares = flares.filter((flare) => {
     if (!showResolvedFlares && flare.status === 'resolved') return false
     // Check if flare's region matches current view
-    const flareRegion = regions.find((r) => r.id === flare.bodyRegion)
+    const flareRegion = allRegions.find((r) => r.id === flare.bodyRegion)
     return !!flareRegion
   })
 
@@ -119,11 +181,62 @@ export function BodyMap({
     }
   }
 
+  // Handle group click - navigate to group zoom view
+  const handleGroupClick = (groupId: string) => {
+    setAnnouncement(`Opening ${groupId} group`)
+    if (onRegionClick) {
+      onRegionClick(groupId)
+    }
+  }
+
+  // Aggregate lesion data for a group from its children
+  const getGroupLesionData = (group: HSRegionGroup): { hasLesions: boolean; count: number; data: RegionLesionData | undefined } => {
+    let totalCount = 0
+    let nodules = 0
+    let abscesses = 0
+    let drainingTunnels = 0
+
+    for (const childId of group.childRegionIds) {
+      totalCount += lesionCounts.get(childId) ?? 0
+      const childData = regionLesionData.get(childId)
+      if (childData) {
+        nodules += childData.nodules
+        abscesses += childData.abscesses
+        drainingTunnels += childData.drainingTunnels
+      }
+    }
+
+    if (totalCount === 0) {
+      return { hasLesions: false, count: 0, data: undefined }
+    }
+
+    // Determine severity based on total count
+    let severity: RegionLesionData['severity'] = 'none'
+    if (totalCount >= 5 || drainingTunnels > 0) severity = 'severe'
+    else if (totalCount >= 3 || abscesses > 0) severity = 'moderate'
+    else if (totalCount >= 1) severity = 'mild'
+
+    return {
+      hasLesions: true,
+      count: totalCount,
+      data: { nodules, abscesses, drainingTunnels, severity },
+    }
+  }
+
+  // Check if group has flares in any child region
+  const groupHasFlares = (group: HSRegionGroup): boolean => {
+    return group.childRegionIds.some(id => regionsWithFlares.has(id))
+  }
+
   const handleRegionHover = (regionId: string) => {
-    const region = regions.find((r) => r.id === regionId)
-    if (region) {
+    // Check in all regions and groups
+    const region = allRegions.find((r) => r.id === regionId)
+    const group = hsRegionGroups.find((g) => g.id === regionId)
+    const name = region?.name ?? group?.name
+
+    if (name) {
       setHoveredRegion(regionId)
-      setAnnouncement(`Hovering over ${region.name}`)
+      setAnnouncement(`Hovering over ${name}`)
     }
   }
 
@@ -183,6 +296,7 @@ export function BodyMap({
       {/* Zoom/Pan Container */}
       <div className="relative border-2 border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-900">
         <TransformWrapper
+          ref={transformRef}
           initialScale={1}
           minScale={1}
           maxScale={3}
@@ -191,6 +305,7 @@ export function BodyMap({
           doubleClick={{ disabled: true }}
           wheel={{ step: 0.1 }}
           pinch={{ step: 5 }}
+          onTransformed={handleTransform}
         >
           {({ zoomIn, zoomOut, resetTransform, zoomToElement }) => (
             <>
@@ -251,15 +366,19 @@ export function BodyMap({
                   role="img"
                   aria-label="Interactive body map for flare location tracking"
                 >
-                  {/* Background Body Image (if enabled) */}
+                  {/* Background Body Image (if enabled)
+                      Images are 404x700 with body occupying ~5%-96% vertically.
+                      ViewBox is 400x700. Scale and position to align with region paths.
+                      Body in image needs to be scaled up and shifted to match regions.
+                  */}
                   {bodyImageUrl && (
                     <image
                       href={bodyImageUrl}
-                      x={VIEW_BOX.x}
-                      y={VIEW_BOX.y}
-                      width={VIEW_BOX.width}
-                      height={VIEW_BOX.height}
-                      preserveAspectRatio="xMidYMid meet"
+                      x={-10}
+                      y={-20}
+                      width={420}
+                      height={740}
+                      preserveAspectRatio="none"
                       opacity={0.9}
                       aria-hidden="true"
                       onError={handleImageError}
@@ -268,7 +387,8 @@ export function BodyMap({
 
                   {/* Body Regions */}
                   <g role="group" aria-label="Body regions">
-                    {regions.map((region) => (
+                    {/* Render visible individual regions */}
+                    {visibleRegions.map((region) => (
                       <BodyRegion
                         key={region.id}
                         id={region.id}
@@ -288,6 +408,32 @@ export function BodyMap({
                         onMouseLeave={handleRegionLeave}
                       />
                     ))}
+
+                    {/* Render grouped HS regions (at low zoom) */}
+                    {visibleGroups.map((group) => {
+                      const groupData = getGroupLesionData(group)
+                      return (
+                        <BodyRegion
+                          key={group.id}
+                          id={group.id}
+                          name={group.name}
+                          path={group.path}
+                          isSelected={selectedRegion === group.id}
+                          isHovered={hoveredRegion === group.id}
+                          hasFlares={groupHasFlares(group)}
+                          hasLesions={groupData.hasLesions}
+                          isHSPriority={highlightHSRegions}
+                          lesionCount={groupData.count}
+                          lesionData={groupData.data}
+                          regionCenter={regionCenters.get(group.id)}
+                          hasBackgroundImage={hasBackgroundImage}
+                          onClick={handleGroupClick}
+                          onMouseEnter={handleRegionHover}
+                          onMouseLeave={handleRegionLeave}
+                          isGroup
+                        />
+                      )
+                    })}
                   </g>
 
                   {/* Flare Markers */}
@@ -310,8 +456,10 @@ export function BodyMap({
       {/* Instructions */}
       <div className="text-sm text-gray-600 dark:text-gray-400 text-center">
         {hoveredRegion
-          ? `Hovering: ${regions.find((r) => r.id === hoveredRegion)?.name}`
-          : 'Click a region to select it • Scroll or pinch to zoom • Drag to pan'}
+          ? `Hovering: ${allRegions.find((r) => r.id === hoveredRegion)?.name ?? hsRegionGroups.find((g) => g.id === hoveredRegion)?.name}`
+          : !showDetailedHSRegions
+            ? 'Click HS regions to expand • Zoom in for detail • Drag to pan'
+            : 'Click a region to select it • Scroll or pinch to zoom • Drag to pan'}
       </div>
 
       {/* Screen reader announcements */}

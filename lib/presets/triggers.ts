@@ -7,7 +7,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Heat',
     category: 'environmental',
     description: 'Hot weather or high temperatures',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -15,7 +15,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Humidity',
     category: 'environmental',
     description: 'High humidity levels',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -23,7 +23,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Cold',
     category: 'environmental',
     description: 'Cold weather or low temperatures',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -31,7 +31,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Air Pollution',
     category: 'environmental',
     description: 'Poor air quality',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -39,7 +39,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Allergens',
     category: 'environmental',
     description: 'Pollen, dust, or other allergens',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 
@@ -49,7 +49,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Stress',
     category: 'lifestyle',
     description: 'Mental or emotional stress',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -57,7 +57,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Lack of Sleep',
     category: 'lifestyle',
     description: 'Insufficient sleep or poor sleep quality',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -65,7 +65,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Exercise',
     category: 'lifestyle',
     description: 'Physical activity or exercise',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -73,7 +73,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Tight Clothing',
     category: 'lifestyle',
     description: 'Wearing tight or restrictive clothing',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -81,7 +81,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Friction',
     category: 'lifestyle',
     description: 'Skin friction or rubbing',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -89,7 +89,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Smoking',
     category: 'lifestyle',
     description: 'Tobacco use',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -97,7 +97,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Alcohol',
     category: 'lifestyle',
     description: 'Alcohol consumption',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -105,7 +105,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Dehydration',
     category: 'lifestyle',
     description: 'Insufficient water intake',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -113,7 +113,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Menstruation',
     category: 'lifestyle',
     description: 'Menstrual cycle',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 
@@ -123,7 +123,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Dairy Products',
     category: 'dietary',
     description: 'Consumption of dairy',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -131,7 +131,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Gluten',
     category: 'dietary',
     description: 'Consumption of gluten',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -139,7 +139,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Sugar',
     category: 'dietary',
     description: 'High sugar intake',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -147,7 +147,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Processed Foods',
     category: 'dietary',
     description: 'Highly processed food consumption',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -155,7 +155,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Nightshades',
     category: 'dietary',
     description: 'Tomatoes, peppers, eggplants, potatoes',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
   {
@@ -163,7 +163,7 @@ export const PRESET_TRIGGERS: Omit<Trigger, 'id' | 'createdAt' | 'updatedAt'>[] 
     name: 'Caffeine',
     category: 'dietary',
     description: 'Coffee, tea, or energy drinks',
-    isActive: true,
+    isActive: false,
     isDefault: true,
   },
 ]

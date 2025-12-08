@@ -6,10 +6,28 @@ import { PWAProvider } from '@/components/PWA'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { ToastProvider } from '@/components/ui/Toast'
 import { ErrorProvider } from '@/lib/errors'
+import { applyTheme, getStoredTheme } from '@/lib/settings/userSettings'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [isInitialized, setIsInitialized] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Apply theme on initial load (before database init)
+  useEffect(() => {
+    const theme = getStoredTheme()
+    applyTheme(theme)
+
+    // Listen for system theme changes when in 'system' mode
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleChange = () => {
+      const currentTheme = getStoredTheme()
+      if (currentTheme === 'system') {
+        applyTheme('system')
+      }
+    }
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
 
   useEffect(() => {
     initializeDatabase()

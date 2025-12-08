@@ -19,6 +19,26 @@ export type HurleyStage = 1 | 2 | 3
 export type IHS4Severity = 'mild' | 'moderate' | 'severe'
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// LESION COORDINATES
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Lesion coordinates supporting both 2D and 3D positioning
+ */
+export interface LesionCoordinates {
+  // 2D coordinates (always present - primary)
+  x: number                       // 0-100 percentage within 2D region
+  y: number                       // 0-100 percentage within 2D region
+
+  // 3D coordinates (optional - for 3D display)
+  position3D?: {
+    x: number                     // Model space X (-0.89 to 0.89)
+    y: number                     // Model space Y (-0.19 to 0.18, positive = front)
+    z: number                     // Model space Z (0 to 2.0, 0 = feet, 2 = head)
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // IHS4 SCORING
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -69,10 +89,7 @@ export interface HSLesion {
 
   // Location (set once when created)
   regionId: string                // e.g., 'left-axilla-central'
-  coordinates: {
-    x: number                     // 0-100 percentage within region
-    y: number                     // 0-100 percentage within region
-  }
+  coordinates: LesionCoordinates
 
   // Classification (may evolve - e.g., nodule → abscess)
   lesionType: LesionType
@@ -259,7 +276,7 @@ export interface ProdromalMarker {
   id?: number
   guid: string
   regionId: string
-  coordinates: { x: number; y: number }
+  coordinates: LesionCoordinates
   date: string                    // When symptoms noticed
 
   symptoms: ProdromalSymptoms

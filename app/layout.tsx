@@ -25,13 +25,29 @@ export const viewport: Viewport = {
   userScalable: false,
 }
 
+// Script to apply theme before React hydration to prevent flash
+const themeScript = `
+  (function() {
+    try {
+      var theme = localStorage.getItem('theme') || 'system';
+      var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      }
+    } catch (e) {}
+  })();
+`
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         <SkipLink />
         <Providers>{children}</Providers>

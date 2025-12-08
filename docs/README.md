@@ -3,9 +3,9 @@
 ## Overview
 This is the master project tracking document for the Pocket Symptom Tracker application. Each feature has a detailed specification document in the `/docs/features/` directory.
 
-**Total Tasks:** 105
-**Completed:** 103 (98.1%)
-**Pending:** 2 (1.9%)
+**Total Tasks:** 111
+**Completed:** 109 (98.2%)
+**Pending:** 2 (1.8%)
 
 ---
 
@@ -53,6 +53,22 @@ See: [Body Map Feature Specification](body-map-feature-spec.md) | [Implementatio
 
 #### Sprint 6: Polish (P2 - Nice to Have)
 - [ ] **HS015** - [HS Features Accessibility Audit](features/HS015-accessibility-audit.md) - MEDIUM
+
+---
+
+### ✅ COMPLETED: Polish - Tracking Preferences (6 tasks)
+
+Onboarding selections are now respected throughout the app. See: [Tracking Preferences Plan](plans/tracking-preferences-polish.md)
+
+#### Settings & Management
+- [x] **POL001** - [Settings: Tracking Preferences Tab](features/completed/POL001-settings-tracking-preferences-tab.md) - `components/Settings/TrackingPreferences.tsx`
+- [x] **POL002** - [Tracking Category Management Component](features/completed/POL002-tracking-category-management.md) - `components/Settings/TrackingCategory.tsx`
+
+#### Audit & Compliance
+- [x] **POL003** - [Audit Logging Modals for isActive](features/completed/POL003-audit-logging-modals.md) - All modals verified
+- [x] **POL004** - [Audit Daily Reflection Form](features/completed/POL004-audit-daily-reflection.md) - No changes needed
+- [x] **POL005** - [Audit Analytics Filters](features/completed/POL005-audit-analytics-filters.md) - All filters verified
+- [x] **POL006** - [Database Initialization Audit](features/completed/POL006-database-initialization-audit.md) - `lib/presets/*.ts`
 
 ---
 

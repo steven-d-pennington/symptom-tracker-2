@@ -24,6 +24,7 @@ interface BodyRegionProps {
   lesionData?: RegionLesionData // Detailed lesion breakdown
   regionCenter?: { x: number; y: number } // Center point for dots/tooltip
   hasBackgroundImage?: boolean  // Reduce opacity when body image is shown
+  isGroup?: boolean             // True if this is a grouped region (expandable)
   onClick: (regionId: string) => void
   onMouseEnter: (regionId: string) => void
   onMouseLeave: () => void
@@ -52,6 +53,7 @@ export function BodyRegion({
   lesionData,
   regionCenter,
   hasBackgroundImage = false,
+  isGroup = false,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -70,6 +72,8 @@ export function BodyRegion({
     if (isHovered) {
       return isHSPriority ? 'rgba(255, 152, 0, 0.25)' : 'rgba(59, 130, 246, 0.2)'
     }
+    // Groups get a more visible fill to indicate they're interactive
+    if (isGroup && isHSPriority) return 'rgba(255, 152, 0, 0.12)'
     // When background image is shown, use transparent fill by default
     if (hasBackgroundImage) return 'transparent'
     // Subtle highlight for HS-priority regions
@@ -105,6 +109,8 @@ export function BodyRegion({
   }
 
   const getStrokeDasharray = () => {
+    // Groups get a solid outline to indicate they're clickable
+    if (isGroup) return 'none'
     // Dashed outline for HS-priority regions when not selected/hovered
     if (isHSPriority && !isSelected && !isHovered && !hasLesions) return '4,2'
     return 'none'
@@ -246,6 +252,32 @@ export function BodyRegion({
 
       {/* Lesion type indicator dots */}
       {renderLesionDots()}
+
+      {/* Group expansion indicator */}
+      {isGroup && regionCenter && (
+        <g className="pointer-events-none">
+          {/* Small "+" or expand icon in corner */}
+          <circle
+            cx={regionCenter.x + 12}
+            cy={regionCenter.y - 12}
+            r={6}
+            fill="rgba(255, 152, 0, 0.9)"
+            stroke="#fff"
+            strokeWidth={1}
+          />
+          <text
+            x={regionCenter.x + 12}
+            y={regionCenter.y - 11}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fill="white"
+            fontSize={10}
+            fontWeight="bold"
+          >
+            +
+          </text>
+        </g>
+      )}
 
       {/* Hover tooltip with count */}
       {renderTooltip()}

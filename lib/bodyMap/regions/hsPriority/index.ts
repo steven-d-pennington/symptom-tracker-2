@@ -9,6 +9,17 @@ export { INFRAMAMMARY_REGIONS, INFRAMAMMARY_GROUPS } from './inframammary'
 export { BUTTOCKS_REGIONS, BUTTOCKS_GROUPS } from './buttocks'
 export { WAISTBAND_REGIONS, WAISTBAND_GROUPS } from './waistband'
 
+// Grouped regions for simplified view at low zoom
+export {
+  HS_REGION_GROUPS,
+  getHSRegionGroupsForView,
+  getGroupForChildRegion,
+  isHSRegionGroup,
+  getChildRegionIds,
+  HS_DETAIL_ZOOM_THRESHOLD,
+  type HSRegionGroup,
+} from './groupedRegions'
+
 import { AXILLAE_REGIONS } from './axillae'
 import { GROIN_REGIONS } from './groin'
 import { INFRAMAMMARY_REGIONS } from './inframammary'

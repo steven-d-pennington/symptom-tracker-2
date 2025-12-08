@@ -7,12 +7,13 @@ import {
   NotificationSettings,
   PrivacySettings,
   DeleteAccount,
-  BodyTypeSelector
+  BodyTypeSelector,
+  TrackingPreferences
 } from '@/components/Settings'
 import { SuperAdmin } from '@/components/Settings/SuperAdmin'
 import { db } from '@/lib/db'
 
-type SettingsTab = 'general' | 'notifications' | 'privacy' | 'about' | 'danger' | 'admin'
+type SettingsTab = 'general' | 'tracking' | 'notifications' | 'privacy' | 'about' | 'danger' | 'admin'
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<SettingsTab>('general')
@@ -37,6 +38,7 @@ export default function SettingsPage() {
 
   const baseTabs: { id: SettingsTab; label: string; icon: string }[] = [
     { id: 'general', label: 'General', icon: '⚙️' },
+    { id: 'tracking', label: 'Tracking', icon: '📋' },
     { id: 'notifications', label: 'Notifications', icon: '🔔' },
     { id: 'privacy', label: 'Privacy & Data', icon: '🔒' },
     { id: 'about', label: 'About', icon: 'ℹ️' },
@@ -152,6 +154,10 @@ export default function SettingsPage() {
                 </div>
               </div>
             </>
+          )}
+
+          {activeTab === 'tracking' && (
+            <TrackingPreferences />
           )}
 
           {activeTab === 'notifications' && (
